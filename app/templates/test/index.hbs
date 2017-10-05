@@ -1,0 +1,18 @@
+<div> ================ test ============= </div>
+
+<ul>
+<li><button {{action "doInfo"}}>info</button>{{infoResult}}</li>
+<li><button {{action "doAuth"}}>auth</button>{{authResult}}</li>
+<li><button {{action "doPath"}}>path</button>{{pathResult}}</li>
+<li><button {{action "doAlbum"}}>album</button>{{albumResult}}</li>
+<li><button {{action "doGet"}}>get</button>{{getResult}}</li>
+</ul>
+
+<h/>
+{{#if isExpanded}}
+<ul>
+{{#each album.items as |it|}}
+  <li>{{gallery-album-image album=it}}</li>
+{{/each}}
+</ul>
+{{/if}}

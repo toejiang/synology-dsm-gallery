@@ -1,0 +1,13 @@
+<div>test start</div>
+<div>list for albums</div>
+{{#if model.album}}
+<ul class="results">
+{{#each model.album.items as |album|}}
+  <li><div>id:{{album.id}} name:{{album.info.name}} desc:{{album.info.description}} type:{{album.info.type}} sort:{{album.additional.album_sorting.sort_by}}</div></li>
+{{/each}}
+</ul>
+{{/if}}
+<h/>
+<div>success:{{model.apis.success}}</div>
+<div>{{model}}</div>
+<div>test end</div>

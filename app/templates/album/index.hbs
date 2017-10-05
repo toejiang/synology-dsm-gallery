@@ -1,0 +1,10 @@
+<div>route: album/index</div>
+<div>albums: {{model.data.total}}</div>
+<div>
+{{#if model.data.items}}
+  {{gallery-album albums=model.data.items}}
+{{else}}
+  <div>No album found</div>
+{{/if}}
+</div>
+{{outlet}}

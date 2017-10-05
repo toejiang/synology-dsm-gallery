@@ -1,5 +1,6 @@
-{{!-- The following component displays Ember's default welcome message. --}}
-{{welcome-page}}
-{{!-- Feel free to remove this! --}}
-
-{{outlet}}
+{{#gallery-app}}
+  {{gallery-navigation}}
+  {{#gallery-main}}
+    {{outlet}}
+  {{/gallery-main}}
+{{/gallery-app}}

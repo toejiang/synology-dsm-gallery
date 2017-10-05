@@ -7,6 +7,23 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('test', function() {
+    this.route('api');
+  });
+  this.route('about');
+
+  // album routes
+  this.route('album/detail', {path:'album/:album_id'});
+  this.route('album', {path:'album'}, function() {
+    this.route('test');
+    this.route('browse');
+  });
+  this.route('share/detail', {path:'share/:share_id'});
+  this.route('share', function() {
+  });
+  this.route('smart/detail', {path:'smart/:smart_id'});
+  this.route('smart', function() {
+  });
 });
 
 export default Router;
