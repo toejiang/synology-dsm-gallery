@@ -2,17 +2,18 @@
 
 <ul>
 <li><button {{action "doInfo"}}>info</button>{{infoResult}}</li>
-<li><button {{action "doAuth"}}>auth</button>{{authResult}}</li>
+<li><button {{action "doAuth"}}>checkauth</button><button {{action "doLogin"}}>login</button><button {{action "doLogout"}}>logout</button>{{authResult}}</li>
 <li><button {{action "doPath"}}>path</button>{{pathResult}}</li>
 <li><button {{action "doAlbum"}}>album</button>{{albumResult}}</li>
 <li><button {{action "doGet"}}>get</button>{{getResult}}</li>
+<li><button {{action "doAccur"}}>accur</button>{{accurResult}}</li>
 </ul>
 
 <h/>
 {{#if isExpanded}}
 <ul>
 {{#each album.items as |it|}}
-  <li>{{gallery-album-image album=it}}</li>
+  <li>{{gallery-album-image route='album/detail' album=it}}</li>
 {{/each}}
 </ul>
 {{/if}}

@@ -1,16 +1,11 @@
-{{#if model.current.displayPhoto}}
-  <div>display single photo detail</div>
-  {{gallery-album-image album=model.current.displayPhoto size='large'}}
-{{else}}
-  {{gallery-album-path path=model.path}}
-  <div>
-  {{#if model.album.data.items}}
-    <ul>
-    {{#each model.album.data.items as |it|}}
-      <li>{{gallery-album-image album=it}}</li>
-    {{/each}}
-    </ul>
-  {{/if}}
-  </div>
+{{gallery-album-path path=model.path}}
+<div>
+{{#if model.album.data.items}}
+  <ul>
+  {{#each model.album.data.items as |it|}}
+    <li>{{gallery-album-image route='album/detail' album=it}}</li>
+  {{/each}}
+  </ul>
 {{/if}}
+</div>
 {{outlet}}

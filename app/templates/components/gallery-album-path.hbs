@@ -4,7 +4,7 @@
     {{#each path.data.items as |p|}}
       {{#if (is-equal p.id 'Albums')}}
       {{else}}
-        <li>{{#link-to 'album/detail' (g-album-image-shortid p.id)}}{{p.info.name}}{{/link-to}}</li>
+        <li>{{#link-to 'album/detail' (g-short-album-id p.id)}}{{p.info.name}}{{/link-to}}</li>
       {{/if}}
     {{/each}}
   {{/if}}

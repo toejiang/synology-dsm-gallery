@@ -1,36 +1,70 @@
 import Ember from 'ember';
+import RSVP from 'rsvp';
+import AjaxService from 'ember-ajax/services/ajax';
 import AjaxRequest from 'ember-ajax/ajax-request';
 
+function getPathQueryId(albumId) {
+  albumId = (albumId || '').toLowerCase();
+  var parts = albumId.split('2f'),
+    result = '',
+    tmp = '';
+  parts.forEach((e)=>{
+    if(result != '') result+='/';
+    if(tmp != '') tmp += '2f';
+    tmp += e;
+    result += 'album_' + tmp;
+  });
+  return 'Albums/' + result;
+}
+
 export default Ember.Route.extend({
-  synoAjax: Ember.inject.service('synology-ajax'),
+  syno: Ember.inject.service('synology'),
 
-  model() {
-    const RequestWithHeaders = AjaxRequest.extend({
-      headers: { 'X-Syno-Token': 'Other Value' }
-    });
+  model(params) {
+    if(!params.album_id || params.album_id === '') {
+      this.transitionTo('album');
+    }
+    var [albumId, photoId] = params.album_id.split('_'),
+      albumQueryId = 'album_' + albumId,
+      pathQueryId = getPathQueryId(albumId),
+      current = {albumId:albumId,displayPhoto:undefined}, // data will be set after album listing
+      promises = {},
+      syno = this.get('syno');
 
-    const service = new RequestWithHeaders();
-    service.request('http://app.accur.cc/photo/webapi/path.php', {
-			method:'POST',
-			beforeSend:(xhr)=>{
-				//xhr.setRequestHeader('X-Syno-Token', 'yyyyyyyyyyyyyyy');
-			}
-		});
+    // set current
+    promises.current = RSVP.resolve(current);
 
-    let syno = this.get('synoAjax');
-    syno.request('http://app.accur.cc/photo/webapi/path.php', {
-      method: 'POST',
-      data: {
-        api:'SYNO.PhotoStation.Path',
-        method: 'checkpath',
-        version: 1,
-        token: 'Albums/album_746f65/album_746f652f7075626c6963/album_746f652f7075626c69632f7031/album_746f652f7075626c69632f70312f703131',
-        additional: 'album_permission',
-        ps_username: '',
-        ignore: 'thumbnail',
-      }
-    }).then((res)=>{
-      Ember.Logger.info('synoAjax return ' + JSON.stringify(res));
-    });
-  }
+    // set path
+    if(albumId === 'root') {
+      albumQueryId = '';
+    } else {
+      promises.path = syno.path({
+        token: pathQueryId,
+        method: 'getpath',
+      }).catch((err) => {
+        Ember.Logger.error(err);
+        Ember.Logger.error('get path for ' + albumQueryId + ' failed');
+      });
+    }
+
+    // set album
+    promises.album = syno.album({
+        id: albumQueryId,
+        type: 'album,photo,video',
+        additional: 'album_permission,photo_exif,video_codec,video_quality,thumb_size,file_location',
+      }).then((res) => {
+        if(photoId) {
+          var displayPhotoId = 'photo_' + albumId + '_' + photoId;
+          current.displayPhoto = res.data.items.find((a)=>a.id===displayPhotoId);
+          if(!current.displayPhoto) {
+            this.transitionTo('album/detail', albumId);
+          }
+        }
+        return res;
+      }).catch((err) => {
+        Ember.Logger.error('get album for ' + albumQueryId + ' failed. ' + err);
+      });
+
+    return RSVP.hash(promises);
+  },
 });

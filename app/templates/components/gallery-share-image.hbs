@@ -1,0 +1,19 @@
+{{#if (is-equal album.type 'sharedalbum')}}
+  {{! type === sharedalbum, to display sharedalbum cover}}
+
+  {{#link-to route album.additional.public_share.shareid}}
+    <img src='{{await (g-album-image-src album)}}'/>
+  {{/link-to}}
+
+{{else if (is-equal album.type 'photo')}}
+  {{! type === photo, to display photo thumbnail}}
+
+  {{#link-to route shareid (query-params show=paramId)}}
+    <img onclick={{action 'changeThumbSize'}} src='{{await (g-album-image-src album thumbSize shareid)}}'/>
+  {{/link-to}}
+
+{{else}}
+  <div>album type '{{album.type}}' not handled</div>
+{{/if}}
+{{yeild}}
+

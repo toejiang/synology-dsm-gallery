@@ -2,7 +2,9 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
   syno: Ember.inject.service('synology'),
+  auth: Ember.inject.service('synology-auth'),
   ajax: Ember.inject.service('synology-ajax'),
+  accur: Ember.inject.service('synology-accur'),
 
 	isExpanded: false,
 	album: {},
@@ -12,6 +14,7 @@ export default Ember.Controller.extend({
 	pathResult: '',
 	albumResult: '',
 	getResult: '',
+  accurResult: '',
 
   actions: {
     doInfo() {
@@ -33,7 +36,26 @@ export default Ember.Controller.extend({
         return res;
       }).catch((e)=>{
 				this.set('authResult', 'ERR');
-				;
+			});
+    },
+    doLogin() {
+			this.set('authResult', 'waiting...');
+      this.get('auth').login('111','222').then((res)=>{
+				this.set('authResult', 'login OK');
+        Ember.Logger.info('doLogin: '+JSON.stringify(res));
+        return res;
+      }).catch((e)=>{
+				this.set('authResult', 'ERR');
+			});
+    },
+    doLogout() {
+			this.set('authResult', 'waiting...');
+      this.get('auth').logout().then((res)=>{
+				this.set('authResult', 'logout OK');
+        Ember.Logger.info('doLogin: '+JSON.stringify(res));
+        return res;
+      }).catch((e)=>{
+				this.set('authResult', 'ERR');
 			});
     },
     doPath() {
@@ -74,6 +96,19 @@ export default Ember.Controller.extend({
       	this.toggleProperty('isExpanded');
 			}
 		},
+    doAccur() {
+      this.set('accurResult', 'waiting...');
+      this.get('accur').list({
+          id: 'dslkf',
+          type: 'album',
+          limit: 50,
+      }).then((res)=>{
+        this.set('accurResult', 'OK: '+ JSON.stringify(res));
+      }).catch((err)=>{
+        this.set('accurResult', 'ERR');
+        Ember.Logger.error(err);
+      });
+    },
     doGet() {
       this.set('getResult', 'waiting...');
       this.get('syno').album({

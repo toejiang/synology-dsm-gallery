@@ -1,7 +1,5 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
-import AjaxService from 'ember-ajax/services/ajax';
-import AjaxRequest from 'ember-ajax/ajax-request';
 
 function getPathQueryId(albumId) {
   albumId = (albumId || '').toLowerCase();
@@ -18,50 +16,40 @@ function getPathQueryId(albumId) {
 }
 
 export default Ember.Route.extend({
-  syno: Ember.inject.service('synology'),
+  album: Ember.inject.service('synology-album'),
+  path: Ember.inject.service('synology-path'),
 
   model(params) {
-    if(!params.album_id || params.album_id === '') {
+		if(!params.album_id || params.album_id === '') {
       this.transitionTo('album');
     }
-    var [albumId, photoId] = params.album_id.split('_'),
-      albumQueryId = 'album_' + albumId,
-      pathQueryId = getPathQueryId(albumId),
-      current = {albumId:albumId,displayPhoto:undefined}, // data will be set after album listing
-      promises = {},
-      syno = this.get('syno');
 
-    // set current
-    promises.current = RSVP.resolve(current);
+		var promises = {},
+			path = this.get('path'),
+			album = this.get('album'),
+			show = this.get('show');
 
-    // set path
-    if(albumId === 'root') {
-      albumQueryId = '';
-    } else {
-      promises.path = syno.path({
-        token: pathQueryId,
-        method: 'getpath',
+		var albumId = params.album_id,
+			albumQryId = 'album_' + albumId;
+		if(albumId === 'root') {
+			albumQryId = '';
+		} else {
+			promises.path = path.checkpath({
+				token: getPathQueryId(albumId),
       }).catch((err) => {
         Ember.Logger.error(err);
-        Ember.Logger.error('get path for ' + albumQueryId + ' failed');
+        Ember.Logger.error('get path for ' + albumId + ' failed');
       });
-    }
+		}
 
-    // set album
-    promises.album = syno.album({
-        id: albumQueryId,
-        type: 'album,photo,video',
-        additional: 'album_permission,photo_exif,video_codec,video_quality,thumb_size,file_location',
-      }).then((res) => {
-        if(photoId) {
-          var displayPhotoId = 'photo_' + albumId + '_' + photoId;
-          current.displayPhoto = res.data.items.find((a)=>a.id===displayPhotoId);
-        }
-        return res;
-      }).catch((err) => {
-        Ember.Logger.error('get album for ' + albumQueryId + ' failed. ' + err);
-      });
+		promises.album = album.list({
+			id: albumQryId,
+			type: 'album,photo,video',
+			additional: 'album_permission,photo_exif,video_codec,video_quality,thumb_size,file_location',
+    }).catch((err) => {
+      Ember.Logger.error('get album for ' + albumQueryId + ' failed. ' + err);
+    });
 
-    return RSVP.hash(promises);
-  },
+		return RSVP.hash(promises);
+  }
 });

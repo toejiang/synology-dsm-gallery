@@ -1,9 +1,18 @@
 {{#if (is-equal album.type 'album')}}
-  {{#link-to 'album/detail' (g-album-image-shortid album.id)}}
+  {{! type === album, to display sharedalbum cover}}
+
+  {{#link-to route (g-short-album-id album.id true)}}
     <img src='{{await (g-album-image-src album size)}}'/>
   {{/link-to}}
+
+{{else if (is-equal album.type 'photo')}}
+  {{! type === photo, to display photo thumbnail}}
+
+  {{#link-to route (g-short-album-id album.id) (query-params show=(g-short-photo-id album.id))}}
+    <img onclick={{action 'changeThumbSize'}} src='{{await (g-album-image-src album thumbSize)}}'/>
+  {{/link-to}}
+
 {{else}}
-  {{#link-to 'album/detail' (g-album-image-shortid album.id (is-equal size 'large'))}}
-    <img src='{{await (g-album-image-src album size)}}'/>
-  {{/link-to}}
+  <div>album type '{{album.type}}' not handled</div>
 {{/if}}
+{{yeild}}

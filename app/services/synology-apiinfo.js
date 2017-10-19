@@ -11,7 +11,7 @@ var Trigger = Ember.Object.extend(Ember.Evented, {
 export default Ember.Service.extend({
   ajax: Ember.inject.service('synology-ajax'),
 
-  api: {
+  _api: {
     urls:{},
     initialApiQueryHandling: false, // true when a is handling
     initializeDone: false, // true when all init is done, including api query
@@ -19,9 +19,9 @@ export default Ember.Service.extend({
 
   trigger: Trigger.create(),
 
-  url(name) {
+  api(name) {
     let _self = this;
-    var api = _self.get('api');
+    var api = _self.get('_api');
     if(!api || !api.initializeDone || !api.urls || !api.urls.api) {
 
       // if handling, just wait for compilite
@@ -61,31 +61,31 @@ export default Ember.Service.extend({
             {key: "auth",          api: "SYNO.PhotoStation.Auth"          },
             {key: "info",          api: "SYNO.PhotoStation.Info"          },
             {key: "album",         api: "SYNO.PhotoStation.Album"         },
-            {key: "permission",    api: "SYNO.PhotoStation.Permission"    },
+            {key: "share",         api: "SYNO.PhotoStation.SharedAlbum"   },
+            {key: "smart",         api: "SYNO.PhotoStation.SmartAlbum"    },
             {key: "photo",         api: "SYNO.PhotoStation.Photo"         },
+            {key: "permission",    api: "SYNO.PhotoStation.Permission"    },
             {key: "thumb",         api: "SYNO.PhotoStation.Thumb"         },
             {key: "cover",         api: "SYNO.PhotoStation.Cover"         },
-            {key: "smartAlbum",    api: "SYNO.PhotoStation.SmartAlbum"    },
             {key: "file",          api: "SYNO.PhotoStation.File"          },
             {key: "download",      api: "SYNO.PhotoStation.Download"      },
             {key: "category",      api: "SYNO.PhotoStation.Category"      },
             {key: "about",         api: "SYNO.PhotoStation.About"         },
             {key: "tag",           api: "SYNO.PhotoStation.Tag"           },
-            {key: "photoTag",      api: "SYNO.PhotoStation.PhotoTag"      },
+            {key: "tag",           api: "SYNO.PhotoStation.PhotoTag"      },
             {key: "comment",       api: "SYNO.PhotoStation.Comment"       },
             {key: "timeline",      api: "SYNO.PhotoStation.Timeline"      },
             {key: "group",         api: "SYNO.PhotoStation.Group"         },
             {key: "rotate",        api: "SYNO.PhotoStation.Rotate"        },
-            {key: "slideshowMusic",api: "SYNO.PhotoStation.SlideshowMusic"},
+            {key: "music",         api: "SYNO.PhotoStation.SlideshowMusic"},
             {key: "dsmShare",      api: "SYNO.PhotoStation.DsmShare"      },
-            {key: "sharedAlbum",   api: "SYNO.PhotoStation.SharedAlbum"   },
             {key: "log",           api: "SYNO.PhotoStation.PhotoLog"      },
             {key: "path",          api: "SYNO.PhotoStation.Path"          },
             {key: "watermark",     api: "SYNO.PhotoStation.Watermark"     },
             {key: "public",        api: "SYNO.PhotoStation.Public"        },
             {key: "migration",     api: "SYNO.PhotoStation.Migration"     },
             {key: "acl",           api: "SYNO.PhotoStation.ACL"           },
-            {key: "advancedShare", api: "SYNO.PhotoStation.AdvancedShare" },
+            {key: "advanced",      api: "SYNO.PhotoStation.AdvancedShare" },
             {key: "api",           api: "SYNO.API.Info"                   }
           ].forEach((e) => {
             var d = apiinfo.data[e.api];
@@ -94,6 +94,14 @@ export default Ember.Service.extend({
               url: url + d.path
             };
           });
+
+          // add accur api support
+          serviceUrl['accur'] = {
+            api: 'ACCUR.API.Share',
+            url: url + 'accur.php',
+          };
+
+          // set the final result
           api.urls = serviceUrl;
         }
         return api;

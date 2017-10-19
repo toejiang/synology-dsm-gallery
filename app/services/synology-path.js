@@ -5,7 +5,7 @@ export default Ember.Service.extend({
   api: Ember.inject.service('synology-apiinfo'),
   checkpath(hash) {
     hash = hash || {};
-    return this.get('api').url('path').then((api) => {
+    return this.get('api').api('path').then((api) => {
       return this.get('ajax').post(api.url, {
         data:{
           api: api.api,

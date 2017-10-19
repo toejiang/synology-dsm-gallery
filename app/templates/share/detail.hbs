@@ -1,1 +1,14 @@
+<div>route: share/detail</div>
+{{#if model.share.data.items}}
+  <ul>
+  {{#each model.share.data.items as |it|}}
+    <li>
+      {{gallery-share-image route='share/detail' album=it shareid=model.shareid hooks=hooks}}
+    </li>
+  {{/each}}
+  </ul>
+{{/if}}
+{{#if model.show}}
+  {{! go to show }}
+{{/if}}
 {{outlet}}

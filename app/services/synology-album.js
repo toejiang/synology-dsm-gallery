@@ -18,7 +18,7 @@ export default Ember.Service.extend({
   // };
   list(hash) {
     hash = hash || {};
-    return this.get('api').url('album').then((api) => {
+    return this.get('api').api('album').then((api) => {
       return this.get('ajax').post(api.url, {
 		 	  data:{
           id: hash.id || '',

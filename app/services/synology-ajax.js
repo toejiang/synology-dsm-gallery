@@ -5,10 +5,10 @@ export default AjaxService.extend({
   session: Ember.inject.service(),
   cookies: Ember.inject.service(),
 
-  headers: Ember.computed('session.data.syno-phpsessid', {
+  headers: Ember.computed('session.data.synology.sid', {
     get() {
-      let session = this.get('session').get('data.syno-phpsessid');
-      return { 'X-Syno-Token': session || '' };
+      let sid = this.get('session').get('data.synology.sid') || '';
+      return { 'X-Syno-Token': sid || '' };
     }
   }),
 

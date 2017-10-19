@@ -19,10 +19,11 @@ Router.map(function() {
     this.route('browse');
   });
   this.route('share/detail', {path:'share/:share_id'});
-  this.route('share', function() {
+  this.route('share', {path:'share'}, function() {
+    this.route('browse');
   });
   this.route('smart/detail', {path:'smart/:smart_id'});
-  this.route('smart', function() {
+  this.route('smart', {path:'smart'}, function() {
   });
 });
 

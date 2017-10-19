@@ -5,7 +5,7 @@ export default Ember.Service.extend({
   api: Ember.inject.service('synology-apiinfo'),
   getCategory(hash) {
     hash = hash || {};
-    return this.get('api').url('category').then((api) => {
+    return this.get('api').api('category').then((api) => {
       return this.get('ajax').post(api.url, {
         data:{ 
           api: api.api,
