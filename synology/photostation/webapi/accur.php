@@ -63,7 +63,7 @@ class AccurSharedAlbumAPI extends WebAPI
 			. " SELECT 0 as userid, " . $selectFields . " from " . $this->AdminTableName . " WHERE hidden = 'f' "
 			. "   UNION ALL "
 			. " SELECT userid, " . $selectFields . " from " . $this->UserTableName . " WHERE hidden = 'f' "
-			. ") WHERE ";
+			. ") as t WHERE ";
 
 		$sqlParams = array();
 		$this->appendUserIDCond($query, $sqlParams);
