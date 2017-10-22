@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
 import ENV from '../config/environment';
-import Await from '../utils/await';
 
 var Trigger = Ember.Object.extend(Ember.Evented, {
   fire: function() {
