@@ -1,11 +1,13 @@
 {{gallery-album-path path=model.path}}
-<div>
-{{#if model.album.data.items}}
-  <ul>
-  {{#each model.album.data.items as |it|}}
-    <li>{{gallery-album-image route='album/detail' album=it}}</li>
-  {{/each}}
-  </ul>
+{{#if model.album.items}}
+  {{#photo-swipe items=model.album.items as |img|}}
+    {{#if (is-equal img.info.type 'album')}}
+      {{#link-to 'album/detail' (g-short-album-id img.info.id true)}}
+        <img src={{img.src}} alt={{img.title}} />
+      {{/link-to}}
+    {{else}}
+      <img src={{img.src}} alt={{img.title}} />
+    {{/if}}
+  {{/photo-swipe}}
 {{/if}}
-</div>
 {{outlet}}

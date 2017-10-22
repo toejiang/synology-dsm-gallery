@@ -1,101 +1,110 @@
 import Ember from 'ember';
+import Utils from '../../utils/utils';
 
 export default Ember.Controller.extend({
-  syno: Ember.inject.service('synology'),
+  info: Ember.inject.service('synology-info'),
   auth: Ember.inject.service('synology-auth'),
-  ajax: Ember.inject.service('synology-ajax'),
+  path: Ember.inject.service('synology-path'),
+  album: Ember.inject.service('synology-album'),
   accur: Ember.inject.service('synology-accur'),
+  smart: Ember.inject.service('synology-smart'),
+  photo: Ember.inject.service('synology-photo'),
 
-	isExpanded: false,
-	album: {},
-	infoResult: '',
-	authResult: '',
-	getResult: '',
-	pathResult: '',
-	albumResult: '',
-	getResult: '',
+  isExpanded: false,
+  infoResult: '',
+  authResult: '', authUser:'user', authPass: '123',
+  getResult: '',
+  pathResult: '', pathQryParam: 'album_6361722f6769726c73',
+  albumResult: '', albumQryParam: 'album_636172',
+  getResult: '',
   accurResult: '',
+  smartResult: '',
+  photoResult: '', photoQryHash: '{filter_smart:\'smart_622e736d6172742e7331\'}',
 
   actions: {
     doInfo() {
-			this.set('infoResult', 'waiting...');
-      this.get('syno').info().then((res)=>{
-				this.set('infoResult', 'OK');
+      this.set('infoResult', 'waiting...');
+      this.get('info').getinfo().then((res)=>{
+        this.set('infoResult', 'OK');
         Ember.Logger.info('doInfo: '+JSON.stringify(res));
         return res;
       }).catch((e)=>{
-				this.set('infoResult', 'ERR');
-				;
-			});
+        this.set('infoResult', 'ERR');
+        ;
+      });
     },
     doAuth() {
-			this.set('authResult', 'waiting...');
-      this.get('syno').auth().then((res)=>{
-				this.set('authResult', 'OK');
+      this.set('authResult', 'waiting...');
+      this.get('auth').checkauth().then((res)=>{
+        this.set('authResult', 'OK');
         Ember.Logger.info('doAuth: '+JSON.stringify(res));
         return res;
       }).catch((e)=>{
-				this.set('authResult', 'ERR');
-			});
+        this.set('authResult', 'ERR');
+      });
     },
     doLogin() {
-			this.set('authResult', 'waiting...');
-      this.get('auth').login('111','222').then((res)=>{
-				this.set('authResult', 'login OK');
+      this.set('authResult', 'waiting...');
+      this.get('auth').login(this.get('authUser'),this.get('authPass'))
+      .then((res)=>{
+        if(res && res.success)
+          this.set('authResult', 'login OK');
+        else
+          this.set('authResult', 'login failed');
         Ember.Logger.info('doLogin: '+JSON.stringify(res));
         return res;
       }).catch((e)=>{
-				this.set('authResult', 'ERR');
-			});
+        this.set('authResult', 'ERR');
+      });
     },
     doLogout() {
-			this.set('authResult', 'waiting...');
+      this.set('authResult', 'waiting...');
       this.get('auth').logout().then((res)=>{
-				this.set('authResult', 'logout OK');
+        this.set('authResult', 'logout OK');
         Ember.Logger.info('doLogin: '+JSON.stringify(res));
         return res;
       }).catch((e)=>{
-				this.set('authResult', 'ERR');
-			});
+        this.set('authResult', 'ERR');
+      });
     },
     doPath() {
-			this.set('pathResult', 'waiting...');
-      this.get('syno').path({
-				token: 'Albums/album_746f65/album_746f652f7075626c6963/album_746f652f7075626c69632f7031/album_746f652f7075626c69632f70312f703131',
+      this.set('pathResult', 'waiting...');
+      var qryToken = this.get('pathQryParam');
+      this.get('path').checkpath({
+        token: Utils.getPathQueryParamByAlbumId(qryToken),
         method: 'checkpath',
       }).then((res)=>{
         Ember.Logger.info('doPath OK');
-				this.set('pathResult', 'OK');
-			}).catch(e=>{
-				this.set('pathResult', 'ERR');
+        this.set('pathResult', 'OK');
+      }).catch(e=>{
+        this.set('pathResult', 'ERR');
         Ember.Logger.error('doPath error');
         Ember.Logger.error(e);
       });
-		},
-		doAlbum() {
-			this.set('albumResult', 'waiting...');
-			var isExpanded = this.get('isExpanded');
-			if(!isExpanded) {
-      	this.get('syno').album({
-					id: 'album_746f652f7075626c6963',
-					type: 'album,photo,video',
-      	  additional: 'album_permission,photo_exif,video_codec,video_quality,thumb_size,file_location',
-				}).then(res=>{
-					this.set('album', res);
-      		this.toggleProperty('isExpanded');
-        	Ember.Logger.info('doAlbum: OK');
-			    this.set('albumResult', 'OK');
-				}).catch(e=>{
-			    this.set('albumResult', 'ERR');
-					Ember.Logger.error('doAlbum error');
-					Ember.Logger.error(e);
-				});
-			} else {
-			  this.set('albumResult', 'clear');
-				this.set('album', {});
-      	this.toggleProperty('isExpanded');
-			}
-		},
+    },
+    doAlbum() {
+      this.set('albumResult', 'waiting...');
+      var qryId = this.get('albumQryParam');
+      var isExpanded = this.get('isExpanded');
+      if(!isExpanded) {
+        this.get('album').list({
+          id: qryId,
+          type: 'album,photo,video',
+          additional: 'album_permission,photo_exif,video_codec,video_quality,thumb_size,file_location',
+        }).then(res=>{
+          this.toggleProperty('isExpanded');
+          Ember.Logger.info('doAlbum: OK');
+          this.set('albumResult', 'OK');
+        }).catch(e=>{
+          this.set('albumResult', 'ERR');
+          Ember.Logger.error('doAlbum error');
+          Ember.Logger.error(e);
+        });
+      } else {
+        this.set('albumResult', 'clear');
+        this.toggleProperty('isExpanded');
+      }
+    },
     doAccur() {
       this.set('accurResult', 'waiting...');
       this.get('accur').list({
@@ -111,7 +120,7 @@ export default Ember.Controller.extend({
     },
     doGet() {
       this.set('getResult', 'waiting...');
-      this.get('syno').album({
+      this.get('album').list({
           id: 'dslkf',
           type: 'album',
       }).then((res)=>{
@@ -120,6 +129,47 @@ export default Ember.Controller.extend({
         this.set('getResult', 'ERR');
         Ember.Logger.error(err);
       });
-    }
-	}
+    },
+    doSmart() {
+      this.set('smartResult', 'waiting...');
+      this.get('smart').list({
+          id: 'dslkf',
+          type: 'album',
+      }).then((res)=>{
+        this.set('smartResult', 'OK: ' + JSON.stringify(res));
+      }).catch((err)=>{
+        this.set('smartResult', 'ERR');
+        Ember.Logger.error(err);
+      });
+    },
+    doPhoto() {
+      this.set('photoResult', 'waiting...');
+      var hash = {}, promise = null;
+      try {
+        hash = eval("(" + this.get('photoQryHash') + ")");
+      } catch(e) {
+        Ember.Logger.error('doPhoto: param error');
+        this.set('photoResult', 'ERR: param error');
+        return;
+      }
+      if(hash.filter_album) {
+        promise = this.get('photo').listalbum({filter_album:hash.filter_album });
+      } else if(hash.filter_public_share) {
+        promise = this.get('photo').listshare({filter_public_share:hash.filter_public_share});
+      } else if(hash.filter_smart) {
+        promise = this.get('photo').listsmart({filter_smart:hash.filter_smart, sort_by:'filename', limit:50});
+      } else {
+        Ember.Logger.error('no param set');
+        this.set('photoResult', 'ERR: no param set, filter_album | filter_public_share | filter_smart required');
+        return;
+      }
+      if(promise)
+        promise.then((res)=>{
+          this.set('photoResult', 'OK: ' + JSON.stringify(res));
+        }).catch((err)=>{
+          this.set('photoResult', 'ERR');
+          Ember.Logger.error(err);
+        });
+    },
+  }
 });

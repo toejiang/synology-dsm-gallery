@@ -9,6 +9,7 @@ const Router = Ember.Router.extend({
 Router.map(function() {
   this.route('test', function() {
     this.route('api');
+    this.route('photoswipe');
   });
   this.route('about');
 

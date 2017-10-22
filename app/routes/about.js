@@ -1,9 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  syno: Ember.inject.service('synology'),
+  info: Ember.inject.service('synology-info'),
 
   model() {
-    return this.get('syno').info();
+    return this.get('info').getinfo();
   }
 });

@@ -2,11 +2,14 @@
 
 <ul>
 <li><button {{action "doInfo"}}>info</button>{{infoResult}}</li>
-<li><button {{action "doAuth"}}>checkauth</button><button {{action "doLogin"}}>login</button><button {{action "doLogout"}}>logout</button>{{authResult}}</li>
-<li><button {{action "doPath"}}>path</button>{{pathResult}}</li>
-<li><button {{action "doAlbum"}}>album</button>{{albumResult}}</li>
+<li><button {{action "doAuth"}}>checkauth</button><button {{action "doLogin"}}>login</button><button {{action "doLogout"}}>logout</button>
+  {{input value=authUser}}|{{input value=authPass}}{{authResult}}</li>
+<li><button {{action "doPath"}}>path</button>path:{{input value=pathQryParam}} - {{pathResult}}</li>
+<li><button {{action "doAlbum"}}>album</button>album:{{input value=albumQryParam}} - {{albumResult}}</li>
 <li><button {{action "doGet"}}>get</button>{{getResult}}</li>
 <li><button {{action "doAccur"}}>accur</button>{{accurResult}}</li>
+<li><button {{action "doSmart"}}>smart</button>{{smartResult}}</li>
+<li><button {{action "doPhoto"}}>photo</button>{{input value=photoQryHash}}{{photoResult}}</li>
 </ul>
 
 <h/>

@@ -18,7 +18,8 @@ function getPathQueryId(albumId) {
 }
 
 export default Ember.Route.extend({
-  syno: Ember.inject.service('synology'),
+  path: Ember.inject.service('synology-path'),
+  album: Ember.inject.service('synology-album'),
 
   model(params) {
     if(!params.album_id || params.album_id === '') {
@@ -29,7 +30,7 @@ export default Ember.Route.extend({
       pathQueryId = getPathQueryId(albumId),
       current = {albumId:albumId,displayPhoto:undefined}, // data will be set after album listing
       promises = {},
-      syno = this.get('syno');
+      path = this.get('path');
 
     // set current
     promises.current = RSVP.resolve(current);
@@ -38,7 +39,7 @@ export default Ember.Route.extend({
     if(albumId === 'root') {
       albumQueryId = '';
     } else {
-      promises.path = syno.path({
+      promises.path = path.checkpath({
         token: pathQueryId,
         method: 'getpath',
       }).catch((err) => {
@@ -48,7 +49,7 @@ export default Ember.Route.extend({
     }
 
     // set album
-    promises.album = syno.album({
+    promises.album = album.list({
         id: albumQueryId,
         type: 'album,photo,video',
         additional: 'album_permission,photo_exif,video_codec,video_quality,thumb_size,file_location',

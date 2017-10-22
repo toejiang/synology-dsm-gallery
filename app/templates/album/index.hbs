@@ -1,10 +1,12 @@
-<div>route: album/index</div>
-<div>albums: {{model.data.total}}</div>
-<div>
-{{#if model.data.items}}
-  {{gallery-album albums=model.data.items}}
-{{else}}
-  <div>No album found</div>
+{{#if model.items}}
+  {{#photo-swipe items=model.items as |img|}}
+    {{#if (is-equal img.info.type 'album')}}
+      {{#link-to 'album/detail' (g-short-album-id img.info.id true)}}
+        <img src={{img.src}} alt={{img.title}} />
+      {{/link-to}}
+    {{else}}
+      <img src={{img.src}} alt={{img.title}} />
+    {{/if}}
+  {{/photo-swipe}}
 {{/if}}
-</div>
 {{outlet}}

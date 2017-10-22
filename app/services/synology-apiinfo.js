@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
 import ENV from '../config/environment';
+import Await from '../utils/await';
 
 var Trigger = Ember.Object.extend(Ember.Evented, {
   fire: function() {
@@ -20,6 +21,10 @@ export default Ember.Service.extend({
   trigger: Trigger.create(),
 
   api(name) {
+    return this.initApi(name);
+  },
+
+  initApi(name) {
     let _self = this;
     var api = _self.get('_api');
     if(!api || !api.initializeDone || !api.urls || !api.urls.api) {

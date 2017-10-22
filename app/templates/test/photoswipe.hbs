@@ -1,0 +1,9 @@
+{{#photo-swipe items=model as |img|}}
+  {{#if (is-equal img.info.type 'album')}}
+    {{#link-to 'album/detail' (g-short-album-id img.info.id true)}}
+      <img class="thumb" src={{img.src}} alt={{img.title}}>
+    {{/link-to}}
+  {{else}}
+      <img class="thumb" src={{img.src}} alt={{img.title}}>
+  {{/if}}
+{{/photo-swipe}}
