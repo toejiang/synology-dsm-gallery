@@ -2,6 +2,7 @@ import Ember from 'ember';
 import Utils from '../../utils/utils';
 
 export default Ember.Controller.extend({
+  ajax: Ember.inject.service('synology-ajax'),
   info: Ember.inject.service('synology-info'),
   auth: Ember.inject.service('synology-auth'),
   path: Ember.inject.service('synology-path'),
@@ -20,6 +21,7 @@ export default Ember.Controller.extend({
   accurResult: '',
   smartResult: '',
   photoResult: '', photoQryHash: '{filter_smart:\'smart_622e736d6172742e7331\'}',
+  xhrResult: '', xhrUrl: 'http://192.168.56.26/a',
 
   actions: {
     doInfo() {
@@ -170,6 +172,19 @@ export default Ember.Controller.extend({
           this.set('photoResult', 'ERR');
           Ember.Logger.error(err);
         });
+    },
+    doXhr() {
+      this.set('xhrResult', 'waiting...');
+      var hash = {}, promise = null;
+      this.get('ajax').request(this.get('xhrUrl'), {
+        method: 'GET',
+        data: {
+          some_data: '1111888idf',
+        }
+      })
+      .then((res) => {
+        this.set('xhrResult', JSON.stringify(res));
+      });
     },
   }
 });

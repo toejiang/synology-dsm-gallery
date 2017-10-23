@@ -54,4 +54,5 @@ export default function() {
   this.get('/album.php', () => {
     return {data: [{somemsg:'somemsg-for-album'},{somemsg:'somemsg-for-album2222'}]};
   });
+  this.passthrough();
 }

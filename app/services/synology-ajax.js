@@ -8,7 +8,10 @@ export default AjaxService.extend({
   headers: Ember.computed('session.data.synology.sid', {
     get() {
       let sid = this.get('session').get('data.synology.sid') || '';
-      return { 'X-Syno-Token': sid || '' };
+      return {
+        'X-Syno-Token': sid || '',
+        'X-Requested-With': 'XMLHttpRequest',
+      };
     }
   }),
 
