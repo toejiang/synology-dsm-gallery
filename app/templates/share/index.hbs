@@ -1,8 +1,19 @@
-{{#if model.items}}
-  {{#photo-swipe items=model.items as |img|}}
-    {{#link-to 'share/detail' img.info.additional.public_share.shareid}}
-      <img src={{img.src}} alt={{img.title}} />
-    {{/link-to}}
-  {{/photo-swipe}}
+{{gallery-share-path}}
+{{#if model}}
+  {{#each model as |site|}}
+
+    {{#if (is-equal site.total 0)}}
+    {{else}}
+      {{#link-to 'share/site' site.site}}
+        <h3>{{site.site}} ({{site.total}})</h3>
+      {{/link-to}}
+      {{#photo-swipe items=site.items as |img|}}
+        {{#link-to 'share/detail' site.site img.info.additional.public_share.shareid}}
+          <img src={{img.src}} alt={{img.title}} />
+        {{/link-to}}
+      {{/photo-swipe}}
+    {{/if}}
+
+  {{/each}}
 {{/if}}
 {{outlet}}

@@ -1,0 +1,12 @@
+<h4>
+  <span>/</span>
+  <span>{{#link-to 'share'}}shares{{/link-to}}</span>
+  {{#if site}}
+    <span>/</span>
+    <span>{{#link-to 'share/site' site}}{{site}}{{/link-to}}</span>
+  {{/if}}
+  {{#if shareid}}
+    <span>/</span>
+    <span>{{shareid}}</span>
+  {{/if}}
+</h4>

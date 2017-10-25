@@ -27,7 +27,7 @@ export default Ember.Route.extend({
     ];
 
     promises.info = this.get('info').getinfo();
-    promises.category = this.get('category').getCategory();
+    promises.category = this.get('category').category();
     promises.path = this.get('path').checkpath();
     return RSVP.hash(promises);
   }

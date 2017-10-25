@@ -16,10 +16,11 @@ export default Ember.Service.extend({
   //   additional: 'album_permission',
   //   ignore: '',
   // };
-  list(hash) {
+  list(site, hash) {
+    site = (!site || site === '') ? 'root' : site;
     hash = hash || {};
     return this.get('api').api('album').then((api) => {
-      return this.get('ajax').post(api.url, {
+      return this.get('ajax').post(api.url[site], {
 		 	  data:{
           id: hash.id || '',
           sort_by: hash.sort_by || 'preference',

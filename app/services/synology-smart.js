@@ -5,11 +5,12 @@ export default Ember.Service.extend({
   ajax: Ember.inject.service('synology-ajax'),
   api: Ember.inject.service('synology-apiinfo'),
 
-  list(hash) {
+  list(site, hash) {
+    site = (!site || site === '') ? 'root' : site;
     hash = hash || {};
     return this.get('api').api('smart')
     .then((api) => {
-      return this.get('ajax').post(api.url, {
+      return this.get('ajax').post(api.url[site], {
         data: {
           sort_by: hash.sort_by || 'title',
 					sort_direction: hash.sort_direction || 'asc',

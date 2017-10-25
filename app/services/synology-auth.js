@@ -6,15 +6,16 @@ export default Ember.Service.extend({
   ajax: Ember.inject.service('synology-ajax'),
   api: Ember.inject.service('synology-apiinfo'),
 
-  auth(method, hash) {
-    var hash = hash || {},
+  auth(method, site, hash) {
+    var site = (!site || site === '') ? 'root' : site,
+      hash = hash || {},
       session = this.get('session'),
       cookies = this.get('cookies'),
       ajax = this.get('ajax'),
       api = this.get('api');
 
     return api.api('auth').then(api => {
-      return ajax.post(api.url, {
+      return ajax.post(api.url['root'], {
         data: {
           api: api.api,
           method: method || 'checkauth',
@@ -34,15 +35,15 @@ export default Ember.Service.extend({
     });
   },
 
-  checkauth(hash) {
-    return this.auth('checkauth', hash);
+  checkauth(site, hash) {
+    return this.auth('checkauth', site, hash);
   },
 
-  login(username, password) {
-    return this.auth('login', {username,password});
+  login(site, username, password) {
+    return this.auth('login', site, {username,password});
   },
 
-  logout() {
-    return this.auth('logout');
+  logout(site) {
+    return this.auth('logout', site);
   }
 });

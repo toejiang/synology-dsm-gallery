@@ -14,12 +14,15 @@ Router.map(function() {
   this.route('about');
 
   // album routes
-  this.route('album/detail', {path:'album/:album_id'});
+  this.route('album/detail', {path:'album/:site_id/:album_id'});
+  this.route('album/site', {path:'album/:site_id'});
   this.route('album', {path:'album'}, function() {
     this.route('test');
     this.route('browse');
   });
-  this.route('share/detail', {path:'share/:share_id'});
+
+  this.route('share/detail', {path:'share/:site_id/:share_id'});
+  this.route('share/site', {path:'share/:site_id'});
   this.route('share', {path:'share'}, function() {
     this.route('browse');
   });

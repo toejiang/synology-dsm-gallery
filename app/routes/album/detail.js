@@ -8,29 +8,35 @@ export default Ember.Route.extend({
   utils: Ember.inject.service('synology-utils'),
 
   model(params) {
+		if(!params.site_id || params.site_id === '') {
+      this.transitionTo('album');
+    }
 		if(!params.album_id || params.album_id === '') {
       this.transitionTo('album');
     }
 
-		var promises = {},
-			path = this.get('path'),
+		var path = this.get('path'),
 			album = this.get('album'),
-			show = this.get('show');
+			show = this.get('show'),
+      site = params.site_id;
+		var promises = {
+      site: site,
+    };
 
 		var albumId = params.album_id,
 			albumQryId = 'album_' + albumId;
 		if(albumId === 'root') {
 			albumQryId = '';
 		} else {
-			promises.path = path.checkpath({
+			promises.path = path.checkpath(site, {
 				token: Utils.getPathQueryParamByAlbumId(albumId),
       }).catch((err) => {
         Ember.Logger.error(err);
-        Ember.Logger.error('get path for ' + albumId + ' failed');
+        Ember.Logger.error('get path for ' + site + '/' + albumId + ' failed');
       });
 		}
 
-		promises.album = album.list({
+		promises.album = album.list(site, {
 			id: albumQryId,
 			type: 'album,photo,video',
 			additional: 'album_permission,photo_exif,video_codec,video_quality,thumb_size,file_location',
@@ -41,10 +47,10 @@ export default Ember.Route.extend({
       res.data.items.forEach((item) => {
         items.push(
           RSVP.hash({
-            src: utils.getAlbumImageSrc(item, 'small'),
+            src: utils.getAlbumImageSrc(site, item, 'small'),
             w: item.additional.thumb_size.small.resolutionx,
             h: item.additional.thumb_size.small.resolutiony,
-            msrc: utils.getAlbumImageSrc(item, 'large'),
+            msrc: utils.getAlbumImageSrc(site, item, 'large'),
             pid: item.id,
             info: item,
           })
@@ -57,7 +63,7 @@ export default Ember.Route.extend({
       });
     })
     .catch((err) => {
-      Ember.Logger.error('get album for ' + albumQueryId + ' failed. ' + err);
+      Ember.Logger.error('get album for ' + albumQryId + ' failed. ' + err);
     });
 
 		return RSVP.hash(promises);

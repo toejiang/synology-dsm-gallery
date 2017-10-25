@@ -5,12 +5,13 @@ export default Ember.Service.extend({
   ajax: Ember.inject.service('synology-ajax'),
   api: Ember.inject.service('synology-apiinfo'),
 
-  list(hash) {
+  list(site, hash) {
     hash = hash || {};
+    site = (!site || site === '') ? 'root' : site;
 
     return this.get('api').api('accur')
     .then((api) => {
-      return this.get('ajax').post(api.url, {
+      return this.get('ajax').post(api.url[site], {
         data: {
           method: 'list',
           api: api.api,
@@ -21,10 +22,19 @@ export default Ember.Service.extend({
           sort_direction: hash.direction || 'asc',
           additional: hash.additional || 'thumb_size,public_share',
         }
-      })
-      .then((res) => {
-        Ember.Logger.info('accur list success: ', JSON.stringify(res));
-        return res;
+      });
+    });
+  },
+
+  site() {
+    return this.get('api').api('accur')
+    .then((api) => {
+      return this.get('ajax').post(api.url['root'], {
+        data: {
+          method: 'site',
+          api: api.api,
+          version: 1,
+        }
       });
     });
   }

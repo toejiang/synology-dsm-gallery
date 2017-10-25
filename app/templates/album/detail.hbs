@@ -1,4 +1,4 @@
-{{gallery-album-path path=model.path}}
+{{gallery-album-path site=model.site path=model.path}}
 {{#if model.album.items}}
   {{#photo-swipe items=model.album.items as |img|}}
     {{#if (is-equal img.info.type 'album')}}

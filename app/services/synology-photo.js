@@ -4,12 +4,13 @@ export default Ember.Service.extend({
   ajax: Ember.inject.service('synology-ajax'),
   api: Ember.inject.service('synology-apiinfo'),
 
-  _do_list(hash) {
+  _do_list(site, hash) {
+    site = (!site || site === '') ? 'root' : site;
     hash = hash || {};
     return this.get('api').api('photo').then((api) => {
       hash.data.api = api.api;
       hash.data.version = 1;
-      return this.get('ajax').post(api.url, hash).then((res) => {
+      return this.get('ajax').post(api.url[site], hash).then((res) => {
         if(res.success) {
           return res;
         } else {
@@ -19,7 +20,7 @@ export default Ember.Service.extend({
     });
   },
 
-  listalbum(hash) {
+  listalbum(site, hash) {
     hash = hash || {};
 		var data = {
       filter_album: hash.filter_album || '',
@@ -34,10 +35,10 @@ export default Ember.Service.extend({
       sort_by: hash.sort_by || 'preference',
       sort_direction: hash.direction || 'asc',
 	  };
-    return this._do_list({data:data});
+    return this._do_list(site, {data:data});
   },
 
-  listshare(hash) {
+  listshare(site, hash) {
     hash = hash || {};
     var data = {
       filter_public_share: hash.filter_public_share || '',
@@ -52,10 +53,10 @@ export default Ember.Service.extend({
       sort_by: hash.sort_by || 'preference',
       sort_direction: hash.direction || 'asc',
 		};
-    return this._do_list({data:data});
+    return this._do_list(site, {data:data});
   },
 
-  listsmart(hash) {
+  listsmart(site, hash) {
     hash = hash || {};
     var data = {
       filter_smart: hash.filter_smart || '',
@@ -69,6 +70,6 @@ export default Ember.Service.extend({
       sort_by: hash.sort_by || 'preference',
       sort_direction: hash.direction || 'asc',
 		};
-    return this._do_list({data:data});
+    return this._do_list(site, {data:data});
   },
 });

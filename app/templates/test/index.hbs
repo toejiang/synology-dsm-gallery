@@ -1,6 +1,7 @@
 <div> ================ test ============= </div>
 
 <ul>
+<li>User:{{input value=apiSite}}</li>
 <li><button {{action "doInfo"}}>info</button>{{infoResult}}</li>
 <li><button {{action "doAuth"}}>checkauth</button><button {{action "doLogin"}}>login</button><button {{action "doLogout"}}>logout</button>
   {{input value=authUser}}|{{input value=authPass}}{{authResult}}</li>
@@ -10,6 +11,7 @@
 <li><button {{action "doAccur"}}>accur</button>{{accurResult}}</li>
 <li><button {{action "doSmart"}}>smart</button>{{smartResult}}</li>
 <li><button {{action "doPhoto"}}>photo</button>{{input value=photoQryHash}}{{photoResult}}</li>
+<li><button {{action "doSite"}}>site</button>{{siteResult}}</li>
 <li><button {{action "doXhr"}}>test xhr</button>{{input value=xhrUrl}}{{xhrResult}}</li>
 </ul>
 

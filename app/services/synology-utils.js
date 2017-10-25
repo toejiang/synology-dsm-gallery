@@ -3,7 +3,8 @@ import Ember from 'ember';
 export default Ember.Service.extend({
   synoapi: Ember.inject.service('synology-apiinfo'),
 
-  getAlbumImageSrc(album, size) {
+  getAlbumImageSrc(site, album, size) {
+    site = (!site || site === '') ? 'root' : site;
     var id = album.id;
     return this.get('synoapi').api('thumb').then((thumbApi) => {
       var params = 'api=' + thumbApi.api + '&'
@@ -13,13 +14,14 @@ export default Ember.Service.extend({
                  + 'id=' + id+ '&'
                  + 'thumb_sig=' + (album.additional.thumb_size.sig || '') + '&'
                  + 'mtime=' + (album.additional.thumb_size.small.mtime || '') + '&'
-      return thumbApi.url + '?' + params;
+      return thumbApi.url[site] + '?' + params;
     });
   },
 
   // return a promise that resolve with a thumbnail url of the album,
   // the receiver should use a promise-helper to get the result, like '{{await (g-album-image-src album)}}'
-  getShareImageSrc(album, size, shareId) {
+  getShareImageSrc(site, album, size, shareId) {
+    site = (!site || site === '') ? 'root' : site;
     var id = album.id;
     if(album.type === 'sharedalbum') {
       id = 'publicshare_' + album.additional.public_share.shareid;
@@ -33,7 +35,7 @@ export default Ember.Service.extend({
                  + 'thumb_sig=' + (album.additional.thumb_size.sig || '') + '&'
                  + 'mtime=' + (album.additional.thumb_size.small.mtime || '') + '&'
                  + ((shareId && shareId != '') ? ('public_share_id=' + shareId) : '');
-      return thumbApi.url + '?' + params;
+      return thumbApi.url[site] + '?' + params;
     });
   },
 });

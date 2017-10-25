@@ -6,7 +6,7 @@ export default Ember.Route.extend({
   utils: Ember.inject.service('synology-utils'),
 
   model(path) {
-    return this.get('album').list({
+    return this.get('album').list('root', {
       id: 'album_636172',
       type: 'album,photo,video',
       additional: 'album_permission,photo_exif,video_codec,video_quality,thumb_size,file_location',
@@ -17,11 +17,11 @@ export default Ember.Route.extend({
       res.data.items.forEach((a) => {
         result.push(
           RSVP.hash({
-            src: utils.getAlbumImageSrc(a, 'small'),
+            src: utils.getAlbumImageSrc('root', a, 'small'),
             w: a.additional.thumb_size.small.resolutionx,
             h: a.additional.thumb_size.small.resolutiony,
             title: a.info.title,
-            msrc: utils.getAlbumImageSrc(a, 'large'),
+            msrc: utils.getAlbumImageSrc('root', a, 'large'),
             info: a,
           })
         );

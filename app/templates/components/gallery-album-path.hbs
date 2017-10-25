@@ -1,12 +1,16 @@
 <h4>
-  <span>{{#link-to 'album/detail' 'root'}}albums{{/link-to}}</span>
   <span>/</span>
+  <span>{{#link-to 'album'}}albums{{/link-to}}</span>
+  {{#if site}}
+    <span>/</span>
+    <span>{{#link-to 'album/detail' 'root'}}{{site}}{{/link-to}}</span>
+  {{/if}}
   {{#if path.success}}
     {{#each path.data.items as |p|}}
       {{#if (is-equal p.id 'Albums')}}
       {{else}}
-        <span>{{#link-to 'album/detail' (g-short-album-id p.id)}}{{p.info.name}}{{/link-to}}</span>
         <span>/</span>
+        <span>{{#link-to 'album/detail' (g-short-album-id p.id)}}{{p.info.name}}{{/link-to}}</span>
       {{/if}}
     {{/each}}
   {{/if}}

@@ -12,6 +12,7 @@ export default Ember.Controller.extend({
   photo: Ember.inject.service('synology-photo'),
 
   isExpanded: false,
+  apiSite: 'root',
   infoResult: '',
   authResult: '', authUser:'user', authPass: '123',
   getResult: '',
@@ -21,6 +22,7 @@ export default Ember.Controller.extend({
   accurResult: '',
   smartResult: '',
   photoResult: '', photoQryHash: '{filter_smart:\'smart_622e736d6172742e7331\'}',
+  siteResult: '',
   xhrResult: '', xhrUrl: 'http://192.168.56.26/a',
 
   actions: {
@@ -47,7 +49,7 @@ export default Ember.Controller.extend({
     },
     doLogin() {
       this.set('authResult', 'waiting...');
-      this.get('auth').login(this.get('authUser'),this.get('authPass'))
+      this.get('auth').login(this.get('apiSite'), this.get('authUser'),this.get('authPass'))
       .then((res)=>{
         if(res && res.success)
           this.set('authResult', 'login OK');
@@ -61,7 +63,7 @@ export default Ember.Controller.extend({
     },
     doLogout() {
       this.set('authResult', 'waiting...');
-      this.get('auth').logout().then((res)=>{
+      this.get('auth').logout(this.get('apiSite')).then((res)=>{
         this.set('authResult', 'logout OK');
         Ember.Logger.info('doLogin: '+JSON.stringify(res));
         return res;
@@ -72,7 +74,7 @@ export default Ember.Controller.extend({
     doPath() {
       this.set('pathResult', 'waiting...');
       var qryToken = this.get('pathQryParam');
-      this.get('path').checkpath({
+      this.get('path').checkpath(this.get('apiSite'), {
         token: Utils.getPathQueryParamByAlbumId(qryToken),
         method: 'checkpath',
       }).then((res)=>{
@@ -89,7 +91,7 @@ export default Ember.Controller.extend({
       var qryId = this.get('albumQryParam');
       var isExpanded = this.get('isExpanded');
       if(!isExpanded) {
-        this.get('album').list({
+        this.get('album').list(this.get('apiSite'), {
           id: qryId,
           type: 'album,photo,video',
           additional: 'album_permission,photo_exif,video_codec,video_quality,thumb_size,file_location',
@@ -109,7 +111,7 @@ export default Ember.Controller.extend({
     },
     doAccur() {
       this.set('accurResult', 'waiting...');
-      this.get('accur').list({
+      this.get('accur').list(this.get('apiSite'), {
           id: 'dslkf',
           type: 'album',
           limit: 50,
@@ -122,7 +124,7 @@ export default Ember.Controller.extend({
     },
     doGet() {
       this.set('getResult', 'waiting...');
-      this.get('album').list({
+      this.get('album').list(this.get('apiSite'), {
           id: 'dslkf',
           type: 'album',
       }).then((res)=>{
@@ -134,7 +136,7 @@ export default Ember.Controller.extend({
     },
     doSmart() {
       this.set('smartResult', 'waiting...');
-      this.get('smart').list({
+      this.get('smart').list(this.get('apiSite'), {
           id: 'dslkf',
           type: 'album',
       }).then((res)=>{
@@ -155,11 +157,11 @@ export default Ember.Controller.extend({
         return;
       }
       if(hash.filter_album) {
-        promise = this.get('photo').listalbum({filter_album:hash.filter_album });
+        promise = this.get('photo').listalbum(this.get('apiSite'), {filter_album:hash.filter_album });
       } else if(hash.filter_public_share) {
-        promise = this.get('photo').listshare({filter_public_share:hash.filter_public_share});
+        promise = this.get('photo').listshare(this.get('apiSite'), {filter_public_share:hash.filter_public_share});
       } else if(hash.filter_smart) {
-        promise = this.get('photo').listsmart({filter_smart:hash.filter_smart, sort_by:'filename', limit:50});
+        promise = this.get('photo').listsmart(this.get('apiSite'), {filter_smart:hash.filter_smart, sort_by:'filename', limit:50});
       } else {
         Ember.Logger.error('no param set');
         this.set('photoResult', 'ERR: no param set, filter_album | filter_public_share | filter_smart required');
@@ -173,14 +175,19 @@ export default Ember.Controller.extend({
           Ember.Logger.error(err);
         });
     },
+    doSite() {
+      this.set('siteResult', 'waiting...');
+      var hash = {}, promise = null;
+      this.get('accur').site()
+      .then((res) => {
+        this.set('siteResult', JSON.stringify(res));
+      });
+    },
     doXhr() {
       this.set('xhrResult', 'waiting...');
       var hash = {}, promise = null;
-      this.get('ajax').request(this.get('xhrUrl'), {
-        method: 'GET',
-        data: {
-          some_data: '1111888idf',
-        }
+      this.get('accur').site()
+      .then((res) => {
       })
       .then((res) => {
         this.set('xhrResult', JSON.stringify(res));

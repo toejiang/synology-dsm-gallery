@@ -3,10 +3,11 @@ import Ember from 'ember';
 export default Ember.Service.extend({
   ajax: Ember.inject.service('synology-ajax'),
   api: Ember.inject.service('synology-apiinfo'),
-  checkpath(hash) {
+  checkpath(site, hash) {
+    site = (!site || site === '') ? 'root' : site;
     hash = hash || {};
     return this.get('api').api('path').then((api) => {
-      return this.get('ajax').post(api.url, {
+      return this.get('ajax').post(api.url[site], {
         data:{
           api: api.api,
           method: 'checkpath',

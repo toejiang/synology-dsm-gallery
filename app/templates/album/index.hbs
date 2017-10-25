@@ -1,12 +1,23 @@
-{{#if model.items}}
-  {{#photo-swipe items=model.items as |img|}}
-    {{#if (is-equal img.info.type 'album')}}
-      {{#link-to 'album/detail' (g-short-album-id img.info.id true)}}
-        <img src={{img.src}} alt={{img.title}} />
-      {{/link-to}}
+{{gallery-album-path}}
+{{#if model}}
+  {{#each model as |site|}}
+
+    {{#if (is-equal site.total 0)}}
     {{else}}
-      <img src={{img.src}} alt={{img.title}} />
+      {{#link-to 'album/site' site.site}}
+        <h3>{{site.site}} ({{site.total}})</h3>
+      {{/link-to}}
+      {{#photo-swipe items=site.items as |img|}}
+        {{#if (is-equal img.info.type 'album')}}
+          {{#link-to 'album/detail' site.site (g-short-album-id img.info.id true)}}
+            <img src={{img.src}} alt={{img.title}} />
+          {{/link-to}}
+        {{else}}
+          <img src={{img.src}} alt={{img.title}} />
+        {{/if}}
+      {{/photo-swipe}}
     {{/if}}
-  {{/photo-swipe}}
+
+  {{/each}}
 {{/if}}
 {{outlet}}
