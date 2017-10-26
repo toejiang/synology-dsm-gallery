@@ -1,7 +1,9 @@
 {{gallery-share-path site=model.site shareid=model.shareid}}
 {{#if model.share.items}}
-  {{#photo-swipe items=model.share.items as |img|}}
-    <img src={{img.small}} alt={{img.title}} />
+  {{#photo-swipe items=model.share.items history=false as |photoswipe|}}
+    {{#each model.share.items as |item index|}}
+      <img src={{item.small}} alt={{item.title}} {{action photoswipe.actions.open (hash index=index)}} />
+    {{/each}}
   {{/photo-swipe}}
 {{/if}}
 {{outlet}}

@@ -1,14 +1,16 @@
 {{gallery-album-path site=model.site path=model.path}}
 {{#if model.album.items}}
-  {{#photo-swipe items=model.album.items as |img|}}
+  {{#photo-swipe items=model.album.items history=false as |photoswipe|}}
 
-    {{#if (is-equal img.info.type 'album')}}
-      {{#link-to 'album/detail' (g-short-album-id img.info.id true)}}
-        <img src={{img.small}} alt={{img.title}}/>
-      {{/link-to}}
-    {{else}}
-      <img src={{img.small}} alt={{img.title}}/>
-    {{/if}}
+    {{#each model.album.items as |item index|}}
+      {{#if (is-equal item.info.type 'album')}}
+        {{#link-to 'album/detail' (g-short-album-id item.info.id true)}}
+          <img src={{item.small}} alt={{item.title}}/>
+        {{/link-to}}
+      {{else}}
+        <img src={{item.small}} alt={{item.title}} {{action photoswipe.actions.open (hash index=index)}} />
+      {{/if}}
+    {{/each}}
 
   {{/photo-swipe}}
 {{/if}}

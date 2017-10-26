@@ -1,9 +1,11 @@
-{{#photo-swipe items=model as |img|}}
-  {{#if (is-equal img.info.type 'album')}}
-    {{#link-to 'album/detail' (g-short-album-id img.info.id true)}}
-      <img class="thumb" src={{img.small}} alt={{img.title}}>
-    {{/link-to}}
-  {{else}}
-      <img class="thumb" src={{img.small}} alt={{img.title}}>
-  {{/if}}
+{{#photo-swipe items=model history=false as |photoswipe|}}
+  {{#each model as |item index|}}
+    {{#if (is-equal item.info.type 'album')}}
+      {{#link-to 'album/detail' (g-short-album-id item.info.id true)}}
+        <img class="thumb" src={{item.small}} alt={{item.title}}>
+      {{/link-to}}
+    {{else}}
+        <img class="thumb" src={{item.small}} alt={{item.title}} {{action photoswipe.actions.open (hash index=index)}} />
+    {{/if}}
+  {{/each}}
 {{/photo-swipe}}

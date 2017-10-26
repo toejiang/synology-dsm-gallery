@@ -9,14 +9,16 @@
         {{site.site}} ({{site.total}})
       {{/link-to}}
       </h4>
-      {{#photo-swipe items=site.items as |img|}}
-        {{#if (is-equal img.info.type 'album')}}
-          {{#link-to 'album/detail' site.site (g-short-album-id img.info.id true)}}
-            <img src={{img.small}} alt={{img.title}} />
-          {{/link-to}}
-        {{else}}
-          <img src={{img.small}} alt={{img.title}} />
-        {{/if}}
+      {{#photo-swipe items=site.items history=false as |photoswipe|}}
+        {{#each site.items as |item index|}}
+          {{#if (is-equal item.info.type 'album')}}
+            {{#link-to 'album/detail' site.site (g-short-album-id item.info.id true)}}
+              <img src={{item.small}} alt={{item.title}} />
+            {{/link-to}}
+          {{else}}
+            <img src={{item.small}} alt={{item.title}} {{action photoswipe.actions.open (hash index=index)}} />
+          {{/if}}
+        {{/each}}
       {{/photo-swipe}}
     {{/if}}
 

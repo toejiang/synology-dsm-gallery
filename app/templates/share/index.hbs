@@ -9,10 +9,12 @@
         {{site.site}} ({{site.total}})
       {{/link-to}}
       </h4>
-      {{#photo-swipe items=site.items as |img|}}
-        {{#link-to 'share/detail' site.site img.info.additional.public_share.shareid}}
-          <img src={{img.small}} alt={{img.title}} />
-        {{/link-to}}
+      {{#photo-swipe items=site.items history=false as |photoswipe|}}
+        {{#each site.items as |item index|}}
+          {{#link-to 'share/detail' site.site item.info.additional.public_share.shareid}}
+            <img src={{item.small}} alt={{item.title}} />
+          {{/link-to}}
+        {{/each}}
       {{/photo-swipe}}
     {{/if}}
 
