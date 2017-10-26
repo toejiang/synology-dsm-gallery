@@ -3,7 +3,7 @@
 
   {{#photo-swipe items=model.items as |img|}}
     {{#link-to 'share/detail' model.site img.info.additional.public_share.shareid}}
-      <img src={{img.src}} alt={{img.title}} />
+      <img src={{img.small}} alt={{img.title}} />
     {{/link-to}}
   {{/photo-swipe}}
 

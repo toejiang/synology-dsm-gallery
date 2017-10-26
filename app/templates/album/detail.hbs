@@ -1,13 +1,15 @@
 {{gallery-album-path site=model.site path=model.path}}
 {{#if model.album.items}}
   {{#photo-swipe items=model.album.items as |img|}}
+
     {{#if (is-equal img.info.type 'album')}}
       {{#link-to 'album/detail' (g-short-album-id img.info.id true)}}
-        <img src={{img.src}} alt={{img.title}} />
+        <img src={{img.small}} alt={{img.title}}/>
       {{/link-to}}
     {{else}}
-      <img src={{img.src}} alt={{img.title}} />
+      <img src={{img.small}} alt={{img.title}}/>
     {{/if}}
+
   {{/photo-swipe}}
 {{/if}}
 {{outlet}}

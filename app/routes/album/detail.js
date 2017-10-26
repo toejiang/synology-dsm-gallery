@@ -46,10 +46,11 @@ export default Ember.Route.extend({
       res.data.items.forEach((item) => {
         items.push(
           RSVP.hash({
-            src: utils.getAlbumImageSrc(site, item, 'small'),
-            w: item.additional.thumb_size.small.resolutionx,
-            h: item.additional.thumb_size.small.resolutiony,
-            msrc: utils.getAlbumImageSrc(site, item, 'large'),
+            src: utils.getAlbumImageSrc(site, item, 'large'),
+            w: item.additional.thumb_size.large.resolutionx,
+            h: item.additional.thumb_size.large.resolutiony,
+            msrc: utils.getAlbumImageSrc(site, item, 'preview'),
+            small: utils.getAlbumImageSrc(site, item, 'small'),
             pid: item.id,
             info: item,
           })

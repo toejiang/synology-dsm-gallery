@@ -4,16 +4,18 @@
 
     {{#if (is-equal site.total 0)}}
     {{else}}
+      <h4>
       {{#link-to 'album/site' site.site}}
-        <h3>{{site.site}} ({{site.total}})</h3>
+        {{site.site}} ({{site.total}})
       {{/link-to}}
+      </h4>
       {{#photo-swipe items=site.items as |img|}}
         {{#if (is-equal img.info.type 'album')}}
           {{#link-to 'album/detail' site.site (g-short-album-id img.info.id true)}}
-            <img src={{img.src}} alt={{img.title}} />
+            <img src={{img.small}} alt={{img.title}} />
           {{/link-to}}
         {{else}}
-          <img src={{img.src}} alt={{img.title}} />
+          <img src={{img.small}} alt={{img.title}} />
         {{/if}}
       {{/photo-swipe}}
     {{/if}}
