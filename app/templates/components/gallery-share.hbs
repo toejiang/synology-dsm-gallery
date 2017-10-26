@@ -1,8 +1,0 @@
-{{#if albums}}
-  <ul>
-    {{#each albums as |album|}}
-      <li>{{gallery-share-image route='share/detail' album=album}}</li>
-    {{/each}}
-  </ul>
-{{/if}}
-{{yield}}

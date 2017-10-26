@@ -18,7 +18,6 @@ export default Ember.Controller.extend({
   getResult: '',
   pathResult: '', pathQryParam: 'album_6361722f6769726c73',
   albumResult: '', albumQryParam: 'album_636172',
-  getResult: '',
   accurResult: '',
   smartResult: '',
   photoResult: '', photoQryHash: '{filter_smart:\'smart_622e736d6172742e7331\'}',
@@ -32,9 +31,8 @@ export default Ember.Controller.extend({
         this.set('infoResult', 'OK');
         Ember.Logger.info('doInfo: '+JSON.stringify(res));
         return res;
-      }).catch((e)=>{
+      }).catch(()=>{
         this.set('infoResult', 'ERR');
-        ;
       });
     },
     doAuth() {
@@ -43,7 +41,7 @@ export default Ember.Controller.extend({
         this.set('authResult', 'OK');
         Ember.Logger.info('doAuth: '+JSON.stringify(res));
         return res;
-      }).catch((e)=>{
+      }).catch(()=>{
         this.set('authResult', 'ERR');
       });
     },
@@ -57,7 +55,7 @@ export default Ember.Controller.extend({
           this.set('authResult', 'login failed');
         Ember.Logger.info('doLogin: '+JSON.stringify(res));
         return res;
-      }).catch((e)=>{
+      }).catch(()=>{
         this.set('authResult', 'ERR');
       });
     },
@@ -67,7 +65,7 @@ export default Ember.Controller.extend({
         this.set('authResult', 'logout OK');
         Ember.Logger.info('doLogin: '+JSON.stringify(res));
         return res;
-      }).catch((e)=>{
+      }).catch(()=>{
         this.set('authResult', 'ERR');
       });
     },
@@ -77,13 +75,12 @@ export default Ember.Controller.extend({
       this.get('path').checkpath(this.get('apiSite'), {
         token: Utils.getPathQueryParamByAlbumId(qryToken),
         method: 'checkpath',
-      }).then((res)=>{
+      }).then(()=>{
         Ember.Logger.info('doPath OK');
         this.set('pathResult', 'OK');
-      }).catch(e=>{
+      }).catch(()=>{
         this.set('pathResult', 'ERR');
         Ember.Logger.error('doPath error');
-        Ember.Logger.error(e);
       });
     },
     doAlbum() {
@@ -95,14 +92,13 @@ export default Ember.Controller.extend({
           id: qryId,
           type: 'album,photo,video',
           additional: 'album_permission,photo_exif,video_codec,video_quality,thumb_size,file_location',
-        }).then(res=>{
+        }).then(()=>{
           this.toggleProperty('isExpanded');
           Ember.Logger.info('doAlbum: OK');
           this.set('albumResult', 'OK');
-        }).catch(e=>{
+        }).catch(()=>{
           this.set('albumResult', 'ERR');
           Ember.Logger.error('doAlbum error');
-          Ember.Logger.error(e);
         });
       } else {
         this.set('albumResult', 'clear');
@@ -127,7 +123,7 @@ export default Ember.Controller.extend({
       this.get('album').list(this.get('apiSite'), {
           id: 'dslkf',
           type: 'album',
-      }).then((res)=>{
+      }).then(()=>{
         this.set('getResult', 'OK');
       }).catch((err)=>{
         this.set('getResult', 'ERR');
@@ -177,7 +173,6 @@ export default Ember.Controller.extend({
     },
     doSite() {
       this.set('siteResult', 'waiting...');
-      var hash = {}, promise = null;
       this.get('accur').site()
       .then((res) => {
         this.set('siteResult', JSON.stringify(res));
@@ -185,10 +180,7 @@ export default Ember.Controller.extend({
     },
     doXhr() {
       this.set('xhrResult', 'waiting...');
-      var hash = {}, promise = null;
       this.get('accur').site()
-      .then((res) => {
-      })
       .then((res) => {
         this.set('xhrResult', JSON.stringify(res));
       });

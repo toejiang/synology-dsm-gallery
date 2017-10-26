@@ -7,10 +7,9 @@ export default Ember.Service.extend({
   api: Ember.inject.service('synology-apiinfo'),
 
   auth(method, site, hash) {
-    var site = (!site || site === '') ? 'root' : site,
-      hash = hash || {},
-      session = this.get('session'),
-      cookies = this.get('cookies'),
+    site = (!site || site === '') ? 'root' : site;
+    hash = hash || {};
+    var session = this.get('session'),
       ajax = this.get('ajax'),
       api = this.get('api');
 
@@ -27,7 +26,6 @@ export default Ember.Service.extend({
       }).then(res => {
         Ember.Logger.info('auth result: ' + JSON.stringify(res));
         if(res.success && res.success === true) {
-        //  cookies.write('PHPSESSID', res.data.sid);
           session.set('data.synology', res.data);
         }
         return res;

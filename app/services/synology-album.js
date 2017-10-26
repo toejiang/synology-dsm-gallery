@@ -6,7 +6,7 @@ export default Ember.Service.extend({
 
   // param hash: form data to send
   // hash = {
-	//   id: '',
+  //   id: '',
   //   sort_by: 'preference',
   //   sort_direction: 'asc',
   //   offset: 0,
@@ -21,7 +21,7 @@ export default Ember.Service.extend({
     hash = hash || {};
     return this.get('api').api('album').then((api) => {
       return this.get('ajax').post(api.url[site], {
-		 	  data:{
+        data:{
           id: hash.id || '',
           sort_by: hash.sort_by || 'preference',
           sort_direction: hash.direction || 'asc',
@@ -34,8 +34,8 @@ export default Ember.Service.extend({
           type: hash.type || 'album',
           additional: hash.additional || 'album_permission',
           ignore: hash.ignore || '',
-					ps_username: '',
-		 	  }
+          ps_username: '',
+        }
       }).then((res) => {
         if(res.success) {
           return res;

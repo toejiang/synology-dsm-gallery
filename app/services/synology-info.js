@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Service.extend({
   ajax: Ember.inject.service('synology-ajax'),
   api: Ember.inject.service('synology-apiinfo'),
+
   getinfo(site, hash) {
     site = (!site || site === '') ? 'root' : site;
     hash = hash || {};
@@ -18,7 +19,7 @@ export default Ember.Service.extend({
         if(res.success) {
           return res;
         } else {
-          throw new Error('get info failed');
+          throw new Error('get info failed ' + hash);
         }
       });
   });

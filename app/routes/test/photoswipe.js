@@ -5,7 +5,7 @@ export default Ember.Route.extend({
   album: Ember.inject.service('synology-album'),
   utils: Ember.inject.service('synology-utils'),
 
-  model(path) {
+  model() {
     return this.get('album').list('root', {
       id: 'album_636172',
       type: 'album,photo,video',

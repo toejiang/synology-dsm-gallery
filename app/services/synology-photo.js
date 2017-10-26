@@ -22,7 +22,7 @@ export default Ember.Service.extend({
 
   listalbum(site, hash) {
     hash = hash || {};
-		var data = {
+    var data = {
       filter_album: hash.filter_album || '',
       //api: api.api,
       //version: 1,
@@ -34,7 +34,7 @@ export default Ember.Service.extend({
       limit: hash.limit || -1,
       sort_by: hash.sort_by || 'preference',
       sort_direction: hash.direction || 'asc',
-	  };
+    };
     return this._do_list(site, {data:data});
   },
 
@@ -52,7 +52,7 @@ export default Ember.Service.extend({
       limit: hash.limit || -1,
       sort_by: hash.sort_by || 'preference',
       sort_direction: hash.direction || 'asc',
-		};
+    };
     return this._do_list(site, {data:data});
   },
 
@@ -69,7 +69,7 @@ export default Ember.Service.extend({
       limit: hash.limit || -1,
       sort_by: hash.sort_by || 'preference',
       sort_direction: hash.direction || 'asc',
-		};
+    };
     return this._do_list(site, {data:data});
   },
 });

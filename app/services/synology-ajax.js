@@ -16,12 +16,12 @@ export default AjaxService.extend({
   }),
 
   _makeRequest(hash) {
-    self = this;
     hash = hash || {};
+    var _self = this;
     let beforesend = hash.beforeSend;
     hash.beforeSend = (xhr)=>{
       xhr.withCredentials = true;
-      let h = self.get('headers');
+      let h = _self.get('headers');
       //let h = {'X-Syno-Token': this.get('cookies').read('PHPSESSID')};
       //let h = {'X-Syno-Token': this.get('session').get('data.syno-phpsessid') || ''};
       for(var k in h) {

@@ -1,5 +1,9 @@
 <div> ================ test ============= </div>
 
+{{#link-to 'test.photoswipe'}}Photoswipe{{/link-to}}
+<span> | </span>
+<span>{{#link-to 'test.api'}}API{{/link-to}}</span>
+
 <ul>
 <li>User:{{input value=apiSite}}</li>
 <li><button {{action "doInfo"}}>info</button>{{infoResult}}</li>
@@ -14,12 +18,3 @@
 <li><button {{action "doSite"}}>site</button>{{siteResult}}</li>
 <li><button {{action "doXhr"}}>test xhr</button>{{input value=xhrUrl}}{{xhrResult}}</li>
 </ul>
-
-<h/>
-{{#if isExpanded}}
-<ul>
-{{#each album.items as |it|}}
-  <li>{{gallery-album-image route='album/detail' album=it}}</li>
-{{/each}}
-</ul>
-{{/if}}

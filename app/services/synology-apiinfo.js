@@ -88,12 +88,11 @@ export default Ember.Service.extend({
 
   doInit() {
     let _self = this;
-    var api = _self.get('_apiInfo');
     var ajax = _self.get('ajax');
     var conf = this.parseSynoApiURL();
     var sites = null;
     return RSVP.hash({
-      sites: _self.checkEnabledSite(conf.rootUrl),
+      sites: conf.siteUrl ? _self.checkEnabledSite(conf.rootUrl) : false,
       config: _self.parseSynoApiURL(),
       apiinfo: ajax.post(conf.rootUrl + 'query.php', {
         data:{
@@ -285,7 +284,7 @@ export default Ember.Service.extend({
       } else {
         return false;
       }
-    }).catch((err) => {
+    }).catch(() => {
       Ember.Logger.info('error, no additional site has enabled');
       return false;
     });

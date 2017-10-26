@@ -6,7 +6,7 @@ export default Ember.Route.extend({
   album: Ember.inject.service('synology-album'),
   utils: Ember.inject.service('synology-utils'),
 
-  model(path) {
+  model() {
     return this.get('api').sites().then((arr) => {
       return ['root'].concat(arr ? arr : []);
     })

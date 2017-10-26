@@ -17,7 +17,6 @@ export default Ember.Route.extend({
 
 		var path = this.get('path'),
 			album = this.get('album'),
-			show = this.get('show'),
       site = params.site_id;
 		var promises = {
       site: site,
