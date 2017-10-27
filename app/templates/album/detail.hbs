@@ -1,17 +1,18 @@
 {{gallery-album-path site=model.site path=model.path}}
 {{#if model.album.items}}
-  {{#photo-swipe items=model.album.items history=false as |photoswipe|}}
+  {{#gallery-photoswipe items=model.album.items history=false as |open photoswipe|}}
 
     {{#each model.album.items as |item index|}}
       {{#if (is-equal item.info.type 'album')}}
         {{#link-to 'album/detail' (g-short-album-id item.info.id true)}}
-          <img src={{item.small}} alt={{item.title}}/>
+          <img id={{item.info.id}} src={{item.small}} alt={{item.title}} onload='if(this.height>320)this.height=320' />
         {{/link-to}}
       {{else}}
-        <img src={{item.small}} alt={{item.title}} {{action photoswipe.actions.open (hash index=index)}} />
+        <img id={{item.info.id}} src={{item.small}} alt={{item.title}} onload='if(this.height>320)this.height=320'
+          {{action open photoswipe index}} />
       {{/if}}
     {{/each}}
 
-  {{/photo-swipe}}
+  {{/gallery-photoswipe}}
 {{/if}}
 {{outlet}}
