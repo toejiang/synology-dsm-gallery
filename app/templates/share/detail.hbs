@@ -2,7 +2,7 @@
 {{#if model.share.items}}
   {{#gallery-photoswipe items=model.share.items history=false as |open photoswipe|}}
     {{#each model.share.items as |item index|}}
-      <img id={{item.info.id}} src={{item.small}} alt={{item.title}} onload='if(this.height>320)this.height=320'
+      <img id={{item.info.id}} src={{item.msrc}} alt={{item.title}} onload='if(this.height>320)this.height=320'
         {{action open photoswipe index}} />
     {{/each}}
   {{/gallery-photoswipe}}

@@ -49,8 +49,8 @@ export default Ember.Route.extend({
             src: utils.getAlbumImageSrc(site, item, 'large'),
             w: item.additional.thumb_size.large.resolutionx,
             h: item.additional.thumb_size.large.resolutiony,
-            msrc: utils.getAlbumImageSrc(site, item, 'preview'),
-            small: utils.getAlbumImageSrc(site, item, 'small'),
+            msrc: utils.getAlbumImageSrc(site, item, 'small'),
+            preview: utils.getAlbumImageSrc(site, item, 'preview'),
             pid: item.id,
             info: item,
           })

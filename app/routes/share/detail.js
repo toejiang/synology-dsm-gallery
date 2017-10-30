@@ -27,8 +27,8 @@ export default Ember.Route.extend({
             src: utils.getShareImageSrc(site, item, 'large', shareId),
             w: item.additional.thumb_size.large.resolutionx,
             h: item.additional.thumb_size.large.resolutiony,
-            msrc: utils.getShareImageSrc(site, item, 'preview', shareId),
-            small: utils.getShareImageSrc(site, item, 'small', shareId),
+            msrc: utils.getShareImageSrc(site, item, 'small', shareId),
+            preview: utils.getShareImageSrc(site, item, 'preview', shareId),
             pid: item.id,
             info: item,
           })

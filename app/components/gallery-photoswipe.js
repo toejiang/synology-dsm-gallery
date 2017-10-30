@@ -1,6 +1,8 @@
 import Component from '@ember/component';
 
 export default Component.extend({
+  itemProperties: ['src', 'w', 'h', 'msrc'],
+
   actions: {
     open(photoswipe, index, hash) {
       hash = hash || {};

@@ -12,7 +12,7 @@
       {{#gallery-photoswipe items=site.items history=false as |open photoswipe|}}
         {{#each site.items as |item index|}}
           {{#link-to 'share/detail' site.site item.info.additional.public_share.shareid}}
-            <img id={{item.info.id}} src={{item.small}} alt={{item.title}} onload='if(this.height>320)this.height=320' />
+            <img id={{item.info.id}} src={{item.msrc}} alt={{item.title}} onload='if(this.height>320)this.height=320' />
           {{/link-to}}
         {{/each}}
       {{/gallery-photoswipe}}

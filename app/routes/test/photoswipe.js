@@ -21,8 +21,8 @@ export default Ember.Route.extend({
             w: a.additional.thumb_size.large.resolutionx,
             h: a.additional.thumb_size.large.resolutiony,
             title: a.info.title,
-            msrc: utils.getAlbumImageSrc('root', a, 'preview'),
-            small: utils.getAlbumImageSrc('root', a, 'small'),
+            msrc: utils.getAlbumImageSrc('root', a, 'small'),
+            preview: utils.getAlbumImageSrc('root', a, 'preview'),
             info: a,
           })
         );

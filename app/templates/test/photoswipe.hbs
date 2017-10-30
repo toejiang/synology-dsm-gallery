@@ -2,10 +2,10 @@
   {{#each model as |item index|}}
     {{#if (is-equal item.info.type 'album')}}
       {{#link-to 'album/detail' (g-short-album-id item.info.id true)}}
-        <img id={{item.info.id}} class="thumb" src={{item.small}} alt={{item.title}}>
+        <img id={{item.info.id}} class="thumb" src={{item.msrc}} alt={{item.title}}>
       {{/link-to}}
     {{else}}
-        <img id={{item.info.id}} class="thumb" src={{item.small}} alt={{item.title}} {{action open photoswipe index}} />
+        <img id={{item.info.id}} class="thumb" src={{item.msrc}} alt={{item.title}} {{action open photoswipe index}} />
     {{/if}}
   {{/each}}
 {{/gallery-photoswipe}}
