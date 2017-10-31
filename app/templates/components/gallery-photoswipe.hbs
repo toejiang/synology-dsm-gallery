@@ -1,4 +1,16 @@
-{{#photo-swipe items=items history=false showHideOpacity=false bgOpacity=0.84 itemProperties=itemProperties as |photoswipe|}}
+{{#photo-swipe
+  items=items
+  history=false
+  showHideOpacity=showHideOpacity
+  bgOpacity=bgOpacity
+  itemProperties=itemProperties
+  barsSize=barsSize
+  timeToIdle=timeToIdle
+  additionalButtons=additionalButtons
+  getThumbBoundsFn=(action 'getThumbBoundsFn')
+  as |photoswipe|}}
+
   {{yield (action 'open') photoswipe}}
+
 {{/photo-swipe}}
 
