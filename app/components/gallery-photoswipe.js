@@ -38,5 +38,11 @@ export default Component.extend({
       hash.index = this.get('albumInfo.items').indexOf(item);
       this.get('photoswipe').actions.open(hash);
     },
+
+    popup(item) {
+      var hash = {};
+      hash.index = this.get('albumInfo.items').indexOf(item);
+      this.get('popup').actions.open(hash);
+    }
   },
 });

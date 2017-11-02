@@ -72,4 +72,16 @@ export default Ember.Service.extend({
     };
     return this._do_list(site, {data:data});
   },
+
+  getexif(site, hash) {
+    hash = hash || {};
+    var data = {
+      id: hash.id || '',
+      //api: api.api,
+      //version: 1,
+      method: 'getexif',
+      ps_username: '',
+    };
+    return this._do_list(site, {data:data});
+  },
 });

@@ -1,0 +1,14 @@
+{{yield this}}
+
+<div id="image-info-popup" class="mfp-hide gallery-image-info-popup" >
+
+  <img style='width=90%' src={{popupItem.item.msrc}} />
+  {{#with (await popupItem.detail) as |detail|}}
+    <ul>
+      {{#each detail.data.exifs as |exif|}}
+        <li>{{exif.label}}: {{exif.value}}</li>
+      {{/each}}
+    </ul>
+  {{/with}}
+
+</div>

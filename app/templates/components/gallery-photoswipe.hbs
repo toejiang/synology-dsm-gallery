@@ -33,7 +33,7 @@
 
     {{else}}
 
-      {{gallery-image-wrap imgId=item.info.id item=item imageClick=(action 'open')}}
+      {{gallery-image-wrap imgId=item.info.id item=item imageClick=(action 'open') detailClick=(action 'popup')}}
 
     {{/if}}
 
@@ -59,9 +59,9 @@
 
 {{/photo-swipe}}
 
-{{#gallery-image-info as |popup|}}
+{{#gallery-image-info-popup albumInfo=albumInfo as |popup|}}
   {{set-property this 'popup' popup}}
-{{/gallery-image-info}}
+{{/gallery-image-info-popup}}
 
 <div class='gallery-clear' />
 
