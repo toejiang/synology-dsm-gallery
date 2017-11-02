@@ -1,0 +1,25 @@
+<div class='gallery-image-wrap-outer'
+    onmouseover={{action 'mouseIn'}}
+    onmouseout={{action 'mouseOut'}}
+>
+
+  {{#if hasBlock}}
+    {{yield}}
+  {{else}}
+    <img
+      id={{imgId}}
+      {{action 'imageClick'}}
+      src={{item.msrc}}
+      alt={{item.title}}
+      class='gallery-image-wrap-img'
+      onload='if(this.height>320)this.height=320'
+    />
+  {{/if}}
+
+    <div class='gallery-image-wrap-detail-outer gallery-image-wrap-detail-outer-hidden' > 
+      <div class='gallery-image-wrap-detail-inner'>
+        {{buttonLabel}}
+      </div>
+    </div> 
+</div>
+

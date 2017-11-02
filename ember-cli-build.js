@@ -21,5 +21,8 @@ module.exports = function(defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
 
+  app.import('node_modules/magnific-popup/dist/jquery.magnific-popup.js');
+  app.import('node_modules/magnific-popup/dist/magnific-popup.css');
+
   return app.toTree();
 };

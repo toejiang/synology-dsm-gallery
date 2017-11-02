@@ -1,5 +1,50 @@
+
+{{#unless hasBlock}}
+
+  {{#each albumInfo.items as |item index|}}
+
+    {{#if (is-equal item.info.type 'album')}}
+
+      {{#gallery-image-wrap item=item buttonLabel='album'}}
+        {{#link-to 'album/detail' albumInfo.site (g-short-album-id item.info.id true)}}
+          <img
+            id={{item.info.id}}
+            src={{item.msrc}}
+            alt={{item.title}}
+            class='gallery-image-wrap-img'
+            onload='if(this.height>320)this.height=320'
+          />
+        {{/link-to}}
+      {{/gallery-image-wrap}}
+
+    {{else if (is-equal item.info.type 'sharedalbum')}}
+
+      {{#gallery-image-wrap item=item buttonLabel='album'}}
+        {{#link-to 'share/detail' albumInfo.site item.info.additional.public_share.shareid}}
+          <img
+            id={{item.info.id}}
+            src={{item.msrc}}
+            alt={{item.title}}
+            class='gallery-image-wrap-img'
+            onload='if(this.height>320)this.height=320'
+          />
+        {{/link-to}}
+      {{/gallery-image-wrap}}
+
+    {{else}}
+
+      {{gallery-image-wrap imgId=item.info.id item=item imageClick=(action 'open')}}
+
+    {{/if}}
+
+  {{/each}}
+
+{{/unless}}
+
+{{yield (action 'open') photoswipe popup}}
+
 {{#photo-swipe
-  items=items
+  items=albumInfo.items
   history=false
   showHideOpacity=showHideOpacity
   bgOpacity=bgOpacity
@@ -10,7 +55,13 @@
   getThumbBoundsFn=(action 'getThumbBoundsFn')
   as |photoswipe|}}
 
-  {{yield (action 'open') photoswipe}}
+  {{set-property this 'photoswipe' photoswipe}}
 
 {{/photo-swipe}}
+
+{{#gallery-image-info as |popup|}}
+  {{set-property this 'popup' popup}}
+{{/gallery-image-info}}
+
+<div class='gallery-clear' />
 

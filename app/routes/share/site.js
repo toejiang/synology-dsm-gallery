@@ -6,6 +6,28 @@ export default Ember.Route.extend({
   accur: Ember.inject.service('synology-accur'),
   utils: Ember.inject.service('synology-utils'),
 
+  //  return like:
+  //  {
+  //    site: 'root',
+  //    total: 2,
+  //    offset: 0,
+  //    items: [
+  //      {
+  //        src: 'http://your-nas.com/photo/webapi/thumbnail.php?size=large&xxx=xx',
+  //        w: 240,
+  //        h: 320,
+  //        msrc: 'http://your-nas.com/photo/webapi/thumbnail.php?size=small&xxx=xx',
+  //        ...
+  //      },
+  //      {
+  //        src: 'http://your-nas.com/photo/webapi/thumbnail.php?size=large&xxx=xx',
+  //        w: 240,
+  //        h: 320,
+  //        msrc: 'http://your-nas.com/photo/webapi/thumbnail.php?size=small&xxx=xx',
+  //        ...
+  //      },
+  //    ],
+  //  }
   model(params) {
     var site = params.site_id;
 

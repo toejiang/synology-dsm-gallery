@@ -7,6 +7,31 @@ export default Ember.Route.extend({
   path: Ember.inject.service('synology-path'),
   utils: Ember.inject.service('synology-utils'),
 
+  //  return like:
+  //  {
+  //    path: ...
+  //    album: {
+  //      site: 'root',
+  //      total: 2,
+  //      offset: 0,
+  //      items: {
+  //        {
+  //          src: 'http://your-nas.com/photo/webapi/thumbnail.php?size=large&xxx=xx',
+  //          w: 240,
+  //          h: 320,
+  //          msrc: 'http://your-nas.com/photo/webapi/thumbnail.php?size=small&xxx=xx',
+  //          ...
+  //        },
+  //        {
+  //          src: 'http://your-nas.com/photo/webapi/thumbnail.php?size=large&xxx=xx',
+  //          w: 240,
+  //          h: 320,
+  //          msrc: 'http://your-nas.com/photo/webapi/thumbnail.php?size=small&xxx=xx',
+  //          ...
+  //        },
+  //      }
+  //    }
+  //  }
   model(params) {
 		if(!params.site_id || params.site_id === '') {
       this.transitionTo('album');
@@ -57,6 +82,7 @@ export default Ember.Route.extend({
         );
       });
       return RSVP.hash({
+        site: site,
         total: res.data.total,
         offset: res.data.offset,
         items: RSVP.all(items),

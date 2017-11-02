@@ -2,21 +2,20 @@
 {{#if model}}
   {{#each model as |site|}}
 
-    {{#if (is-equal site.total 0)}}
-    {{else}}
-      <h4>
-      {{#link-to 'share/site' site.site}}
-        {{site.site}} ({{site.total}})
-      {{/link-to}}
-      </h4>
-      {{#gallery-photoswipe items=site.items history=false as |open photoswipe|}}
-        {{#each site.items as |item index|}}
-          {{#link-to 'share/detail' site.site item.info.additional.public_share.shareid}}
-            <img id={{item.info.id}} src={{item.msrc}} alt={{item.title}} onload='if(this.height>320)this.height=320' />
+    {{#unless (is-equal site.total 0)}}
+      <div class='ember-view'>
+        <h4>
+          {{#link-to 'share/site' site.site}}
+            {{site.site}} ({{site.total}})
           {{/link-to}}
-        {{/each}}
-      {{/gallery-photoswipe}}
-    {{/if}}
+        </h4>
+        {{gallery-photoswipe albumInfo=site}}
+      </div>
+
+      {{!-- the 'gallery-clear' is nessesary here to clear 'float:left' effect, to make each site images apart --}}
+      <div class='gallery-clear'/>
+
+    {{/unless}}
 
   {{/each}}
 {{/if}}

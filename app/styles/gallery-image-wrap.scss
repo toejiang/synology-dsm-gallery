@@ -1,0 +1,40 @@
+.gallery-image-wrap {
+}
+
+.gallery-image-wrap-outer {
+  display:block;
+  float:left;
+  position:relative;
+  border: 2px solid transparent;
+  margin: 0px;
+}
+
+.gallery-image-wrap-outer-hover {
+  border: 2px solid #63A9FA;
+}
+
+.gallery-image-wrap-img {
+  display: block;
+  float: left;
+  border: 0px solid transparent;
+}
+
+.gallery-image-wrap-detail-outer-hidden {
+  visibility: hidden;
+}
+
+.gallery-image-wrap-detail-outer {
+  position: absolute;
+  right:12px;
+  top:12px;
+  background-color: #63A9FA;
+  border-radius: 7px;
+  padding: 2px 6px;
+}
+
+.gallery-image-wrap-detail-inner {
+  text-align: center;
+  color: white;
+  margin: 3px 6px;
+}
+

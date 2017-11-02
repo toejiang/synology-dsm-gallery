@@ -1,11 +1,1 @@
-{{#gallery-photoswipe items=model history=false as |open photoswipe|}}
-  {{#each model as |item index|}}
-    {{#if (is-equal item.info.type 'album')}}
-      {{#link-to 'album/detail' (g-short-album-id item.info.id true)}}
-        <img id={{item.info.id}} class="thumb" src={{item.msrc}} alt={{item.title}}>
-      {{/link-to}}
-    {{else}}
-        <img id={{item.info.id}} class="thumb" src={{item.msrc}} alt={{item.title}} {{action open photoswipe index}} />
-    {{/if}}
-  {{/each}}
-{{/gallery-photoswipe}}
+{{gallery-photoswipe albumInfo=model}}

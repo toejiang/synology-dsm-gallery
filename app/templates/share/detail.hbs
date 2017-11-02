@@ -1,10 +1,7 @@
 {{gallery-share-path site=model.site shareid=model.shareid}}
-{{#if model.share.items}}
-  {{#gallery-photoswipe items=model.share.items history=false as |open photoswipe|}}
-    {{#each model.share.items as |item index|}}
-      <img id={{item.info.id}} src={{item.msrc}} alt={{item.title}} onload='if(this.height>320)this.height=320'
-        {{action open photoswipe index}} />
-    {{/each}}
-  {{/gallery-photoswipe}}
+{{#if model.items}}
+
+  {{gallery-photoswipe albumInfo=model}}
+
 {{/if}}
 {{outlet}}

@@ -1,6 +1,8 @@
 import Component from '@ember/component';
 
 export default Component.extend({
+  tagName: 'div',
+  classNames: 'gallery-photoswipe-site-items',
 
   showHideOpacity: false,
   bgOpacity: 0.9,
@@ -21,19 +23,20 @@ export default Component.extend({
 
   actions: {
     getThumbBoundsFn: function getThumbBoundsFn(index) {
-      var items = this.get('items'),
+      var items = this.get('albumInfo.items'),
         item = items ? items[index] : null,
         id = item ? item.info.id : 0,
         ele = this.$('#'+id),
-        pos = ele ? ele.position() : {left:0,top:0},
+        pos = ele ? ele.offset() : {left:0,top:0},
+        //ps = ele ? ele.position() : {left:0,top:0},
         width = ele ? ele.width() : 0;
       return {x:pos.left, y:pos.top, w:width};
     },
 
-    open(photoswipe, index, hash) {
-      hash = hash || {};
-      hash.index = index;
-      photoswipe.actions.open(hash);
+    open(item) {
+      var hash = {};
+      hash.index = this.get('albumInfo.items').indexOf(item);
+      this.get('photoswipe').actions.open(hash);
     },
   },
 });

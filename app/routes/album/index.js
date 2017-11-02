@@ -6,6 +6,36 @@ export default Ember.Route.extend({
   album: Ember.inject.service('synology-album'),
   utils: Ember.inject.service('synology-utils'),
 
+  //  return like:
+  //  [
+  //    {
+  //      site: 'root',
+  //      total: 2,
+  //      offset: 0,
+  //      items: [
+  //        {
+  //          src: 'http://your-nas.com/photo/webapi/thumbnail.php?size=large&xxx=xx',
+  //          w: 240,
+  //          h: 320,
+  //          msrc: 'http://your-nas.com/photo/webapi/thumbnail.php?size=small&xxx=xx',
+  //          ...
+  //        },
+  //        {
+  //          src: 'http://your-nas.com/photo/webapi/thumbnail.php?size=large&xxx=xx',
+  //          w: 240,
+  //          h: 320,
+  //          msrc: 'http://your-nas.com/photo/webapi/thumbnail.php?size=small&xxx=xx',
+  //          ...
+  //        },
+  //      ]
+  //    },
+  //    {
+  //      site: 'user1',
+  //      total: 1,
+  //      offset: 0,
+  //      items: [...]
+  //    }
+  //  ]
   model() {
     return this.get('api').sites().then((arr) => {
       return ['root'].concat(arr ? arr : []);
