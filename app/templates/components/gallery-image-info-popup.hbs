@@ -1,14 +1,69 @@
 {{yield this}}
 
-<div id="image-info-popup" class="mfp-hide gallery-image-info-popup" >
+<div id="image-info-popup" class="mfp-hide gallery-image-info-popup">
 
-  <img style='width=90%' src={{popupItem.item.msrc}} />
-  {{#with (await popupItem.detail) as |detail|}}
-    <ul>
-      {{#each detail.data.exifs as |exif|}}
-        <li>{{exif.label}}: {{exif.value}}</li>
-      {{/each}}
-    </ul>
+{{#with popupItem.item.info as |raw|}}
+
+{{!-- check if photo should place on top of popup panel --}}
+{{#with (g-determine-image-popup-top-left 'image-info-popup'
+  raw.additional.thumb_size.small.resolutionx
+  raw.additional.thumb_size.small.resolutiony) as |pos|}}
+
+  <div class="gallery-image-info-popup-img-wrap-{{if pos.placeTop 'top' 'left'}}">
+    <img src={{popupItem.item.msrc}} class='gallery-image-info-popup-img'/>
+  </div>
+  {{#if pos.placeTop}}
+    <div class='gallery-clear' ></div>
+  {{/if}}
+
+  <div class='gallery-image-info-popup-info'>
+    <h2 class='gallery-image-info-popup-info'>{{raw.info.title}}
+                      <span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 1) 'red' 'gray'}}"
+      >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 2) 'red' 'gray'}}"
+      >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 3) 'red' 'gray'}}"
+      >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 4) 'red' 'gray'}}"
+      >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 5) 'red' 'gray'}}"
+      >&hearts;</span>
+    </h2>
+    <div>{{raw.info.description}}</div>
+  </div>
+
+  {{#with (await popupItem.detail.exif) as |exif|}}
+    <div class='gallery-image-info-popup-exif'>
+      <h3 class='gallery-image-info-popup-exif'>EXIF
+        <span class='gallery-image-info-popup-filename'>
+          ({{raw.additional.file_location}},
+            {{raw.info.resolutionx}}x{{raw.info.resolutiony}},
+            {{raw.info.size}} bytes)
+        </span>
+      </h3>
+      <div>Model: {{exif.default.model}}</div>
+      <div>Time: {{exif.default.time}}</div>
+      <div>Exposure: {{exif.default.exposure}}</div>
+      <div>Aperture: {{exif.default.aperture}}</div>
+      <div>Focal: {{exif.default.focal}}</div>
+      <div>ISO: {{exif.default.iso}}</div>
+      <div>Flash: {{exif.default.flash}}</div>
+      <div>GPS: {{exif.default.gps}}</div>
+      {{#if showMoreEXIFs}}
+        <div class='gallery-clear' ></div>
+        <h4><a href='#' {{action 'toggleShowMoreEXIFs'}} title='click to close'>▼ hide extra EXIFs</a></h4>
+        <ul>
+          {{#each exif.all as |e|}}
+            <li>{{e.label}}: {{e.value}}</li>
+          {{/each}}
+        </ul>
+      {{else}}
+        <a href='#' {{action 'toggleShowMoreEXIFs'}} title='click to open exif'>► show extra EXIFs</a>
+      {{/if}}
+    </div>
   {{/with}}
+
+  <div class='gallery-clear' ></div>
+  {{#if (or pos.placeTop showMoreEXIFs)}}
+    <p>.</p>
+  {{/if}}
+{{/with}}
+{{/with}}
 
 </div>
