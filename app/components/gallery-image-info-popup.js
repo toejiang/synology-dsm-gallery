@@ -103,16 +103,23 @@ export default Ember.Component.extend({
         enabled: true,
       },
       callbacks: {
+        open: function() {
+          if(hash.open && typeof(hash.open) === 'function') {
+            hash.open(item);
+          }
+        }.bind(this),
         close: function() {
           var _curr = this.get('popupItem.item');
           if(_curr && _curr === item) {
             this.set('showMoreEXIFs', false);
             this.set('showLargeImage', false);
             this.set('popupItem', {item:null,detail:null});
+            if(hash.close && typeof(hash.close) === 'function') {
+              hash.close(item);
+            }
           }
         }.bind(this),
       },
     });
-
   },
 });

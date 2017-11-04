@@ -33,16 +33,36 @@ export default Component.extend({
       return {x:pos.left, y:pos.top, w:width};
     },
 
-    open(item) {
-      var hash = {};
-      hash.index = this.get('albumInfo.items').indexOf(item);
-      this.get('photoswipe').actions.open(hash);
+    onPhotoSwipeOpen(pswp) {
+      var open = this.get('onLightboxOpen');
+      if(open && typeof(open) === 'function')
+        open(this.get('albumInfo.items')[pswp.getCurrentIndex()]);
+    },
+
+    onPhotoSwipeChange(pswp) {
+      var change = this.get('onLightboxChange');
+      if(change && typeof(change) === 'function')
+        change(this.get('albumInfo.items')[pswp.getCurrentIndex()]);
+    },
+
+    onPhotoSwipeClose(pswp) {
+      var close = this.get('onLightboxClose');
+      if(close && typeof(close) === 'function')
+        close(this.get('albumInfo.items')[pswp.getCurrentIndex()]);
+    },
+
+    lightbox(item) {
+      this.get('photoswipe').actions.open({
+        index: this.get('albumInfo.items').indexOf(item),
+      });
     },
 
     popup(item) {
-      var hash = {};
-      hash.index = this.get('albumInfo.items').indexOf(item);
-      this.get('popup').actions.open(hash);
+      this.get('popup').actions.open({
+        index: this.get('albumInfo.items').indexOf(item),
+        open: this.get('onDetailOpen'),
+        close: this.get('onDetailClose'),
+      });
     }
   },
 });

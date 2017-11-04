@@ -33,7 +33,7 @@
 
     {{else}}
 
-      {{gallery-image-wrap imgId=item.info.id item=item imageClick=(action 'open') detailClick=(action 'popup')}}
+      {{gallery-image-wrap imgId=item.info.id item=item imageClick=(action 'lightbox') detailClick=(action 'popup')}}
 
     {{/if}}
 
@@ -41,7 +41,7 @@
 
 {{/unless}}
 
-{{yield (action 'open') photoswipe popup}}
+{{yield (action 'lightbox') photoswipe popup}}
 
 {{#photo-swipe
   items=albumInfo.items
@@ -53,6 +53,9 @@
   timeToIdle=timeToIdle
   additionalButtons=additionalButtons
   getThumbBoundsFn=(action 'getThumbBoundsFn')
+  onInitialZoomIn=(action 'onPhotoSwipeOpen')
+  onInitialZoomOut=(action 'onPhotoSwipeClose')
+  onAfterChange=(action 'onPhotoSwipeChange')
   as |photoswipe|}}
 
   {{set-property this 'photoswipe' photoswipe}}
