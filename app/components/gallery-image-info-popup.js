@@ -4,6 +4,8 @@ import $ from 'jquery';
 
 export default Ember.Component.extend({
   photo: Ember.inject.service('synology-photo'),
+  phototag: Ember.inject.service('synology-phototag'),
+  comment: Ember.inject.service('synology-comment'),
 
   showMoreEXIFs: false,
   showLargeImage: false,
@@ -33,7 +35,7 @@ export default Ember.Component.extend({
     return {x:pos.left, y:pos.top, w:width};
   },
 
-  getexif(item, site, hash) {
+  getexif(site, hash) {
     return this.get('photo').getexif(site, hash)
     .then((res) => {
       var j = {};
@@ -59,6 +61,19 @@ export default Ember.Component.extend({
     });
   },
 
+  gettags(site, hash) {
+    return this.get('phototag').list(site, hash)
+    .then((res) => {
+      var result = {people:[],geo:[],desc:[]};
+      res.data.tags.forEach((t) => {
+        if(t.type === 'people') result.people.push(t);
+        else if(t.type === 'geo') result.geo.push(t);
+        else if(t.type === 'desc') result.desc.push(t);
+      });
+      return result;
+    });
+  },
+
   open(hash) {
     var items = this.get('albumInfo.items'),
       site = this.get('albumInfo.site'),
@@ -72,8 +87,9 @@ export default Ember.Component.extend({
     this.set('popupItem', {
       item: item,
       detail: {
-        exif: this.getexif(item, site, {id: item.info.id}), // like: {default:{}, all:[]}
-        comments: [],
+        tag: this.gettags(site, {id: item.info.id}),
+        exif: this.getexif(site, {id: item.info.id}), // like: {default:{}, all:[]}
+        comments: this.get('comment').list(site, {id: item.info.id}).then(res=>res.data.comments),
       },
     });
 

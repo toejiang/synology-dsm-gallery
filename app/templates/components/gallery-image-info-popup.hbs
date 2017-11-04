@@ -25,7 +25,31 @@
       >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 5) 'red' 'gray'}}"
       >&hearts;</span>
     </h2>
+    {{#with (await popupItem.detail.tag) as |tag|}}
+      {{#if (or tag.people.length tag.geo.length tag.desc.length)}}
+        <div class='gallery-image-info-popup-taglist'>
+          {{#each tag.people as |p|}}<span class='gallery-image-info-popup-tag'>{{p.name}}</span>{{/each}}
+          {{#each tag.geo as |p|}}<span class='gallery-image-info-popup-tag'>{{p.name}}</span>{{/each}}
+          {{#each tag.desc as |p|}}<span class='gallery-image-info-popup-tag'>{{p.name}}</span>{{/each}}
+        </div>
+      {{/if}}
+    {{/with}}
     <div>{{raw.info.description}}</div>
+  </div>
+
+  <div class='gallery-image-info-popup-comment'>
+    <h2 class='gallery-image-info-popup-comment'>Comments
+      <a href='#'>new</a>
+    </h2>
+    {{#with (await popupItem.detail.comments) as |comments|}}
+      <ul class='gallery-image-info-popup-comment'>
+      {{#each comments as |cm|}}
+        <li class='gallery-image-info-popup-comment'>
+          <a href='#' title="{{cm.email}} at {{cm.date}}">{{cm.name}}</a>: {{cm.comment}}
+        </li>
+      {{/each}}
+      </ul>
+    {{/with}}
   </div>
 
   {{#with (await popupItem.detail.exif) as |exif|}}

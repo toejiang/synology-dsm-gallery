@@ -32,6 +32,36 @@ h2.gallery-image-info-popup-info {
   color: #ddd;
 }
 
+.gallery-image-info-popup-taglist {
+  font-size: 12px;
+  color: gray;
+  margin: 0 0 5px 0;
+}
+
+.gallery-image-info-popup-tag {
+  border: 1px solid gray;
+  border-radius: 6px;
+  margin: 0 2px 0 2px;
+  padding: 0 5px 0 5px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.gallery-image-info-popup-comment {
+  font-size: 14px;
+}
+
+h2.gallery-image-info-popup-comment {
+  margin: 15px 0 5px 0;
+}
+
+ul.gallery-image-info-popup-comment {
+  margin: 0px 0 5px 20px;
+}
+li.gallery-image-info-popup-comment {
+  list-style-type:none;
+}
+
 .gallery-image-info-popup-exif {
   margin: 0 20px 20px 20px;
   font-size: 14px;

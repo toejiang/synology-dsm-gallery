@@ -200,7 +200,7 @@ export default Ember.Service.extend({
         {key: "category",      api: "SYNO.PhotoStation.Category"      },
         {key: "about",         api: "SYNO.PhotoStation.About"         },
         {key: "tag",           api: "SYNO.PhotoStation.Tag"           },
-        {key: "tag",           api: "SYNO.PhotoStation.PhotoTag"      },
+        {key: "phototag",      api: "SYNO.PhotoStation.PhotoTag"      },
         {key: "comment",       api: "SYNO.PhotoStation.Comment"       },
         {key: "timeline",      api: "SYNO.PhotoStation.Timeline"      },
         {key: "group",         api: "SYNO.PhotoStation.Group"         },
