@@ -1,7 +1,12 @@
 {{gallery-share-path site=model.site shareid=model.shareid}}
 {{#if model.items}}
-
-  {{gallery-photoswipe albumInfo=model}}
+  {{gallery-photoswipe albumInfo=model
+    onDetailOpen=(action 'onDetailOpen')
+    onDetailClose=(action 'onDetailClose')
+    onLightboxOpen=(action 'onLightboxOpen')
+    onLightboxClose=(action 'onLightboxClose')
+    onLightboxChange=(action 'onLightboxChange')
+  }}
 
 {{/if}}
 {{outlet}}
