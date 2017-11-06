@@ -13,6 +13,9 @@ export default Ember.Controller.extend({
     onDetailClose(item) {
       this.set('popup', null);
     },
+    onDetailChange(item) {
+      this.set('popup', Utils.shortenPhotoId(item.info.id));
+    },
     onLightboxOpen(item) {
       this.set('lightbox', Utils.shortenPhotoId(item.info.id));
     },

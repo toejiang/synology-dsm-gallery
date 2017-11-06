@@ -83,22 +83,16 @@ export default Ember.Component.extend({
       return;
     }
 
-    // get the detail info and set to 'popupItem'
-    this.set('popupItem', {
-      item: item,
-      detail: {
-        tag: this.gettags(site, {id: item.info.id}),
-        exif: this.getexif(site, {id: item.info.id}), // like: {default:{}, all:[]}
-        comments: this.get('comment').list(site, {id: item.info.id}).then(res=>res.data.comments),
-      },
+    // build an array to make magnific-popup can change between slides,
+    // we update the '#image-info-popup' by setting property 'popupItem', and ember will re-render 
+    var popItems = [];
+    items.forEach((i) => {
+      popItems.push({type:'inline',src:'#'+this.get('popupId')});
     });
 
-    // then open popup
-    $.magnificPopup.open({
-      items: {
-        type: 'inline',
-        src: $('#image-info-popup'),
-      },
+    // build the arg for magnific-popup
+    var magnificArg = {
+      items: popItems,
       gallery: {
         enabled: true,
       },
@@ -108,18 +102,36 @@ export default Ember.Component.extend({
             hash.open(item);
           }
         }.bind(this),
-        close: function() {
-          var _curr = this.get('popupItem.item');
-          if(_curr && _curr === item) {
-            this.set('showMoreEXIFs', false);
-            this.set('showLargeImage', false);
-            this.set('popupItem', {item:null,detail:null});
-            if(hash.close && typeof(hash.close) === 'function') {
-              hash.close(item);
-            }
+        close: function(arg) {
+          this.set('showMoreEXIFs', false);
+          this.set('showLargeImage', false);
+          this.set('popupItem', {item:null,detail:null});
+          if(hash.close && typeof(hash.close) === 'function') {
+            var closeItem = this.get('albumInfo.items')[arg.index];
+            hash.close(closeItem);
+          }
+        }.bind(this),
+        change: function(arg) {
+          var toItem = this.get('albumInfo.items')[arg.index];
+          // get the detail info and set to 'popupItem'
+          this.set('popupItem', {
+            item: toItem,
+            detail: toItem.info.type === 'photo' ? {
+              tag: this.gettags(site, {id: toItem.info.id}),
+              exif: this.getexif(site, {id: toItem.info.id}), // like: {default:{}, all:[]}
+              comments: this.get('comment').list(site, {id: toItem.info.id}).then(res=>res.data.comments),
+            } : null,
+          });
+          if(hash.change && typeof(hash.change) === 'function') {
+            hash.change(toItem);
           }
         }.bind(this),
       },
-    });
+      removalDelay: 100,
+      mainClass: 'my-mfp-slide-bottom',
+    };
+
+    // then open popup
+    $.magnificPopup.open(magnificArg, hash.index);
   },
 });

@@ -1,4 +1,4 @@
-<div id="image-info-popup" class="mfp-hide gallery-image-info-popup">
+<div id={{popupId}} class="mfp-hide gallery-image-info-popup">
 
 {{yield this}}
 
@@ -37,11 +37,11 @@
     <div>{{raw.info.description}}</div>
   </div>
 
+  {{#with (await popupItem.detail.comments) as |comments|}}
   <div class='gallery-image-info-popup-comment'>
     <h2 class='gallery-image-info-popup-comment'>Comments
       <a href='#'>new</a>
     </h2>
-    {{#with (await popupItem.detail.comments) as |comments|}}
       <ul class='gallery-image-info-popup-comment-item'>
       {{#each comments as |cm|}}
         <li class='gallery-image-info-popup-comment-item'>
@@ -49,8 +49,8 @@
         </li>
       {{/each}}
       </ul>
-    {{/with}}
   </div>
+  {{/with}}
 
   {{#with (await popupItem.detail.exif) as |exif|}}
     <div class='gallery-image-info-popup-exif'>

@@ -62,6 +62,7 @@ export default Component.extend({
         index: this.get('albumInfo.items').indexOf(item),
         open: this.get('onDetailOpen'),
         close: this.get('onDetailClose'),
+        change: this.get('onDetailChange'),
       });
     },
 
