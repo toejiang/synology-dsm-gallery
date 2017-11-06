@@ -42,9 +42,9 @@
       <a href='#'>new</a>
     </h2>
     {{#with (await popupItem.detail.comments) as |comments|}}
-      <ul class='gallery-image-info-popup-comment'>
+      <ul class='gallery-image-info-popup-comment-item'>
       {{#each comments as |cm|}}
-        <li class='gallery-image-info-popup-comment'>
+        <li class='gallery-image-info-popup-comment-item'>
           <a href='#' title="{{cm.email}} at {{cm.date}}">{{cm.name}}</a>: {{cm.comment}}
         </li>
       {{/each}}
@@ -61,24 +61,26 @@
             {{raw.info.size}} bytes)
         </span>
       </h3>
-      <div>Model: {{exif.default.model}}</div>
-      <div>Time: {{exif.default.time}}</div>
-      <div>Exposure: {{exif.default.exposure}}</div>
-      <div>Aperture: {{exif.default.aperture}}</div>
-      <div>Focal: {{exif.default.focal}}</div>
-      <div>ISO: {{exif.default.iso}}</div>
-      <div>Flash: {{exif.default.flash}}</div>
-      <div>GPS: {{exif.default.gps}}</div>
+      <ul class='gallery-image-info-popup-exif'>
+      <li>Model: {{exif.default.model}}</li>
+      <li>Time: {{exif.default.time}}</li>
+      <li>Exposure: {{exif.default.exposure}}</li>
+      <li>Aperture: {{exif.default.aperture}}</li>
+      <li>Focal: {{exif.default.focal}}</li>
+      <li>ISO: {{exif.default.iso}}</li>
+      <li>Flash: {{exif.default.flash}}</li>
+      <li>GPS: {{exif.default.gps}}</li>
+      </ul>
       {{#if showMoreEXIFs}}
         <div class='gallery-clear' ></div>
-        <h4><a href='#' {{action 'toggleShowMoreEXIFs'}} title='click to close'>▼ hide extra EXIFs</a></h4>
-        <ul>
+        <h4><a href='#' {{action 'toggleShowMoreEXIFs'}} title='click to close'>▼ less EXIFs</a></h4>
+        <ul class='gallery-image-info-popup-exif'>
           {{#each exif.all as |e|}}
             <li>{{e.label}}: {{e.value}}</li>
           {{/each}}
         </ul>
       {{else}}
-        <a href='#' {{action 'toggleShowMoreEXIFs'}} title='click to open exif'>► show extra EXIFs</a>
+        <a href='#' {{action 'toggleShowMoreEXIFs'}} title='click to open exif'>► more EXIFs</a>
       {{/if}}
     </div>
   {{/with}}

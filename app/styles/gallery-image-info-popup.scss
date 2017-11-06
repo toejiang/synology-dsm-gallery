@@ -2,7 +2,7 @@
   position: relative;
   background: #FFF;
   padding: 0px;
-  max-width: 900px;
+  max-width: 1024px;
   margin: auto;
 }
 
@@ -48,6 +48,7 @@ h2.gallery-image-info-popup-info {
 }
 
 .gallery-image-info-popup-comment {
+  margin: 0 20px 20px 20px;
   font-size: 14px;
 }
 
@@ -55,16 +56,21 @@ h2.gallery-image-info-popup-comment {
   margin: 15px 0 5px 0;
 }
 
-ul.gallery-image-info-popup-comment {
+ul.gallery-image-info-popup-comment-item {
   margin: 0px 0 5px 20px;
-}
-li.gallery-image-info-popup-comment {
+  padding: 0;
   list-style-type:none;
 }
 
 .gallery-image-info-popup-exif {
-  margin: 0 20px 20px 20px;
+  margin: 0 20px 0 20px;
   font-size: 14px;
+}
+
+ul.gallery-image-info-popup-exif {
+  margin: 0px 0 5px 20px;
+  padding: 0;
+  list-style-type:none;
 }
 
 h3.gallery-image-info-popup-exif {
