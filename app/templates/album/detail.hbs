@@ -1,6 +1,8 @@
 {{gallery-album-path site=model.site path=model.path}}
 {{#if model.album.items}}
   {{gallery-photoswipe albumInfo=model.album
+    initWithLightboxOpen=lightbox
+    initWithDetailOpen=popup
     onDetailOpen=(action 'onDetailOpen')
     onDetailClose=(action 'onDetailClose')
     onLightboxOpen=(action 'onLightboxOpen')

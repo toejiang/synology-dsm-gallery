@@ -58,12 +58,12 @@
   onAfterChange=(action 'onPhotoSwipeChange')
   as |photoswipe|}}
 
-  {{set-property this 'photoswipe' photoswipe}}
+  {{g-call-action (action 'initPototSwipe' photoswipe)}}
 
 {{/photo-swipe}}
 
 {{#gallery-image-info-popup albumInfo=albumInfo as |popup|}}
-  {{set-property this 'popup' popup}}
+  {{g-call-action (action 'initPopup' popup)}}
 {{/gallery-image-info-popup}}
 
 <div class='gallery-clear' />

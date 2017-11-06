@@ -63,6 +63,36 @@ export default Component.extend({
         open: this.get('onDetailOpen'),
         close: this.get('onDetailClose'),
       });
-    }
+    },
+
+    initPototSwipe(photoswipe) {
+      this.set('photoswipe', photoswipe);
+      var lb = this.get('initWithLightboxOpen');
+      if(lb) {
+        var items = this.get('albumInfo.items'),
+          item = !items ? null : items.find((i) => {
+          return i.info.id.endsWith(lb);
+        });
+        if(item) {
+          //this.set('initWithLightboxOpen', null);
+          this.actions.lightbox.bind(this)(item);
+        }
+      }
+    },
+
+    initPopup(popup) {
+      this.set('popup', popup);
+      var dt = this.get('initWithDetailOpen');
+      if(dt) {
+        var items = this.get('albumInfo.items'),
+          item = !items ? null : items.find((i) => {
+          return i.info.id.endsWith(dt);
+        });
+        if(item) {
+          //this.set('initWithDetailOpen', null);
+          this.actions.popup.bind(this)(item);
+        }
+      }
+    },
   },
 });
