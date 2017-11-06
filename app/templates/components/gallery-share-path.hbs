@@ -7,6 +7,6 @@
   {{/if}}
   {{#if shareid}}
     <span>/</span>
-    <span>{{shareid}}</span>
+    <span>{{#link-to 'share/detail' site shareid}}{{info.name}}{{/link-to}}</span>
   {{/if}}
 </h4>

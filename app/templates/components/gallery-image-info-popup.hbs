@@ -5,7 +5,7 @@
 {{#with popupItem.item.info as |raw|}}
 
 {{!-- check if photo should place on top of popup panel --}}
-{{#with (g-determine-image-popup-top-left 'image-info-popup'
+{{#with (g-determine-image-popup-top-left popupId
   raw.additional.thumb_size.small.resolutionx
   raw.additional.thumb_size.small.resolutiony) as |pos|}}
 

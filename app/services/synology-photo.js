@@ -84,4 +84,18 @@ export default Ember.Service.extend({
     };
     return this._do_list(site, {data:data});
   },
+
+  getinfo(site, hash) {
+    hash = hash || {};
+    var data = {
+      id: hash.id || '',
+      public_share_id: hash.public_share_id || '',
+      additional: hash.additional || 'thumb_size,public_share',
+      //api: api.api,
+      //version: 1,
+      method: 'getinfo',
+      ps_username: '',
+    };
+    return this._do_list(site, {data:data});
+  },
 });

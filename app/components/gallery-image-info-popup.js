@@ -107,8 +107,7 @@ export default Ember.Component.extend({
           this.set('showLargeImage', false);
           this.set('popupItem', {item:null,detail:null});
           if(hash.close && typeof(hash.close) === 'function') {
-            var closeItem = this.get('albumInfo.items')[arg.index];
-            hash.close(closeItem);
+            hash.close(null);
           }
         }.bind(this),
         change: function(arg) {

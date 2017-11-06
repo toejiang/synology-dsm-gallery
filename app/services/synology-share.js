@@ -25,4 +25,23 @@ export default Ember.Service.extend({
       });
     });
   },
+
+  // return like: {id:11,userid:1030,name:"acc-share-d2-sunday2",share_status:"valid",shareid:23,recursive:false,is_advanced:false,has_comment:false}
+  getinfo_public(site, hash) {
+    site = (!site || site === '') ? 'root' : site;
+    hash = hash || {};
+    return this.get('api').api('share').then((api) => {
+      return this.get('ajax').post(api.url[site], {
+        data: {
+					api: api.api,
+					method: 'getinfo_public',
+					version: '1',
+					public_share_id: hash.public_share_id || '',
+        },
+      }).then((res) => {
+        // raw is: {"success":true,"data":{"shared_album":{...}}}
+        return res.data.shared_album;
+      });
+    });
+  },
 });

@@ -3,6 +3,7 @@ import RSVP from 'rsvp';
 
 export default Ember.Route.extend({
   photo: Ember.inject.service('synology-photo'),
+  share: Ember.inject.service('synology-share'),
   utils: Ember.inject.service('synology-utils'),
 
   //  return like:
@@ -39,6 +40,10 @@ export default Ember.Route.extend({
     var shareId = params.share_id;
     var show = params.show;
 
+    var info = this.get('share').getinfo_public(site, {
+      public_share_id: shareId,
+    });
+
     return this.get('photo').listshare(site, {
       filter_public_share: shareId,
     }).then((res) => {
@@ -63,7 +68,7 @@ export default Ember.Route.extend({
         offset: res.data.offset,
         items: RSVP.all(items),
         shareid: shareId,
-        show: show
+        info: info,
       });
     });
   }
