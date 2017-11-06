@@ -56,20 +56,20 @@
     <div class='gallery-image-info-popup-exif'>
       <h3 class='gallery-image-info-popup-exif'>EXIF
         <span class='gallery-image-info-popup-filename'>
-          ({{raw.additional.file_location}},
+          ({{if raw.additional.file_location raw.additional.file_location raw.info.name}},
             {{raw.info.resolutionx}}x{{raw.info.resolutiony}},
             {{raw.info.size}} bytes)
         </span>
       </h3>
       <ul class='gallery-image-info-popup-exif'>
-      <li>Model: {{exif.default.model}}</li>
-      <li>Time: {{exif.default.time}}</li>
-      <li>Exposure: {{exif.default.exposure}}</li>
-      <li>Aperture: {{exif.default.aperture}}</li>
-      <li>Focal: {{exif.default.focal}}</li>
-      <li>ISO: {{exif.default.iso}}</li>
-      <li>Flash: {{exif.default.flash}}</li>
-      <li>GPS: {{exif.default.gps}}</li>
+      {{#if exif.default.model}}<li>Model: {{exif.default.model}}</li>{{/if}}
+      {{#if exif.default.time}}<li>Time: {{exif.default.time}}</li>{{/if}}
+      {{#if exif.default.exposure}}<li>Exposure: {{exif.default.exposure}}</li>{{/if}}
+      {{#if exif.default.aperture}}<li>Aperture: {{exif.default.aperture}}</li>{{/if}}
+      {{#if exif.default.focal}}<li>Focal: {{exif.default.focal}}</li>{{/if}}
+      {{#if exif.default.iso}}<li>ISO: {{exif.default.iso}}</li>{{/if}}
+      {{#if exif.default.flash}}<li>Flash: {{exif.default.flash}}</li>{{/if}}
+      {{#if exif.default.gps}}<li>GPS: {{exif.default.gps}}</li>{{/if}}
       </ul>
       {{#if showMoreEXIFs}}
         <div class='gallery-clear' ></div>

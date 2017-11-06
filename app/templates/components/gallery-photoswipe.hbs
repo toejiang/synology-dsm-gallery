@@ -5,7 +5,7 @@
 
     {{#if (is-equal item.info.type 'album')}}
 
-      {{#gallery-image-wrap item=item buttonLabel='album'}}
+      {{#gallery-image-wrap item=item buttonLabel=item.info.info.name}}
         {{#link-to 'album/detail' albumInfo.site (g-short-album-id item.info.id true)}}
           <img
             id={{item.info.id}}
@@ -19,7 +19,7 @@
 
     {{else if (is-equal item.info.type 'sharedalbum')}}
 
-      {{#gallery-image-wrap item=item buttonLabel='album'}}
+      {{#gallery-image-wrap item=item buttonLabel=item.info.name}}
         {{#link-to 'share/detail' albumInfo.site item.info.additional.public_share.shareid}}
           <img
             id={{item.info.id}}

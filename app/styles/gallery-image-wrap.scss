@@ -24,16 +24,23 @@
   visibility: hidden;
 }
 
+.gallery-image-wrap-detail-outer-album {
+  background-color: #63A9FA;
+}
+
+.gallery-image-wrap-detail-outer-photo {
+  background-color: #c25ff7;
+}
+
 .gallery-image-wrap-detail-outer {
   position: absolute;
   right:12px;
   top:12px;
-  background-color: #63A9FA;
-  border-radius: 7px;
-  padding: 2px 6px;
+  border-radius: 50px;
 }
 
 .gallery-image-wrap-detail-inner {
+  font-size: 12px;
   text-align: center;
   color: white;
   margin: 3px 6px;

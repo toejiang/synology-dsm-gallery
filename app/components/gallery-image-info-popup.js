@@ -55,7 +55,7 @@ export default Ember.Component.extend({
         flash: j['Flash'],
         gps: j['GPS Latitude'] ? `${j['GPS Latitude Reference']} ${j['GPS Latitude']}, ` +
           `${j['GPS Longitude Reference']} ${j['GPS Longitude']}, ` +
-          `${j['GPS Altitude']} ${j['GPS Altitude Reference']}` : 'None',
+          `${j['GPS Altitude']} ${j['GPS Altitude Reference']}` : null,
       }
       return {default: exif, all: res.data.exifs};
     });

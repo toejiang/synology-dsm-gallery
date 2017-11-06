@@ -16,8 +16,11 @@
     />
   {{/if}}
 
-    <div class='gallery-image-wrap-detail-outer gallery-image-wrap-detail-outer-hidden' > 
+    <div class='gallery-image-wrap-detail-outer gallery-image-wrap-detail-outer-hidden
+      gallery-image-wrap-detail-outer-{{if (is-equal item.info.type 'photo') 'photo' 'album'}}' >
+
       <div {{action 'detailClick'}} class='gallery-image-wrap-detail-inner'>
+
         {{buttonLabel}}
       </div>
     </div> 
