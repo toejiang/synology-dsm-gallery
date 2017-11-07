@@ -6,6 +6,14 @@ export default Ember.Component.extend({
 
   buttonLabel: 'Detail',
 
+  hide: true,
+  hover: false,
+
+  init() {
+    this._super(...arguments);
+    this.set('hide', this.get('item').info.type === 'photo');
+  },
+
   actions: {
     detailClick() {
       var action = this.get('detailClick');
@@ -22,12 +30,10 @@ export default Ember.Component.extend({
     },
 
     mouseIn() {
-      this.$('.gallery-image-wrap-detail-outer')[0].classList.remove('gallery-image-wrap-detail-outer-hidden');
-      this.$('.gallery-image-wrap-outer')[0].classList.add('gallery-image-wrap-outer-hover');
+      this.set('hover', true);
     },
     mouseOut() {
-      this.$('.gallery-image-wrap-detail-outer')[0].classList.add('gallery-image-wrap-detail-outer-hidden');
-      this.$('.gallery-image-wrap-outer')[0].classList.remove('gallery-image-wrap-outer-hover');
+      this.set('hover', false);
     },
   },
 });

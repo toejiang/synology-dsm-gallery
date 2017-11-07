@@ -17,7 +17,7 @@
   {{/if}}
 
   <div class='gallery-image-info-popup-info'>
-    <h2 class='gallery-image-info-popup-info'>{{raw.info.title}}
+    <h2 class='gallery-image-info-popup-info'>{{if raw.info.title raw.info.title raw.name}}
                       <span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 1) 'red' 'gray'}}"
       >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 2) 'red' 'gray'}}"
       >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 3) 'red' 'gray'}}"
@@ -37,20 +37,22 @@
     <div>{{raw.info.description}}</div>
   </div>
 
-  {{#with (await popupItem.detail.comments) as |comments|}}
+  {{#if popupItem.detail}}
   <div class='gallery-image-info-popup-comment'>
     <h2 class='gallery-image-info-popup-comment'>Comments
-      <a href='#'>new</a>
+      <a href='javascript:;'>new</a>
     </h2>
+    {{#with (await popupItem.detail.comments) as |comments|}}
       <ul class='gallery-image-info-popup-comment-item'>
       {{#each comments as |cm|}}
         <li class='gallery-image-info-popup-comment-item'>
-          <a href='#' title="{{cm.email}} at {{cm.date}}">{{cm.name}}</a>: {{cm.comment}}
+          <a href='javascript:;' title="{{cm.email}} at {{cm.date}}">{{cm.name}}</a>: {{cm.comment}}
         </li>
       {{/each}}
       </ul>
+    {{/with}}
   </div>
-  {{/with}}
+  {{/if}}
 
   {{#with (await popupItem.detail.exif) as |exif|}}
     <div class='gallery-image-info-popup-exif'>
@@ -73,14 +75,14 @@
       </ul>
       {{#if showMoreEXIFs}}
         <div class='gallery-clear' ></div>
-        <h4><a href='#' {{action 'toggleShowMoreEXIFs'}} title='click to close'>▼ less EXIFs</a></h4>
+        <h4><a href='javascript:;' {{action 'toggleShowMoreEXIFs'}} title='click to close'>▼ less EXIFs</a></h4>
         <ul class='gallery-image-info-popup-exif'>
           {{#each exif.all as |e|}}
             <li>{{e.label}}: {{e.value}}</li>
           {{/each}}
         </ul>
       {{else}}
-        <a href='#' {{action 'toggleShowMoreEXIFs'}} title='click to open exif'>► more EXIFs</a>
+        <a href='javascript:;' {{action 'toggleShowMoreEXIFs'}} title='click to open exif'>► more EXIFs</a>
       {{/if}}
     </div>
   {{/with}}

@@ -10,7 +10,7 @@
       {{#if (is-equal p.id 'Albums')}}
       {{else}}
         <span>/</span>
-        <span>{{#link-to 'album/detail' (g-short-album-id p.id)}}{{p.info.name}}{{/link-to}}</span>
+        <span>{{#link-to 'album/detail' (g-short-album-id p.id)}}{{p.info.title}}{{/link-to}}</span>
       {{/if}}
     {{/each}}
   {{/if}}

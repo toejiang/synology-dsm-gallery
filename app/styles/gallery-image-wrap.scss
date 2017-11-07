@@ -25,11 +25,17 @@
 }
 
 .gallery-image-wrap-detail-outer-album {
-  background-color: #63A9FA;
+  background-color: rgba(99, 169, 250, 0.5);
+}
+.gallery-image-wrap-detail-outer-album:hover {
+  background-color: rgba(99, 169, 250, 1);
 }
 
 .gallery-image-wrap-detail-outer-photo {
-  background-color: #c25ff7;
+  background-color: rgba(194, 95, 247, 0.5);
+}
+.gallery-image-wrap-detail-outer-photo:hover {
+  background-color: rgba(194, 95, 247, 1);
 }
 
 .gallery-image-wrap-detail-outer {

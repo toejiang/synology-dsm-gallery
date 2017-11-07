@@ -5,7 +5,7 @@
 
     {{#if (is-equal item.info.type 'album')}}
 
-      {{#gallery-image-wrap item=item buttonLabel=item.info.info.name detailClick=(action 'popup')}}
+      {{#gallery-image-wrap item=item buttonLabel=item.info.info.title detailClick=(action 'popup')}}
         {{#link-to 'album/detail' albumInfo.site (g-short-album-id item.info.id true)}}
           <img
             id={{item.info.id}}
