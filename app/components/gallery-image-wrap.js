@@ -4,14 +4,17 @@ export default Ember.Component.extend({
   tagName: 'span',
   classNames: 'gallery-image-wrap',
 
-  buttonLabel: 'Detail',
+  buttonLabel: '✿',
 
   hide: true,
   hover: false,
 
   init() {
     this._super(...arguments);
-    this.set('hide', this.get('item').info.type === 'photo');
+    var item = this.get('item');
+    this.set('hide', item.info.type === 'photo');
+    if(item.info.type === 'video')
+      this.set('buttonLabel', '►');
   },
 
   actions: {

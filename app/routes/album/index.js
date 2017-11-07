@@ -55,7 +55,11 @@ export default Ember.Route.extend({
           var items = [];
           res.data.items.forEach((item) => {
             items.push(
-              RSVP.hash({
+              RSVP.hash(item.type === 'video' ? {
+                html: this.get('utils').buildHtmlForPhotoSwipeVideo(site, item),
+                msrc: utils.getAlbumImageSrc(site, item, 'small'),
+                info: item,
+              } : {
                 src: utils.getAlbumImageSrc(site, item, 'large'),
                 w: item.additional.thumb_size.large.resolutionx,
                 h: item.additional.thumb_size.large.resolutiony,

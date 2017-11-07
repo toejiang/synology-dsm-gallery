@@ -1,0 +1,10 @@
+.gallery-photoswipe-html-wrap {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background-color: black;
+	-webkit-transform: translateX(-50%) translateY(-50%);
+	-moz-transform: translateX(-50%) translateY(-50%);
+	-ms-transform: translateX(-50%) translateY(-50%);
+	transform: translateX(-50%) translateY(-50%);
+}

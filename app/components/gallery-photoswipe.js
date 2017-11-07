@@ -7,7 +7,7 @@ export default Component.extend({
   showHideOpacity: false,
   bgOpacity: 0.9,
   barsSize: {top:20, bottom:'auto'},
-  itemProperties: ['src', 'w', 'h', 'msrc'],
+  itemProperties: ['src', 'w', 'h', 'msrc', 'html'],
   timeToIdle: 1200,
 
   additionalButtons: [

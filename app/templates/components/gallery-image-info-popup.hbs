@@ -19,11 +19,11 @@
   <div class='gallery-image-info-popup-info'>
     <h2 class='gallery-image-info-popup-info'>{{if raw.info.title raw.info.title raw.name}}
                       <span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 1) 'red' 'gray'}}"
-      >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 2) 'red' 'gray'}}"
-      >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 3) 'red' 'gray'}}"
-      >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 4) 'red' 'gray'}}"
-      >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 5) 'red' 'gray'}}"
-      >&hearts;</span>
+      >&#10084;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 2) 'red' 'gray'}}"
+      >&#10084;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 3) 'red' 'gray'}}"
+      >&#10084;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 4) 'red' 'gray'}}"
+      >&#10084;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 5) 'red' 'gray'}}"
+      >&#10084;</span>
     </h2>
     {{#with (await popupItem.detail.tag) as |tag|}}
       {{#if (or tag.people.length tag.geo.length tag.desc.length)}}
@@ -75,14 +75,14 @@
       </ul>
       {{#if showMoreEXIFs}}
         <div class='gallery-clear' ></div>
-        <h4><a href='javascript:;' {{action 'toggleShowMoreEXIFs'}} title='click to close'>▼ less EXIFs</a></h4>
+        <h4><a href='javascript:;' {{action 'toggleShowMoreEXIFs'}} title='click to close'>&#9660; less EXIFs</a></h4>
         <ul class='gallery-image-info-popup-exif'>
           {{#each exif.all as |e|}}
             <li>{{e.label}}: {{e.value}}</li>
           {{/each}}
         </ul>
       {{else}}
-        <a href='javascript:;' {{action 'toggleShowMoreEXIFs'}} title='click to open exif'>► more EXIFs</a>
+        <a href='javascript:;' {{action 'toggleShowMoreEXIFs'}} title='click to open exif'>&#9658; more EXIFs</a>
       {{/if}}
     </div>
   {{/with}}
