@@ -119,11 +119,21 @@ class AccurSharedAlbumAPI extends WebAPI
 //		}
 
 		while(($idRow = PHOTO_DB_FetchRow($db_result))) {
+			$publicShareId = $idRow[1];
+			$error_msg = NULL;
+			if (!isset($_SESSION[$publicShareId])) {
+				if (!csSYNOPhotoDB::GetDBInstance()->SetPublicShareSessionCache($publicShareId, true) ||
+						!SharedAlbum::CheckPublicSharePermission($publicShareId)) {
+					$error_msg = 'set session cache or check permission failed';
+				}
+			}
 			$sharedAlbum = $this->GetInfoById($idRow[0], $idRow[1], $idRow[2], $additional);
 			if (NULL === $sharedAlbum) {
 				continue;
 			}
 			$result['items'][$i] = $sharedAlbum;
+			if($error_msg !== NULL)
+				$result['items'][$i]['error_msg'] = $error_msg;
 			$i ++;
 		}
 

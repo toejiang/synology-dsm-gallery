@@ -90,7 +90,6 @@ export default Ember.Service.extend({
     let _self = this;
     var ajax = _self.get('ajax');
     var conf = this.parseSynoApiURL();
-    var sites = null;
     return RSVP.hash({
       sites: conf.siteUrl ? _self.checkEnabledSite(conf.rootUrl) : false,
       config: _self.parseSynoApiURL(),
@@ -105,31 +104,13 @@ export default Ember.Service.extend({
       }),
     })
     .then((arg)=>{
-      sites = arg.sites;
+      // the initialize query was made by 'checkEnabledSite', so we don't need to perform one here,
+      // just build the api info, and return
       // build the apiInfo
-      return _self.buildApiInfo(arg.sites, arg.config, arg.apiinfo);
-    })
-    .then((services) => {
-      // to do a init alum request, so that photostation can set session cache
-      var album = services['album'];
-      return _self.get('ajax').post(album.url['root'], {
-        data: {
-          'x-comment': 'initialize_query_for_access_control',
-          id: '',
-          type: 'album',
-          api: album.api,
-          method: 'list',
-          version: 1,
-          offset: 0,
-          limit: 1,
-        }
-      })
-      .then(() => {
-        return {sites, api: services};
-      })
-      .catch(() => {
-        return {sites, api: services};
-      });
+      return {
+        sites: arg.sites,
+        api: _self.buildApiInfo(arg.sites, arg.config, arg.apiinfo),
+      };
     });
   },
 
