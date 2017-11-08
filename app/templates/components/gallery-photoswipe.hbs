@@ -1,18 +1,21 @@
+{{#with (g-random-string) as |outerDivId|}}
+<div id={{outerDivId}} class="gallery-photoswipe-main-wrap">
+{{g-call-action (action 'initContainerElementId' outerDivId)}}
 
 {{#unless hasBlock}}
 
-  {{#each albumInfo.items as |item index|}}
+  {{#each computedAlbumInfo.items as |item index|}}
 
     {{#if (is-equal item.info.type 'album')}}
 
       {{#gallery-image-wrap item=item buttonLabel=item.info.info.title detailClick=(action 'popup')}}
-        {{#link-to 'album/detail' albumInfo.site (g-short-album-id item.info.id true)}}
+        {{#link-to 'album/detail' computedAlbumInfo.site (g-short-album-id item.info.id true)}}
           <img
             id={{item.info.id}}
             src={{item.msrc}}
             alt={{item.title}}
+            height={{item.fitsize.fitH}} width={{item.fitsize.fitW}} lineheight={{item.fitsize.fitL}}
             class='gallery-image-wrap-img'
-            onload='if(this.height>320)this.height=320'
           />
         {{/link-to}}
       {{/gallery-image-wrap}}
@@ -20,20 +23,29 @@
     {{else if (is-equal item.info.type 'sharedalbum')}}
 
       {{#gallery-image-wrap item=item buttonLabel=item.info.name detailClick=(action 'popup')}}
-        {{#link-to 'share/detail' albumInfo.site item.info.additional.public_share.shareid}}
+        {{#link-to 'share/detail' computedAlbumInfo.site item.info.additional.public_share.shareid}}
           <img
             id={{item.info.id}}
             src={{item.msrc}}
             alt={{item.title}}
+            height={{item.fitsize.fitH}} width={{item.fitsize.fitW}} lineheight={{item.fitsize.fitL}}
             class='gallery-image-wrap-img'
-            onload='if(this.height>320)this.height=320'
           />
         {{/link-to}}
       {{/gallery-image-wrap}}
 
     {{else}}
 
-      {{gallery-image-wrap imgId=item.info.id item=item imageClick=(action 'lightbox') detailClick=(action 'popup')}}
+      {{#gallery-image-wrap imgId=item.info.id item=item imageClick=(action 'lightbox' item) detailClick=(action 'popup' item)}}
+        <img
+          id={{item.info.id}}
+          src={{item.msrc}}
+          alt={{item.title}}
+          height={{item.fitsize.fitH}} width={{item.fitsize.fitW}} lineheight={{item.fitsize.fitL}}
+          {{action 'lightbox' item}}
+          class='gallery-image-wrap-img'
+        />
+      {{/gallery-image-wrap}}
 
     {{/if}}
 
@@ -44,7 +56,7 @@
 {{yield (action 'lightbox') photoswipe popup}}
 
 {{#photo-swipe
-  items=albumInfo.items
+  items=computedAlbumInfo.items
   history=false
   showHideOpacity=showHideOpacity
   bgOpacity=bgOpacity
@@ -62,9 +74,11 @@
 
 {{/photo-swipe}}
 
-{{#gallery-image-info-popup popupId=(g-random-string) albumInfo=albumInfo as |popup|}}
+{{#gallery-image-info-popup popupId=(g-random-string) albumInfo=computedAlbumInfo as |popup|}}
   {{g-call-action (action 'initPopup' popup)}}
 {{/gallery-image-info-popup}}
 
 <div class='gallery-clear' />
 
+</div>
+{{/with}}

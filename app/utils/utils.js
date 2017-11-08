@@ -5,8 +5,8 @@ export default {
       return '';
     if(id.startsWith('album_'))
       return id.substr(6, id.length);
-    else if(id.startsWith('photo_'))
-      return id.substr(6, id.length);
+    else if(id.startsWith('photo_') || id.startsWith('video_'))
+      return id.split('_').pop();
     else if(id.startsWith('sharedalbum_'))
       return id.substr(12, id.length);
     else
@@ -16,7 +16,7 @@ export default {
   shortenPhotoId: function shortenPhotoId(id) {
     if(!id || id === '')
       return '';
-    if(id.startsWith('photo_'))
+    if(id.startsWith('photo_') || id.startsWith('video_'))
       return id.split('_').pop();
     return id;
   },
@@ -24,7 +24,7 @@ export default {
   shortenAlbumId: function shortenAlbumId(id) {
     if(!id || id === '')
       return '';
-    if(id.startsWith('photo_'))
+    if(id.startsWith('photo_') || id.startsWith('video_'))
       return id.split('_')[1];
     else if(id.startsWith('album_'))
       return id.split('_').pop();
@@ -44,7 +44,7 @@ export default {
 
     if(albumId.startsWith('album_')) {
       albumId = albumId.split('_')[1];
-    } else if(albumId.startsWith('photo_')) {
+    } else if(albumId.startsWith('photo_') || albumId.startsWith('video_')) {
       isPhotoId = true;
       albumId = albumId.split('_')[1];
     } else {

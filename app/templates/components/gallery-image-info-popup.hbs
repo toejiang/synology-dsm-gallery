@@ -19,11 +19,11 @@
   <div class='gallery-image-info-popup-info'>
     <h2 class='gallery-image-info-popup-info'>{{if raw.info.title raw.info.title raw.name}}
                       <span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 1) 'red' 'gray'}}"
-      >&#10084;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 2) 'red' 'gray'}}"
-      >&#10084;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 3) 'red' 'gray'}}"
-      >&#10084;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 4) 'red' 'gray'}}"
-      >&#10084;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 5) 'red' 'gray'}}"
-      >&#10084;</span>
+      >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 2) 'red' 'gray'}}"
+      >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 3) 'red' 'gray'}}"
+      >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 4) 'red' 'gray'}}"
+      >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 5) 'red' 'gray'}}"
+      >&hearts;</span>
     </h2>
     {{#with (await popupItem.detail.tag) as |tag|}}
       {{#if (or tag.people.length tag.geo.length tag.desc.length)}}
