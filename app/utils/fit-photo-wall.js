@@ -57,9 +57,9 @@ function setRowImgSize(row, overflow, defHeight){
   idx=0;
   while(ele=row[idx++]){
     scaleW=scaleH/ele.h*ele.w|0;
-    ele.item.fitsize.fitW = scaleW;
-    ele.item.fitsize.fitH = scaleH;
-    ele.item.fitsize.fitL = scaleH;
+    Ember.set(ele, 'item.fitsize.fitW', scaleW);
+    Ember.set(ele, 'item.fitsize.fitH', scaleH);
+    Ember.set(ele, 'item.fitsize.fitL', scaleH);
   };
 }
 

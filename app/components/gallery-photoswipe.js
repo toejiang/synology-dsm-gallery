@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import FitPhotoWall from '../utils/fit-photo-wall';
+import RSVP from 'rsvp';
 
 export default Component.extend({
   tagName: 'div',
@@ -24,14 +25,7 @@ export default Component.extend({
   ],
 
   computedAlbumInfo: computed('albumInfo', function() {
-     var albumInfo = this.get('albumInfo');
-    // add fitsize property, so that we can call fitPhotoWall to set the rigth size
-    albumInfo.items.forEach(item => {
-      item.fitsize = {
-        oriW: item.info.additional.thumb_size.small.resolutionx,
-        oriH: item.info.additional.thumb_size.small.resolutiony,
-      };
-    });
+    var albumInfo = this.get('albumInfo');
     var width = this.$('#'+this.get('containerElementId')).width();
     FitPhotoWall(albumInfo.items, {
       width: width - 30, // scollbar take about 30px
@@ -40,6 +34,18 @@ export default Component.extend({
     });
     return albumInfo;
   }),
+
+  init() {
+    this._super(...arguments);
+    var albumInfo = this.get('albumInfo');
+    // add fitsize property, so that we can call fitPhotoWall to set the rigth size
+    albumInfo.items.forEach(item => {
+      item.fitsize = {
+        oriW: item.info.additional.thumb_size.small.resolutionx,
+        oriH: item.info.additional.thumb_size.small.resolutiony,
+      };
+    });
+  },
 
   actions: {
     getThumbBoundsFn: function getThumbBoundsFn(index) {
@@ -118,6 +124,51 @@ export default Component.extend({
 
     initContainerElementId(id) {
       this.set('containerElementId', id);
+      var element = this.$('#'+id);
+
+      var resizeDelay = {
+        newWidth: 0,
+        isDelaying: false,
+      };
+
+      new ResizeSensor(element, function () {
+        var width = element.width(); // scollbar take about 30px
+        if(width === resizeDelay.newWidth) {
+          return;
+        }
+
+        // set to newest width
+        resizeDelay.newWidth = width;
+
+        if(resizeDelay.isDelaying) {
+          // some other promise is delaying to handle the resize event
+          return;
+        }
+        // no other promise, have to handle it
+
+        // set delaying
+        resizeDelay.isDelaying = true;
+        new RSVP.Promise(function (resolve, reject) {
+          // sleep 100ms
+          let lastWidth = resizeDelay.newWidth;
+          let tID = setInterval(function () {
+            if(lastWidth === resizeDelay.newWidth) {
+              clearInterval(tID);
+              resolve();
+            }
+            lastWidth = resizeDelay.newWidth;
+          }, 100);
+        })
+        .then(() => {
+          resizeDelay.isDelaying = false;
+          var items = this.get('computedAlbumInfo.items');
+          FitPhotoWall(items, {
+            width: element.width(),
+            height: 320,
+            margin: 4,
+          });
+        });
+      }.bind(this));
     },
   },
 });

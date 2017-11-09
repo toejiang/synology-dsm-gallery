@@ -24,5 +24,7 @@ module.exports = function(defaults) {
   app.import('node_modules/magnific-popup/dist/jquery.magnific-popup.js');
   app.import('node_modules/magnific-popup/dist/magnific-popup.css');
 
+  app.import('node_modules/css-element-queries/src/ResizeSensor.js');
+
   return app.toTree();
 };
