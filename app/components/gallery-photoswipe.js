@@ -27,17 +27,6 @@ export default Component.extend({
   computedAlbumInfo: computed('albumInfo', function() {
     var albumInfo = this.get('albumInfo');
     var width = this.$('#'+this.get('containerElementId')).width();
-    FitPhotoWall(albumInfo.items, {
-      width: width - 30, // scollbar take about 30px
-      height: 320,
-      margin: 4,
-    });
-    return albumInfo;
-  }),
-
-  init() {
-    this._super(...arguments);
-    var albumInfo = this.get('albumInfo');
     // add fitsize property, so that we can call fitPhotoWall to set the rigth size
     albumInfo.items.forEach(item => {
       item.fitsize = {
@@ -45,7 +34,13 @@ export default Component.extend({
         oriH: item.info.additional.thumb_size.small.resolutiony,
       };
     });
-  },
+    FitPhotoWall(albumInfo.items, {
+      width: width, // scollbar take about 30px
+      height: 320,
+      margin: 4,
+    });
+    return albumInfo;
+  }),
 
   actions: {
     getThumbBoundsFn: function getThumbBoundsFn(index) {
