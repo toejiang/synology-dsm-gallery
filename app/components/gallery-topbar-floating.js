@@ -14,12 +14,14 @@ export default Ember.Component.extend({
     this.$(window).bind('scroll', this.get('binding.THIS.scrolling'));
     this.$(window).bind('resize', this.get('binding.THIS.resizing'));
     this.get('binding.THIS.resizing')();
+    Ember.Logger.info('bind');
   },
 
-  willRemoveElement() {
+  willDestroyElement() {
     this._super(...arguments);
     this.$(window).unbind('scroll', this.get('binding.THIS.scrolling'));
     this.$(window).unbind('resize', this.get('binding.THIS.resizing'));
+    Ember.Logger.info('unbind');
   },
 
   binding: {
