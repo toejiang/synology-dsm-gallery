@@ -1,0 +1,15 @@
+{{#if topbar.component}}
+  {{component topbar.component data=topbar.data}}
+{{else}}
+  <h3>
+    <span>{{#link-to 'index'}}Home{{/link-to}}</span>
+    <span>|</span>
+    <span>{{#link-to 'album'}}Album{{/link-to}}</span>
+    <span>|</span>
+    <span>{{#link-to 'share'}}Share{{/link-to}}</span>
+    <span>|</span>
+    <span>{{#link-to 'smart'}}Smart{{/link-to}}</span>
+    <span>|</span>
+    <span>{{#link-to 'about'}}About{{/link-to}}</span>
+  </h3>
+{{/if}}
