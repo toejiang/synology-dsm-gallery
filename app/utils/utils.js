@@ -62,4 +62,8 @@ export default {
     });
     return 'Albums/' + result + (isPhotoId ? ('/' + id) : '');
   },
+
+  randomString: function () {
+    return Math.random().toString(36).substr(2);
+  },
 }

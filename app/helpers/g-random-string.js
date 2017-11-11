@@ -1,7 +1,8 @@
 import Ember from 'ember';
+import Utils from '../utils/utils';
 
 export function gRandomString() {
-  return Math.random().toString(36).substr(2);
+  return Utils.randomString();
 }
 
 export default Ember.Helper.helper(gRandomString);

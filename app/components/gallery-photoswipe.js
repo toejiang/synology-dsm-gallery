@@ -7,6 +7,8 @@ export default Component.extend({
   tagName: 'div',
   classNames: 'gallery-photoswipe-site-items',
 
+  ui: Ember.inject.service('gallery-ui'),
+
   showHideOpacity: false,
   bgOpacity: 0.9,
   barsSize: {top:20, bottom:'auto'},
@@ -24,23 +26,33 @@ export default Component.extend({
     },
   ],
 
-  computedAlbumInfo: computed('albumInfo', function() {
+  previewContainerWidth: 1300,
+
+  computedAlbumInfo: computed('albumInfo', 'ui.previewHeight', 'previewContainerWidth', function() {
     var albumInfo = this.get('albumInfo');
-    var width = this.$('#'+this.get('containerElementId')).width();
     // add fitsize property, so that we can call fitPhotoWall to set the rigth size
     albumInfo.items.forEach(item => {
-      item.fitsize = {
+      Ember.set(item, 'fitsize', {
         oriW: item.info.additional.thumb_size.small.resolutionx,
         oriH: item.info.additional.thumb_size.small.resolutiony,
-      };
+      });
     });
     FitPhotoWall(albumInfo.items, {
-      width: width, // scollbar take about 30px
-      height: 320,
+      width: this.get('previewContainerWidth'),
+      height: this.get('ui.previewHeight'),
       margin: 4,
     });
     return albumInfo;
   }),
+
+  willDestroyElement() {
+    this._super(...arguments);
+    var sensor = this.get('sensor');
+    if(sensor) {
+      sensor.sensor.detach(sensor.func);
+      this.set('sensor', null);
+    }
+  },
 
   actions: {
     getThumbBoundsFn: function getThumbBoundsFn(index) {
@@ -117,16 +129,14 @@ export default Component.extend({
       }
     },
 
-    initContainerElementId(id) {
-      this.set('containerElementId', id);
+    initContainerElementResize(id) {
       var element = this.$('#'+id);
-
       var resizeDelay = {
         newWidth: 0,
         isDelaying: false,
       };
 
-      new ResizeSensor(element, function () {
+      var func = function () {
         var width = element.width(); // scollbar take about 30px
         if(width === resizeDelay.newWidth) {
           return;
@@ -156,14 +166,16 @@ export default Component.extend({
         })
         .then(() => {
           resizeDelay.isDelaying = false;
-          var items = this.get('computedAlbumInfo.items');
-          FitPhotoWall(items, {
-            width: element.width(),
-            height: 320,
-            margin: 4,
-          });
+          this.set('previewContainerWidth', element.width());
         });
-      }.bind(this));
+      }.bind(this);
+      var sensor = new ResizeSensor(element, func);
+
+      this.set('sensor', {
+        sensor: sensor,
+        func: func,
+        id: id,
+      });
     },
   },
 });

@@ -14,7 +14,6 @@ export default Ember.Component.extend({
     this.$(window).bind('scroll', this.get('binding.THIS.scrolling'));
     this.$(window).bind('resize', this.get('binding.THIS.resizing'));
     this.get('binding.THIS.resizing')();
-    Ember.Logger.info('bind');
   },
 
   willDestroyElement() {
@@ -42,8 +41,6 @@ export default Ember.Component.extend({
 
     scrolling() {
       var lastScrollY = window.scrollY;
-      var progressMax = this.doc.height() - window.innerHeight;
-
       var should = lastScrollY > (this.fixElement.position().top /*+ this.fixElement.height()*/);
       if(should && !this.floating) {
         this.floatElement.classList.add('gallery-topbar-float-active');
@@ -52,6 +49,8 @@ export default Ember.Component.extend({
         this.floatElement.classList.remove('gallery-topbar-float-active');
         this.floating = false;
       }
+
+      var progressMax = this.doc.height() - window.innerHeight;
       this.progressElement.setAttribute('max', progressMax);
       this.progressElement.setAttribute('value', lastScrollY);
     },

@@ -1,6 +1,6 @@
 {{#with (g-random-string) as |outerDivId|}}
 <div id={{outerDivId}} class="gallery-photoswipe-main-wrap">
-{{g-call-action (action 'initContainerElementId' outerDivId)}}
+{{g-call-action (action 'initContainerElementResize' outerDivId)}}
 
 {{#unless hasBlock}}
 
