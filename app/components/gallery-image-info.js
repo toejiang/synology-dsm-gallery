@@ -37,7 +37,7 @@ export default Ember.Component.extend({
 
   _tags: computed('show', function() {
     var show = this.get('show');
-    return (show.item && show.site) ? this.gettags(show.site, {id: show.item.info.id}) : null;
+    return (show && show.item && show.site) ? this.gettags(show.site, {id: show.item.info.id}) : null;
   }),
 
   _comments: computed('show', function() {

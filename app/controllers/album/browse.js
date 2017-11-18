@@ -14,13 +14,14 @@ export default Ember.Controller.extend({
   showId: null,
 
   show: computed('showId', 'model.album.items', function () {
-    var s = this.get('showId'), i = this.get('model.album.items');
+    var s = this.get('showId'), i = this.get('model.album.items'), site = this.get('model.site');
     if(s && i) {
       var idx = i.findIndex(e=>e.info.id.endsWith(s));
       var pre = (idx - 1) < 0 ? (i.length - 1) : (idx - 1);
       var nxt = (idx + 1) >= i.length ? (0) : (idx + 1);
       return idx >= 0 ? {
         route: 'album/browse',
+        site: site,
         pre: Utils.shortenId(i[pre].info.id),
         nxt: Utils.shortenId(i[nxt].info.id),
         idx: idx,

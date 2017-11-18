@@ -18,19 +18,19 @@
 
   <div class='gallery-image-info-popup-info'>
     <h2 class='gallery-image-info-popup-info'>{{if raw.info.title raw.info.title raw.name}}
-                      <span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 1) 'red' 'gray'}}"
-      >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 2) 'red' 'gray'}}"
-      >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 3) 'red' 'gray'}}"
-      >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 4) 'red' 'gray'}}"
-      >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 5) 'red' 'gray'}}"
+                      <span class="gallery-image-rating-heart-{{if (gte raw.info.rating 1) 'red' 'gray'}}"
+      >&hearts;</span><span class="gallery-image-rating-heart-{{if (gte raw.info.rating 2) 'red' 'gray'}}"
+      >&hearts;</span><span class="gallery-image-rating-heart-{{if (gte raw.info.rating 3) 'red' 'gray'}}"
+      >&hearts;</span><span class="gallery-image-rating-heart-{{if (gte raw.info.rating 4) 'red' 'gray'}}"
+      >&hearts;</span><span class="gallery-image-rating-heart-{{if (gte raw.info.rating 5) 'red' 'gray'}}"
       >&hearts;</span>
     </h2>
     {{#with (await popupItem.detail.tag) as |tag|}}
       {{#if (or tag.people.length tag.geo.length tag.desc.length)}}
-        <div class='gallery-image-info-popup-taglist'>
-          {{#each tag.people as |p|}}<span class='gallery-image-info-popup-tag'>{{p.name}}</span>{{/each}}
-          {{#each tag.geo as |p|}}<span class='gallery-image-info-popup-tag'>{{p.name}}</span>{{/each}}
-          {{#each tag.desc as |p|}}<span class='gallery-image-info-popup-tag'>{{p.name}}</span>{{/each}}
+        <div class='gallery-image-info-taglist'>
+          {{#each tag.people as |p|}}<span class='gallery-image-info-tag'>{{p.name}}</span>{{/each}}
+          {{#each tag.geo as |p|}}<span class='gallery-image-info-tag'>{{p.name}}</span>{{/each}}
+          {{#each tag.desc as |p|}}<span class='gallery-image-info-tag'>{{p.name}}</span>{{/each}}
         </div>
       {{/if}}
     {{/with}}
