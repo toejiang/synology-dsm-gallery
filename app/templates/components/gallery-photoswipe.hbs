@@ -1,6 +1,5 @@
-{{#with (g-random-string) as |outerDivId|}}
-<div id={{outerDivId}} class="gallery-photoswipe-main-wrap">
-{{g-call-action (action 'initContainerElementResize' outerDivId)}}
+<div id={{resize-sensor-element-id}} class="gallery-photoswipe-main-wrap">
+<div class="{{if hidden 'gallery-hide' ''}}">
 
 {{#unless hasBlock}}
 
@@ -8,8 +7,8 @@
 
     {{#if (is-equal item.info.type 'album')}}
 
-      {{#gallery-image-wrap item=item buttonLabel=item.info.info.title detailClick=(action 'popup')}}
-        {{#link-to 'album/detail' computedAlbumInfo.site (g-short-album-id item.info.id true)}}
+      {{#gallery-image-wrap item=item buttonLabel=item.info.info.title detailClick=(action 'detail')}}
+        {{#link-to 'album/browse' computedAlbumInfo.site (g-short-album-id item.info.id true)}}
           <img
             id={{item.info.id}}
             src={{item.msrc}}
@@ -22,8 +21,8 @@
 
     {{else if (is-equal item.info.type 'sharedalbum')}}
 
-      {{#gallery-image-wrap item=item buttonLabel=item.info.name detailClick=(action 'popup')}}
-        {{#link-to 'share/detail' computedAlbumInfo.site item.info.additional.public_share.shareid}}
+      {{#gallery-image-wrap item=item buttonLabel=item.info.name detailClick=(action 'detail')}}
+        {{#link-to 'share/browse' computedAlbumInfo.site item.info.additional.public_share.shareid}}
           <img
             id={{item.info.id}}
             src={{item.msrc}}
@@ -36,7 +35,7 @@
 
     {{else}}
 
-      {{#gallery-image-wrap imgId=item.info.id item=item imageClick=(action 'lightbox' item) detailClick=(action 'popup' item)}}
+      {{#gallery-image-wrap imgId=item.info.id item=item imageClick=(action 'lightbox' item) detailClick=(action 'detail' item)}}
         <img
           id={{item.info.id}}
           src={{item.msrc}}
@@ -81,4 +80,4 @@
 <div class='gallery-clear' />
 
 </div>
-{{/with}}
+</div>

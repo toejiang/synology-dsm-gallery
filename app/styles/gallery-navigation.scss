@@ -1,14 +1,47 @@
+.gallery-navigation-home {
+  display: inline-block;
+  float: left;
+  background-color: rgba(0, 0, 0, 1);
+  padding: 0 10px 0 10px;
+  border-radius: 5px;
+}
+
+.gallery-navigation-home-d {
+  display: inline-block;
+	margin-left: 2px;
+	margin-right: 2px;
+  height: 100%;
+  padding: 2px 5px 2px 5px;
+}
+
+.gallery-navigation-home-d:hover {
+  background-color: gray;
+}
+
+.gallery-navigation-home a:visited {
+  color: #FFF;
+}
+.gallery-navigation-home a:hover {
+  color: #FFF;
+  text-decoration: underline;
+}
+.gallery-navigation-home a {
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #FFF;
+}
+
+.gallery-topbar-margin {
+  margin: 2px 10px 2px 10px;
+}
+
 .gallery-topbar-item {
   color: black;
   font-weight: bold;
 }
 
-span.gallery-topbar-item {
-	margin-right: 10px;
-}
-
 .gallery-topbar-fix {
-	padding: 10px 0 10px 0;
 }
 
 .gallery-topbar-float {
@@ -16,13 +49,18 @@ span.gallery-topbar-item {
   top: 0;
   left: 0;
   right: 0;
+  padding: 0 0 4px 0;
   z-index: 1000;
   width: 100%;
+  background-color: rgba(255,255,255,0.6);
   visibility: hidden;
   -webkit-transform: translateZ(0);
 	-moz-transform: translateZ(0);
 	-ms-transform: translateZ(0);
 	transform: translateZ(0);
+}
+.gallery-topbar-float-bottom-line {
+  border-bottom: 1px solid rgba(0,0,0,0.2);
 }
 
 .gallery-topbar-float-active {
@@ -32,14 +70,52 @@ span.gallery-topbar-item {
 .gallery-topbar-float-inner {
   width: 100%;
   height: 100%;
-  padding: 4px 0 4px 8px;
-  background-color: white;
+  padding: 4px 8px 4px 8px;
+}
+.gallery-topbar-float-inner-pre-btn,
+.gallery-topbar-float-inner-cls-btn,
+.gallery-topbar-float-inner-nxt-btn {
+  padding: 0 5px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 1);
+}
+.gallery-topbar-float-inner-pre-btn:hover,
+.gallery-topbar-float-inner-cls-btn:hover,
+.gallery-topbar-float-inner-nxt-btn:hover {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.gallery-topbar-div3-2 {
+  display: inline-block;
+  float: left;
+}
+.gallery-topbar-div3-3 {
+  display: inline-block;
+  float: right;
+}
+
+.gallery-topbar-path {
+  font-weight: normal;
+  font-size: 14px;
+  margin-left: 10px;
+  padding: 2px 10px 2px 10px;
+  display: inline-block;
+  float: left;
+}
+
+.gallery-topbar-inner-btn {
+  font-weight: normal;
+  font-size: 14px;
+  padding: 2px 10px 2px 10px;
+  display: inline-block;
+  float: left;
 }
 
 .gallery-topbar-progress {
     position: absolute;
     right: 0;
-    bottom: -1px;
+    bottom: -4px;
     left: 0;
     width: 100%;
     height: 4px;

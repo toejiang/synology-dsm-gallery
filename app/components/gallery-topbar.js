@@ -5,6 +5,6 @@ export default Ember.Component.extend({
   navi: Ember.inject.service('gallery-ui-navigation'),
 
   topbar: computed('navi.topbar', function () {
-    return this.get('navi').topbar();
+    return this.get('navi').topbar;
   }),
 });

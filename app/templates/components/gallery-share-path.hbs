@@ -1,12 +1,9 @@
-<h4>
-  <span>/</span>
-  <span>{{#link-to 'share'}}shares{{/link-to}}</span>
-  {{#if site}}
-    <span>/</span>
-    <span>{{#link-to 'share/site' site}}{{site}}{{/link-to}}</span>
+<div>
+  <span>{{#link-to 'share'}}/shares{{/link-to}}</span>
+  {{#if path.site}}
+    <span>{{#link-to 'share/site' path.site}}/{{path.site}}{{/link-to}}</span>
   {{/if}}
-  {{#if shareid}}
-    <span>/</span>
-    <span>{{#link-to 'share/detail' site shareid}}{{info.name}}{{/link-to}}</span>
+  {{#if path.shareid}}
+    <span>{{#link-to 'share/browse' path.site path.shareid}}/{{path.info.name}}{{/link-to}}</span>
   {{/if}}
-</h4>
+</div>

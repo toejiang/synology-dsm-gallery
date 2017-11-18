@@ -1,0 +1,20 @@
+{{#if (and data data.path data.path.component data.path.data)}}
+  {{#if data.path.component}}
+    <div class='gallery-topbar-path'>
+        {{component data.path.component path=data.path.data}}
+    </div>
+  {{/if}}
+  {{#if (and data data.route data.show)}}
+    <div class='gallery-topbar-inner-btn'>
+  
+      {{#link-to data.route (query-params show=data.show.pre) class='no-underline'
+        }}<span class='gallery-topbar-float-inner-pre-btn'>&laquo; previous</span>{{/link-to}}
+  
+      {{#link-to data.route (query-params show=data.show.nxt) class='no-underline'
+        }}<span class='gallery-topbar-float-inner-nxt-btn'>next &raquo;</span>{{/link-to}}
+  
+      {{#link-to data.route (query-params show=null) class='no-underline'
+        }}<span class='gallery-topbar-float-inner-cls-btn'>close</span>{{/link-to}}
+    </div>
+  {{/if}}
+{{/if}}

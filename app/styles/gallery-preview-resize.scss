@@ -1,9 +1,8 @@
 .gallery-preview-resize {
-  margin-top: 2px;
   background-color: gray;
   border-radius: 15px;
   width: 100px;
-  height:2px;
+  height: 2px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -18,4 +17,16 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+}
+
+.a-gallery-preview-resize {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: middle;
+}
+
+.gallery-preview-resize-wrap {
+  float: right;
+  display: inline-block;
 }

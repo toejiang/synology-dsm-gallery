@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import FitPhotoWall from '../utils/fit-photo-wall';
+import Utils from '../utils/utils';
 import RSVP from 'rsvp';
 
 export default Component.extend({
@@ -26,9 +27,11 @@ export default Component.extend({
     },
   ],
 
+  hidden: false,
+
   previewContainerWidth: 1300,
 
-  computedAlbumInfo: computed('albumInfo', 'ui.previewHeight', 'previewContainerWidth', function() {
+  computedAlbumInfo: computed('albumInfo', 'previewHeight', 'previewContainerWidth', function() {
     var albumInfo = this.get('albumInfo');
     // add fitsize property, so that we can call fitPhotoWall to set the rigth size
     albumInfo.items.forEach(item => {
@@ -39,14 +42,31 @@ export default Component.extend({
     });
     FitPhotoWall(albumInfo.items, {
       width: this.get('previewContainerWidth'),
-      height: this.get('ui.previewHeight'),
+      height: this.get('previewHeight'),
       margin: 4,
     });
     return albumInfo;
   }),
 
+  init() {
+    this._super(...arguments);
+    this.set('resize-sensor-element-id', Utils.randomString());
+    if(!this.get('previewHeight')) {
+      this.set('previewHeight', computed('ui.previewHeight', ()=>this.get('ui.previewHeight')));
+    }
+  },
+
+  didInsertElement() {
+    this._super(...arguments);
+    this.send('initContainerElementResize', this.get('resize-sensor-element-id'));
+    this.send('resizing');
+  },
+
   willDestroyElement() {
     this._super(...arguments);
+    this.detachResizeSensor();
+  },
+  detachResizeSensor() {
     var sensor = this.get('sensor');
     if(sensor) {
       sensor.sensor.detach(sensor.func);
@@ -90,6 +110,14 @@ export default Component.extend({
       });
     },
 
+    detail(item) {
+      var show = this.get('showDetail');
+      if(show && typeof(show) === 'function')
+        show(item);
+      else
+        this.send('popup', item);
+    },
+
     popup(item) {
       this.get('popup').actions.open({
         index: this.get('computedAlbumInfo.items').indexOf(item),
@@ -129,21 +157,30 @@ export default Component.extend({
       }
     },
 
+    resizing() {
+      var element = this.$('#' + this.get('resize-sensor-element-id'));
+      if(element)
+        this.set('previewContainerWidth', element.width());
+    },
+
     initContainerElementResize(id) {
+      this.detachResizeSensor();
       var element = this.$('#'+id);
       var resizeDelay = {
-        newWidth: 0,
+        lastWidth: 0,
         isDelaying: false,
       };
 
       var func = function () {
+        if(this.get('hidden'))
+          return;
         var width = element.width(); // scollbar take about 30px
-        if(width === resizeDelay.newWidth) {
+        if(width === resizeDelay.lastWidth) {
           return;
         }
 
         // set to newest width
-        resizeDelay.newWidth = width;
+        resizeDelay.lastWidth = width;
 
         if(resizeDelay.isDelaying) {
           // some other promise is delaying to handle the resize event
@@ -155,13 +192,13 @@ export default Component.extend({
         resizeDelay.isDelaying = true;
         new RSVP.Promise(function (resolve, reject) {
           // sleep 100ms
-          let lastWidth = resizeDelay.newWidth;
+          let lastWidth = resizeDelay.lastWidth;
           let tID = setInterval(function () {
-            if(lastWidth === resizeDelay.newWidth) {
+            if(lastWidth === resizeDelay.lastWidth) {
               clearInterval(tID);
               resolve();
             }
-            lastWidth = resizeDelay.newWidth;
+            lastWidth = resizeDelay.lastWidth;
           }, 100);
         })
         .then(() => {

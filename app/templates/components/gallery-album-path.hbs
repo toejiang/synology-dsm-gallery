@@ -1,17 +1,14 @@
-<h4>
-  <span>/</span>
-  <span>{{#link-to 'album'}}albums{{/link-to}}</span>
-  {{#if site}}
-    <span>/</span>
-    <span>{{#link-to 'album/detail' 'root'}}{{site}}{{/link-to}}</span>
+<div>
+  <span>{{#link-to 'album'}}/albums{{/link-to}}</span>
+  {{#if path.site}}
+    <span>{{#link-to 'album/browse' path.site 'root'}}/{{path.site}}{{/link-to}}</span>
   {{/if}}
-  {{#if path.success}}
-    {{#each path.data.items as |p|}}
+  {{#if path.items}}
+    {{#each path.items as |p|}}
       {{#if (is-equal p.id 'Albums')}}
       {{else}}
-        <span>/</span>
-        <span>{{#link-to 'album/detail' (g-short-album-id p.id)}}{{p.info.title}}{{/link-to}}</span>
+        <span>{{#link-to 'album/browse' path.site (g-short-album-id p.id)}}/{{p.info.title}}{{/link-to}}</span>
       {{/if}}
     {{/each}}
   {{/if}}
-</h4>
+</div>

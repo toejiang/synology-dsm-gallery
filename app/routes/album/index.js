@@ -85,4 +85,10 @@ export default Ember.Route.extend({
       return RSVP.all(result);
     });
   },
+
+  resetController(controller, isExiting, transition) {
+    if (isExiting && transition.targetName !== 'error') {
+      controller.set('showId', null);
+    }
+  },
 });

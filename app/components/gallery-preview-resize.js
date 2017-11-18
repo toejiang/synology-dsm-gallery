@@ -4,6 +4,9 @@ import Utils from '../utils/utils';
 
 export default Ember.Component.extend({
   ui: Ember.inject.service('gallery-ui'),
+  tagName: 'div',
+
+  classNames: ['gallery-preview-resize-wrap'],
 
   maxHeight: 480,
   minHeight: 60,
@@ -14,12 +17,12 @@ export default Ember.Component.extend({
 
   init() {
     this._super(...arguments);
-    this.set('id', Utils.randomString());
+    this.set('inputElementId', Utils.randomString());
   },
 
   actions: {
     change() {
-      var value = this.$('#' + this.get('id'))[0].value;
+      var value = this.$('#' + this.get('inputElementId'))[0].value;
       var curHeight = this.get('curHeight');
       if(curHeight === value)
         return;

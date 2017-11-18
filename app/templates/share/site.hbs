@@ -1,7 +1,19 @@
-{{gallery-share-path site=model.site}}
+{{gallery-share-path path=(hash site=model.site)}}
 {{#if model}}
 
-  {{gallery-photoswipe albumInfo=model}}
+  {{gallery-photoswipe albumInfo=model
+    hidden=hidePhotoSwipe
+    previewHeight = ui.previewHeight
+    initWithLightboxOpen=lightbox
+    initWithDetailOpen=popup
+    showDetail=(action 'showDetail' site.site)
+    onDetailOpen=(action 'onDetailOpen')
+    onDetailClose=(action 'onDetailClose')
+    onDetailChange=(action 'onDetailChange')
+    onLightboxOpen=(action 'onLightboxOpen')
+    onLightboxClose=(action 'onLightboxClose')
+    onLightboxChange=(action 'onLightboxChange')
+  }}
 
+  {{gallery-image-info show=show}}
 {{/if}}
-{{outlet}}

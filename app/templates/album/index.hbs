@@ -1,22 +1,32 @@
-{{gallery-album-path}}
 {{#if model}}
   {{#each model as |site|}}
-
     {{#unless (is-equal site.total 0)}}
-      <div class='ember-view'>
-        <h4>
+
+        <div class="{{if hidePhotoSwipe 'gallery-hide' ''}}">
           {{#link-to 'album/site' site.site}}
             {{site.site}} ({{site.total}})
           {{/link-to}}
-        </h4>
-        {{gallery-photoswipe albumInfo=site}}
-      </div>
+        </div>
+        {{gallery-photoswipe albumInfo=site
+          hidden=hidePhotoSwipe
+          previewHeight = ui.previewHeight
+          initWithLightboxOpen=lightbox
+          initWithDetailOpen=popup
+          showDetail=(action 'showDetail' site.site)
+          onDetailOpen=(action 'onDetailOpen')
+          onDetailClose=(action 'onDetailClose')
+          onDetailChange=(action 'onDetailChange')
+          onLightboxOpen=(action 'onLightboxOpen')
+          onLightboxClose=(action 'onLightboxClose')
+          onLightboxChange=(action 'onLightboxChange')
+        }}
 
       {{!-- the 'gallery-clear' is nessesary here to clear 'float:left' effect, to make each site images apart --}}
       <div class='gallery-clear'/>
 
     {{/unless}}
-
   {{/each}}
+
+  {{gallery-image-info show=show}}
 {{/if}}
 {{outlet}}

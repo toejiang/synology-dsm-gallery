@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  navi: Ember.inject.service('gallery-ui-navigation'),
 
   didInsertElement() {
     this._super(...arguments);
@@ -20,7 +21,6 @@ export default Ember.Component.extend({
     this._super(...arguments);
     this.$(window).unbind('scroll', this.get('binding.THIS.scrolling'));
     this.$(window).unbind('resize', this.get('binding.THIS.resizing'));
-    Ember.Logger.info('unbind');
   },
 
   binding: {
@@ -36,19 +36,25 @@ export default Ember.Component.extend({
     },
  
     resizing() {
+      this.fixElement.height(this.floatElement.clientHeight);
       this.scrolling();
     },
 
     scrolling() {
       var lastScrollY = window.scrollY;
-      var should = lastScrollY > (this.fixElement.position().top /*+ this.fixElement.height()*/);
-      if(should && !this.floating) {
-        this.floatElement.classList.add('gallery-topbar-float-active');
-        this.floating = true;
-      } else if(!should && this.floating) {
-        this.floatElement.classList.remove('gallery-topbar-float-active');
-        this.floating = false;
-      }
+      //var should = lastScrollY > (this.fixElement.position().top /*+ this.fixElement.height()*/);
+      //if(should && !this.floating) {
+      //  this.floatElement.classList.add('gallery-topbar-float-active');
+      //  this.floating = true;
+      //} else if(!should && this.floating) {
+      //  this.floatElement.classList.remove('gallery-topbar-float-active');
+      //  this.floating = false;
+      //}
+
+      if(lastScrollY > this.floatElement.clientHeight)
+        this.floatElement.classList.add('gallery-topbar-float-bottom-line');
+      else
+        this.floatElement.classList.remove('gallery-topbar-float-bottom-line');
 
       var progressMax = this.doc.height() - window.innerHeight;
       this.progressElement.setAttribute('max', progressMax);

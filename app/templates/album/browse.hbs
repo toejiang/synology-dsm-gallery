@@ -1,1 +1,24 @@
-{{outlet}}
+<div>
+{{#unless show}}
+{{gallery-album-path site=model.site path=model.path}}
+{{/unless}}
+</div>
+<div class='gallery-clear'/>
+
+{{#if model.album.items}}
+  {{gallery-photoswipe albumInfo=model.album
+    hidden=hidePhotoSwipe
+    previewHeight = ui.previewHeight
+    initWithLightboxOpen=lightbox
+    initWithDetailOpen=popup
+    showDetail=(action 'showDetail')
+    onDetailOpen=(action 'onDetailOpen')
+    onDetailClose=(action 'onDetailClose')
+    onDetailChange=(action 'onDetailChange')
+    onLightboxOpen=(action 'onLightboxOpen')
+    onLightboxClose=(action 'onLightboxClose')
+    onLightboxChange=(action 'onLightboxChange')
+  }}
+{{/if}}
+
+{{gallery-image-info show=show}}

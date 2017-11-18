@@ -1,0 +1,106 @@
+
+{{yield this}}
+
+<div id={{viewportId}} class='gallery-image-info-img-viewport'>
+  <div class="{{if (not show) 'gallery-hide'}}">
+
+      {{#link-to show.route (query-params show=show.pre)}}
+        <div class='gallery-image-info-btn gallery-image-info-btn-pre'></div>
+      {{/link-to}}
+    
+      <div class="gallery-image-info-img-wrap">
+        <img src={{show.item.src}} class='gallery-image-info-img'
+          lineheight={{imageHeight}}
+          height={{imageHeight}}
+        />
+      </div>
+    
+      {{#link-to show.route (query-params show=show.nxt)}}
+        <div class="gallery-image-info-btn gallery-image-info-btn-nxt"></div>
+      {{/link-to}}
+
+  </div>
+</div>
+
+{{#with show.item.info as |raw|}}
+  {{#if pos.placeTop}}
+    <div class='a-gallery-clear' ></div>
+  {{/if}}
+
+  <div class='a-gallery-image-info-popup-info'>
+    <h2 class='a-gallery-image-info-popup-info'>{{if raw.info.title raw.info.title raw.name}}
+                      <span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 1) 'red' 'gray'}}"
+      >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 2) 'red' 'gray'}}"
+      >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 3) 'red' 'gray'}}"
+      >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 4) 'red' 'gray'}}"
+      >&hearts;</span><span class="gallery-image-info-popup-info-heart-{{if (gte raw.info.rating 5) 'red' 'gray'}}"
+      >&hearts;</span>
+    </h2>
+    {{#with (await _tags) as |tag|}}
+      {{#if (or tag.people.length tag.geo.length tag.desc.length)}}
+        <div class='a-gallery-image-info-popup-taglist'>
+          {{#each tag.people as |p|}}<span class='a-gallery-image-info-popup-tag'>{{p.name}}</span>{{/each}}
+          {{#each tag.geo as |p|}}<span class='a-gallery-image-info-popup-tag'>{{p.name}}</span>{{/each}}
+          {{#each tag.desc as |p|}}<span class='a-gallery-image-info-popup-tag'>{{p.name}}</span>{{/each}}
+        </div>
+      {{/if}}
+    {{/with}}
+    <div>{{raw.info.description}}</div>
+  </div>
+
+  {{#if _comments}}
+  <div class='a-gallery-image-info-popup-comment'>
+    <h2 class='a-gallery-image-info-popup-comment'>Comments
+      <a href='javascript:;'>new</a>
+    </h2>
+    {{#with (await _comments) as |comments|}}
+      <ul class='a-gallery-image-info-popup-comment-item'>
+      {{#each comments as |cm|}}
+        <li class='a-gallery-image-info-popup-comment-item'>
+          <a href='javascript:;' title="{{cm.email}} at {{cm.date}}">{{cm.name}}</a>: {{cm.comment}}
+        </li>
+      {{/each}}
+      </ul>
+    {{/with}}
+  </div>
+  {{/if}}
+
+  {{#with (await _exifs) as |exifs|}}
+    <div class='a-gallery-image-info-popup-exif'>
+      <h3 class='a-gallery-image-info-popup-exif'>EXIF
+        <span class='a-gallery-image-info-popup-filename'>
+          ({{if raw.additional.file_location raw.additional.file_location raw.info.name}},
+            {{raw.info.resolutionx}}x{{raw.info.resolutiony}},
+            {{raw.info.size}} bytes)
+        </span>
+      </h3>
+      <ul class='a-gallery-image-info-popup-exif'>
+      {{#if exifs.default.model}}<li>Model: {{exifs.default.model}}</li>{{/if}}
+      {{#if exifs.default.time}}<li>Time: {{exifs.default.time}}</li>{{/if}}
+      {{#if exifs.default.exposure}}<li>Exposure: {{exifs.default.exposure}}</li>{{/if}}
+      {{#if exifs.default.aperture}}<li>Aperture: {{exifs.default.aperture}}</li>{{/if}}
+      {{#if exifs.default.focal}}<li>Focal: {{exifs.default.focal}}</li>{{/if}}
+      {{#if exifs.default.iso}}<li>ISO: {{exifs.default.iso}}</li>{{/if}}
+      {{#if exifs.default.flash}}<li>Flash: {{exifs.default.flash}}</li>{{/if}}
+      {{#if exifs.default.gps}}<li>GPS: {{exifs.default.gps}}</li>{{/if}}
+      </ul>
+      {{#if showMoreEXIFs}}
+        <div class='a-gallery-clear' ></div>
+        <h4><a href='javascript:;' {{action 'toggleShowMoreEXIFs'}} title='click to close'>&#9660; less EXIFs</a></h4>
+        <ul class='a-gallery-image-info-popup-exif'>
+          {{#each exifs.all as |e|}}
+            <li>{{e.label}}: {{e.value}}</li>
+          {{/each}}
+        </ul>
+      {{else}}
+        <a href='javascript:;' {{action 'toggleShowMoreEXIFs'}} title='click to open exif'>&#9658; more EXIFs</a>
+      {{/if}}
+    </div>
+  {{/with}}
+
+  <div class='a-gallery-clear' ></div>
+  {{#if (or pos.placeTop showMoreEXIFs)}}
+    <p>.</p>
+  {{/if}}
+
+{{/with}}

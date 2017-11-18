@@ -1,23 +1,22 @@
 <div id='gallery-topbar-float-wrap'>
   <div id='gallery-topbar-fix' class='gallery-topbar-fix gallery-topbar-item'>
-      <span class='gallery-topbar-item'>{{#link-to 'index'}}Home{{/link-to}}</span>
-      <span class='gallery-topbar-item'>{{#link-to 'album'}}Album{{/link-to}}</span>
-      <span class='gallery-topbar-item'>{{#link-to 'share'}}Share{{/link-to}}</span>
-      <span class='gallery-topbar-item'>{{#link-to 'smart'}}Smart{{/link-to}}</span>
-      <span class='gallery-topbar-item'>{{#link-to 'about'}}About{{/link-to}}</span>
-      <div style='display:inline;position:absolute;top:0;right:8px'>
-        {{gallery-preview-resize}}
-      </div>
   </div>
 
-  <div id='gallery-topbar-float' class='gallery-topbar-float'>
+  <div id='gallery-topbar-float' class='gallery-topbar-float gallery-topbar-float-active'>
     <div class='gallery-topbar-item gallery-topbar-float-inner'>
-      <span class='gallery-topbar-item'>{{#link-to 'index'}}Home{{/link-to}}</span>
-      <span class='gallery-topbar-item'>{{#link-to 'album'}}Album{{/link-to}}</span>
-      <span class='gallery-topbar-item'>{{#link-to 'share'}}Share{{/link-to}}</span>
-      <span class='gallery-topbar-item'>{{#link-to 'smart'}}Smart{{/link-to}}</span>
-      <span class='gallery-topbar-item'>{{#link-to 'about'}}About{{/link-to}}</span>
-      <div style='display:inline;position:absolute;top:0;right:8px'>
+      <div class='gallery-navigation-home'>
+        <div class='gallery-navigation-home-d'>{{#link-to 'index'}}Home{{/link-to}}</div>
+        <div class='gallery-navigation-home-d'>{{#link-to 'album'}}Album{{/link-to}}</div>
+        <div class='gallery-navigation-home-d'>{{#link-to 'share'}}Share{{/link-to}}</div>
+        <div class='gallery-navigation-home-d'>{{#link-to 'smart'}}Smart{{/link-to}}</div>
+        <div class='gallery-navigation-home-d'>{{#link-to 'about'}}About{{/link-to}}</div>
+      </div>
+      <div class='gallery-topbar-div3-2'>
+        {{#if navi.topbar.data.inner.component}}
+          {{component navi.topbar.data.inner.component data=navi.topbar.data.inner.data}}
+        {{/if}}
+      </div>
+      <div class='gallery-topbar-div3-3'>
         {{gallery-preview-resize}}
       </div>
     </div>

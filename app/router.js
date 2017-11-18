@@ -3,7 +3,16 @@ import config from './config/environment';
 
 const Router = Ember.Router.extend({
   location: config.locationType,
-  rootURL: config.rootURL
+  rootURL: config.rootURL,
+
+
+  //  this hack is to disable link-to sticky query params, if needed, link-to can specify _keep_sticky=true to enable it.
+  //  like: {{#link-to route (query-params _keep_sticky=true)}}some text{{/link-to}}
+  _hydrateUnsuppliedQueryParams(state, queryParams) {
+    let sticky = queryParams._keep_sticky;
+    delete queryParams._keep_sticky;
+    return sticky ? this._super(state, queryParams) : queryParams;
+  },  
 });
 
 Router.map(function() {
@@ -14,19 +23,19 @@ Router.map(function() {
   this.route('about');
 
   // album routes
-  this.route('album/detail', {path:'album/:site_id/:album_id'});
+  this.route('album/browse', {path:'album/:site_id/:album_id'});
   this.route('album/site', {path:'album/:site_id'});
   this.route('album', {path:'album'}, function() {
     this.route('test');
-    this.route('browse');
+    this.route('detail');
   });
 
-  this.route('share/detail', {path:'share/:site_id/:share_id'});
+  this.route('share/browse', {path:'share/:site_id/:share_id'});
   this.route('share/site', {path:'share/:site_id'});
   this.route('share', {path:'share'}, function() {
-    this.route('browse');
+    this.route('detail');
   });
-  this.route('smart/detail', {path:'smart/:smart_id'});
+  this.route('smart/browse', {path:'smart/:smart_id'});
   this.route('smart', {path:'smart'}, function() {
   });
 });
