@@ -2,17 +2,34 @@
 {{yield this}}
 
 <div id={{viewportId}} class='gallery-image-info-img-viewport'>
-  <div class="{{if (not show) 'gallery-hide'}}">
+  <div class="gallery-image-info-img-outer {{if (not show) 'gallery-hide'}}" >
 
       {{#link-to show.route (query-params show=show.pre)}}
         <div class='gallery-image-info-btn gallery-image-info-btn-pre'></div>
       {{/link-to}}
     
-      <div class="gallery-image-info-img-wrap">
-        <img src={{show.item.src}} class='gallery-image-info-img'
+      <div class='gallery-image-info-img-wrap' lineheight={{imageHeight}}>
+        <img id={{imgId}} src={{show.item.src}} class='gallery-image-info-img'
           lineheight={{imageHeight}}
           height={{imageHeight}}
         />
+
+        {{!-- to display people rectangle --}}
+        {{#with (await _tags) as |tag|}}
+          {{#if tag.people}}
+            <a href='javascript:void;' title="{{if toggleTagRect 'hide' 'show'}} people rectangle"
+              class='gallery-image-info-tag-rectangle-btn no-underline' {{action 'toggleTagRect'}}>{{if showTagRect 'hide' 'show'}}</a>
+          {{/if}}
+          {{#each tag.people as |p|}}
+            <div class="gallery-image-info-tag-rectangle {{if showTagRect '' 'gallery-image-info-tag-rectangle-hide'}}" style="
+              left:{{p.additional.info.x}}%;
+              top:{{p.additional.info.y}}%;
+              width:{{p.additional.info.width}}%;
+              height:{{p.additional.info.height}}%;
+            " data-name={{p.name}}></div>
+          {{/each}}
+        {{/with}}
+        <div class='gallery-clear'/>
       </div>
     
       {{#link-to show.route (query-params show=show.nxt)}}

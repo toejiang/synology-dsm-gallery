@@ -35,6 +35,17 @@ export default Ember.Component.extend({
     return newH;
   }),
 
+  showTagRect: true,
+
+  rectangle: computed('imageHeight', function () {
+    var {imageHeight, show} = this.getProperties('imageHeight', 'show'),
+      scale = show.item.h / imageHeight,
+      w = show.item.w / scale,
+      x = (this.$('#'+this.get('imgWrapId')).width() - w) / 2;
+
+      return {x: x, y: 0, w: w, h: imageHeight};
+  }),
+
   _tags: computed('show', function() {
     var show = this.get('show');
     return (show && show.item && show.site) ? this.gettags(show.site, {id: show.item.info.id}) : null;
@@ -54,6 +65,8 @@ export default Ember.Component.extend({
     this._super(...arguments);
     this.set('elementId', Utils.randomString());
     this.set('viewportId', Utils.randomString());
+    this.set('imgWrapId', Utils.randomString());
+    this.set('imgId', Utils.randomString());
   },
   didInsertElement() {
     this._super(...arguments);
@@ -97,8 +110,13 @@ export default Ember.Component.extend({
     .then((res) => {
       var result = {people:[],geo:[],desc:[]};
       res.data.tags.forEach((t) => {
-        if(t.type === 'people') result.people.push(t);
-        else if(t.type === 'geo') result.geo.push(t);
+        if(t.type === 'people') {
+          t.additional.info.x *= 100;
+          t.additional.info.y *= 100;
+          t.additional.info.width *= 100;
+          t.additional.info.height *= 100;
+          result.people.push(t);
+        } else if(t.type === 'geo') result.geo.push(t);
         else if(t.type === 'desc') result.desc.push(t);
       });
       return result;
@@ -121,7 +139,7 @@ export default Ember.Component.extend({
     };
 
     THIS.newWH = function newWH() {
-      var h = this.component.$(window).height() - 100,
+      var h = this.component.$(window).height() - 150,
         w = this.element.clientWidth - 80;
       return {w,h};
     }.bind(THIS);
@@ -155,5 +173,11 @@ export default Ember.Component.extend({
     THIS.resizing();
 
     return THIS;
+  },
+
+  actions: {
+    toggleTagRect() {
+      this.toggleProperty('showTagRect');
+    },
   },
 });

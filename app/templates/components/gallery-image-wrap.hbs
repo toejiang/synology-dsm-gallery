@@ -15,7 +15,8 @@
     />
   {{/if}}
 
-    <div {{action 'detailClick'}} class='gallery-image-wrap-detail-outer
+    <a href='javascript:void;' title='click to view detail' {{action 'detailClick'}}
+      class='gallery-image-wrap-detail-outer no-underline
       {{if (and (not hover) hide) 'gallery-image-wrap-detail-outer-hidden' ''}}
       gallery-image-wrap-detail-outer-{{if (is-equal item.info.type 'photo') 'photo' 'album'}}' >
 
@@ -23,6 +24,6 @@
 
         {{buttonLabel}}
       </div>
-    </div> 
+    </a> 
 </div>
 
