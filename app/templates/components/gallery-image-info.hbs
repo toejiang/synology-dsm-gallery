@@ -4,7 +4,7 @@
 <div id={{viewportId}} class='gallery-image-info-img-viewport'>
   <div class="gallery-image-info-img-outer {{if (not show) 'gallery-hide'}}" >
 
-      {{#link-to show.route (query-params show=show.pre)}}
+      {{#link-to show.route (query-params show=show.pre) class='gallery-image-info-btn-pre-a' title='previous'}}
         <div class='gallery-image-info-btn gallery-image-info-btn-pre'></div>
       {{/link-to}}
     
@@ -32,7 +32,7 @@
         <div class='gallery-clear'/>
       </div>
     
-      {{#link-to show.route (query-params show=show.nxt)}}
+      {{#link-to show.route (query-params show=show.nxt) class='gallery-image-info-btn-nxt-a' title='next'}}
         <div class="gallery-image-info-btn gallery-image-info-btn-nxt"></div>
       {{/link-to}}
 
@@ -61,23 +61,6 @@
     {{/with}}
     <div class='gallery-image-info-desc-content'>{{raw.info.description}}</div>
   </div>
-
-  {{#if _comments}}
-  <div class='gallery-image-info-comment'>
-    <div class='gallery-image-info-comment-h2'>Comments
-      <a href='javascript:;'>new</a>
-    </div>
-    {{#with (await _comments) as |comments|}}
-      <div class='gallery-image-info-comment-list'>
-      {{#each comments as |cm|}}
-        <div class='gallery-image-info-comment-item'>
-          <a href='javascript:;' title="{{cm.email}} at {{cm.date}}">{{cm.name}}</a>: {{cm.comment}}
-        </div>
-      {{/each}}
-      </div>
-    {{/with}}
-  </div>
-  {{/if}}
 
   {{#with (await _exifs) as |exifs|}}
     <div class='gallery-image-info-exif'>
@@ -111,5 +94,22 @@
       {{/if}}
     </div>
   {{/with}}
+
+  {{#if _comments}}
+  <div class='gallery-image-info-comment'>
+    <div class='gallery-image-info-comment-h2'>Comments
+      <a href='javascript:;'>new</a>
+    </div>
+    {{#with (await _comments) as |comments|}}
+      <div class='gallery-image-info-comment-list'>
+      {{#each comments as |cm|}}
+        <div class='gallery-image-info-comment-item'>
+          <a href='javascript:;' title="{{cm.email}} at {{cm.date}}">{{cm.name}}</a>: {{cm.comment}}
+        </div>
+      {{/each}}
+      </div>
+    {{/with}}
+  </div>
+  {{/if}}
 
 {{/with}}

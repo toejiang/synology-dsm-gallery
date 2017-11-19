@@ -1,6 +1,10 @@
 <div>
 {{#unless show}}
-{{gallery-share-path path=(hash site=model.site shareid=model.shareid info=model.info)}}
+  <div class='gallery-site-title'>
+    <span class='gallery-site-title-txt'>
+      {{gallery-share-path path=(hash site=model.site shareid=model.shareid info=model.info)}}
+    </span>
+  </div>
 {{/unless}}
 </div>
 <div class='gallery-clear'/>

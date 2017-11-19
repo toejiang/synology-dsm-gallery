@@ -20,10 +20,12 @@
 }
 
 .gallery-image-info-btn {
-  position: fixed;
+  position: absolute;
   width: 0;
   height: 0;
-  top: 100px;
+  top: -webkit-calc(50% - 50px);
+  top: -moz-calc(50% - 50px);
+  top: calc(50% - 50px);
   font-size: 0;
   line-height: 0;
   border-bottom: 50px solid transparent;
@@ -38,19 +40,24 @@
   content: '';
 }
 
-
 .gallery-image-info-btn-pre {
   left: 0px;
   border-right: 38px solid rgba(200, 200, 200, 0.5);
-}
-.gallery-image-info-btn-pre:hover {
-	border-right: 38px solid rgba(200, 200, 200, 0.9);
 }
 .gallery-image-info-btn-pre:before {
   border-right: 30px solid rgba(128, 128, 128, 1);
   left: 5px;
 }
-.gallery-image-info-btn-pre:hover:before {
+.gallery-image-info-btn-pre-a {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 50px;
+}
+.gallery-image-info-btn-pre-a:hover > .gallery-image-info-btn-pre {
+	border-right: 38px solid rgba(200, 200, 200, 0.9);
+}
+.gallery-image-info-btn-pre-a:hover > .gallery-image-info-btn-pre:before {
   border-right: 30px solid rgba(64, 64, 64, 1);
 }
 
@@ -58,14 +65,20 @@
   right: 0px;
   border-left: 38px solid rgba(200, 200, 200, 0.5);
 }
-.gallery-image-info-btn-nxt:hover {
-	border-left: 38px solid rgba(200, 200, 200, 0.9);
-}
 .gallery-image-info-btn-nxt:before {
   border-left: 30px solid rgba(128, 128, 128, 1);
   right: 5px;
 }
-.gallery-image-info-btn-nxt:hover:before {
+.gallery-image-info-btn-nxt-a {
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: 50px;
+}
+.gallery-image-info-btn-nxt-a:hover > .gallery-image-info-btn-nxt {
+	border-left: 38px solid rgba(200, 200, 200, 0.9);
+}
+.gallery-image-info-btn-nxt-a:hover > .gallery-image-info-btn-nxt:before {
   border-left: 30px solid rgba(64, 64, 64, 1);
 }
 
@@ -120,12 +133,16 @@
 .gallery-image-info-tag-rectangle-btn {
   position: absolute;
   top: 5px;
-  right: -50px;
+  right: 5px;
   font-size: 14px;
   color: #5a5a5a;
   padding: 2px 4px 2px 4px;
   background-color: rgba(128, 128, 128, 0.5);
   border-radius: 5px;
+  visibility: hidden;
+}
+.gallery-image-info-img:hover + .gallery-image-info-tag-rectangle-btn {
+  visibility: visible;
 }
 .gallery-image-info-tag-rectangle-btn:hover {
   background-color: black;

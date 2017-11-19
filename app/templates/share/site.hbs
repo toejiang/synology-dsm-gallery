@@ -1,4 +1,8 @@
-{{gallery-share-path path=(hash site=model.site)}}
+<div class='gallery-site-title'>
+  <span class='gallery-site-title-txt'>
+    {{gallery-share-path path=(hash site=model.site)}}
+  </span>
+</div>
 {{#if model}}
 
   {{gallery-photoswipe albumInfo=model

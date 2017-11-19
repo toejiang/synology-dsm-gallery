@@ -1,6 +1,10 @@
 <div>
 {{#unless show}}
-{{gallery-album-path site=model.site path=model.path}}
+  <div class='gallery-site-title'>
+    <span class='gallery-site-title-txt'>
+      {{gallery-album-path site=model.site path=model.path}}
+    </span>
+  </div>
 {{/unless}}
 </div>
 <div class='gallery-clear'/>

@@ -2,10 +2,15 @@
   {{#each model as |site|}}
     {{#unless (is-equal site.total 0)}}
 
+      <div class='gallery-site-list'>
         <div class="{{if hidePhotoSwipe 'gallery-hide' ''}}">
-          {{#link-to 'share/site' site.site}}
-            {{site.site}} ({{site.total}})
-          {{/link-to}}
+          <div class='gallery-site-title'>
+            <span class='gallery-site-title-txt'>
+              {{#link-to 'share/site' site.site class='gallery-site-title-a'}}
+                {{site.site}} ({{site.total}})
+              {{/link-to}}
+            </span>
+          </div>
         </div>
         {{gallery-photoswipe albumInfo=site
           hidden=hidePhotoSwipe
@@ -20,6 +25,7 @@
           onLightboxClose=(action 'onLightboxClose')
           onLightboxChange=(action 'onLightboxChange')
         }}
+      </div>
 
       {{!-- the 'gallery-clear' is nessesary here to clear 'float:left' effect, to make each site images apart --}}
       <div class='gallery-clear'/>
