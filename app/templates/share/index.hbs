@@ -15,15 +15,15 @@
         {{gallery-photoswipe albumInfo=site
           hidden=hidePhotoSwipe
           previewHeight = ui.previewHeight
-          initWithLightboxOpen=lightbox
+          index=(get photoswipeIndex site.site)
           initWithDetailOpen=popup
           showDetail=(action 'showDetail' site.site)
           onDetailOpen=(action 'onDetailOpen')
           onDetailClose=(action 'onDetailClose')
           onDetailChange=(action 'onDetailChange')
-          onLightboxOpen=(action 'onLightboxOpen')
-          onLightboxClose=(action 'onLightboxClose')
-          onLightboxChange=(action 'onLightboxChange')
+          onOpen=(action 'onLightboxOpen')
+          onClose=(action 'onLightboxClose')
+          onChange=(action 'onLightboxChange')
         }}
       </div>
 

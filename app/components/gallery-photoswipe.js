@@ -3,6 +3,7 @@ import { computed } from '@ember/object';
 import FitPhotoWall from '../utils/fit-photo-wall';
 import Utils from '../utils/utils';
 import RSVP from 'rsvp';
+import $ from 'jquery';
 
 export default Component.extend({
   tagName: 'div',
@@ -54,24 +55,24 @@ export default Component.extend({
     if(!this.get('previewHeight')) {
       this.set('previewHeight', computed('ui.previewHeight', ()=>this.get('ui.previewHeight')));
     }
+
+    var obFunc = function (sender, key, value, rev) {
+      this.send('lightbox', this.get('index'));
+    }.bind(this);
+    this.addObserver('index', obFunc);
+    $(document).ready(obFunc);
   },
 
   didInsertElement() {
     this._super(...arguments);
-    this.send('initContainerElementResize', this.get('resize-sensor-element-id'));
-    this.send('resizing');
+    this.set('sensor', this.createSensor());
   },
 
   willDestroyElement() {
     this._super(...arguments);
-    this.detachResizeSensor();
-  },
-  detachResizeSensor() {
     var sensor = this.get('sensor');
-    if(sensor) {
-      sensor.sensor.detach(sensor.func);
-      this.set('sensor', null);
-    }
+    if(sensor) sensor.detach();
+    this.set('sensor', null);
   },
 
   actions: {
@@ -86,28 +87,46 @@ export default Component.extend({
       return {x:pos.left, y:pos.top, w:width};
     },
 
-    onPhotoSwipeOpen(pswp) {
-      var open = this.get('onLightboxOpen');
-      if(open && typeof(open) === 'function')
-        open(this.get('computedAlbumInfo.items')[pswp.getCurrentIndex()]);
+    onOpen() {
+      var {onOpen, photoswipe} = this.getProperties('onOpen', 'photoswipe');
+      if(onOpen && typeof(onOpen) === 'function' && photoswipe)
+        onOpen(this.get('computedAlbumInfo.site'), photoswipe.currItem);
     },
 
-    onPhotoSwipeChange(pswp) {
-      var change = this.get('onLightboxChange');
-      if(change && typeof(change) === 'function')
-        change(this.get('computedAlbumInfo.items')[pswp.getCurrentIndex()]);
+    onChange() {
+      var {onChange, photoswipe} = this.getProperties('onChange', 'photoswipe');
+      if(onChange && typeof(onChange) === 'function' && photoswipe)
+        onChange(this.get('computedAlbumInfo.site'), photoswipe.currItem);
     },
 
-    onPhotoSwipeClose(pswp) {
-      var close = this.get('onLightboxClose');
-      if(close && typeof(close) === 'function')
-        close(this.get('computedAlbumInfo.items')[pswp.getCurrentIndex()]);
+    onClose() {
+      var {onClose, photoswipe} = this.getProperties('onClose', 'photoswipe');
+      if(onClose && typeof(onClose) === 'function' && photoswipe)
+        onClose(this.get('computedAlbumInfo.site'), photoswipe.currItem);
+      this.set('photoswipe', null);
     },
 
-    lightbox(item) {
-      this.get('photoswipe').actions.open({
-        index: this.get('computedAlbumInfo.items').indexOf(item),
-      });
+    lightbox(index) {
+      var photoswipe = this.get('photoswipe'),
+        items = this.get('computedAlbumInfo.items');
+      if(photoswipe && index >= 0) {
+        if(index === photoswipe.getCurrentIndex()) return;
+        photoswipe.goTo(index);
+      } else if(photoswipe && (index < 0 || index === null || index === undefined)) {
+        photoswipe.close();
+      } else if(index >= 0) {
+        var pswpElement = document.querySelectorAll('.pswp')[0];
+        photoswipe = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+          index: index,
+          history: false,
+          getThumbBoundsFn: this.actions.getThumbBoundsFn.bind(this),
+        });
+        this.set('photoswipe', photoswipe);
+        photoswipe.listen('initialZoomIn', this.actions.onOpen.bind(this));
+        photoswipe.listen('initialZoomOut', this.actions.onClose.bind(this));
+        photoswipe.listen('afterChange', this.actions.onChange.bind(this));
+        photoswipe.init();
+      }
     },
 
     detail(item) {
@@ -127,92 +146,43 @@ export default Component.extend({
       });
     },
 
-    initPototSwipe(photoswipe) {
-      this.set('photoswipe', photoswipe);
-      var lb = this.get('initWithLightboxOpen');
-      if(lb) {
-        var items = this.get('computedAlbumInfo.items'),
-          item = !items ? null : items.find((i) => {
-          return i.info.id.endsWith(lb);
-        });
-        if(item) {
-          //this.set('initWithLightboxOpen', null);
-          this.actions.lightbox.bind(this)(item);
-        }
+  },
+
+  createSensor() {
+    var THIS = {
+      ins: null,
+      component: this,
+      element: this.$('#' + this.get('resize-sensor-element-id')),
+      lastWidth: 0,
+      delaying: false,
+      resizing: null,
+      detach: null,
+    };
+
+    THIS.detach = function detach() {
+      this.ins.detach(this.element, this.resizing);
+    };
+
+    THIS.resizing = function resizing() {
+      var markW = this.element.width(); // scollbar take about 30px
+      if(this.component.get('hidden') || markW === this.lastWidth || this.delaying) {
+        // some other promise maybe delaying to handle the resize event
+        return;
       }
-    },
-
-    initPopup(popup) {
-      this.set('popup', popup);
-      var dt = this.get('initWithDetailOpen');
-      if(dt) {
-        var items = this.get('computedAlbumInfo.items'),
-          item = !items ? null : items.find((i) => {
-          return i.info.id.endsWith(dt);
-        });
-        if(item) {
-          //this.set('initWithDetailOpen', null);
-          this.actions.popup.bind(this)(item);
+      this.delaying = true;
+      let tID = setInterval(function () {
+        var newW = this.element.width();
+        if(markW === newW) {
+          clearInterval(tID);
+          this.lastWidth = newW;
+          this.delaying = false;
+          this.component.set('previewContainerWidth', newW);
         }
-      }
-    },
-
-    resizing() {
-      var element = this.$('#' + this.get('resize-sensor-element-id'));
-      if(element)
-        this.set('previewContainerWidth', element.width());
-    },
-
-    initContainerElementResize(id) {
-      this.detachResizeSensor();
-      var element = this.$('#'+id);
-      var resizeDelay = {
-        lastWidth: 0,
-        isDelaying: false,
-      };
-
-      var func = function () {
-        if(this.get('hidden'))
-          return;
-        var width = element.width(); // scollbar take about 30px
-        if(width === resizeDelay.lastWidth) {
-          return;
-        }
-
-        // set to newest width
-        resizeDelay.lastWidth = width;
-
-        if(resizeDelay.isDelaying) {
-          // some other promise is delaying to handle the resize event
-          return;
-        }
-        // no other promise, have to handle it
-
-        // set delaying
-        resizeDelay.isDelaying = true;
-        new RSVP.Promise(function (resolve, reject) {
-          // sleep 100ms
-          let lastWidth = resizeDelay.lastWidth;
-          let tID = setInterval(function () {
-            if(lastWidth === resizeDelay.lastWidth) {
-              clearInterval(tID);
-              resolve();
-            }
-            lastWidth = resizeDelay.lastWidth;
-          }, 100);
-        })
-        .then(() => {
-          resizeDelay.isDelaying = false;
-          this.set('previewContainerWidth', element.width());
-        });
-      }.bind(this);
-      var sensor = new ResizeSensor(element, func);
-
-      this.set('sensor', {
-        sensor: sensor,
-        func: func,
-        id: id,
-      });
-    },
+        markW = newW;
+      }.bind(THIS), 100);
+    }.bind(THIS);
+    THIS.ins = new ResizeSensor(THIS.element, THIS.resizing);
+    THIS.resizing();
+    return THIS;
   },
 });

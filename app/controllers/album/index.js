@@ -30,6 +30,7 @@ export default Ember.Controller.extend({
         nxt: site + ':' + Utils.shortenId(items[nxt].info.id),
         idx: idx,
         item: items[idx],
+        items: items,
       } : null;
     }
     return null;
@@ -37,6 +38,18 @@ export default Ember.Controller.extend({
 
   hidePhotoSwipe: computed('showId', function () {
     return true && this.get('show');
+  }),
+
+  photoswipeIndex: computed('lightbox', 'model', function () {
+    var {lightbox, model} = this.getProperties('lightbox', 'model'),
+      [site, id] = lightbox ? lightbox.split(':') : [null, null],
+      r = {};
+    if(!site || !id || site === '' || id === '')
+      return r;
+    var data = model.find(e=>e.site===site);
+    if(data && data.items)
+      r[site] = data.items.findIndex(e=>e.info.id.endsWith(id));
+    return r;
   }),
 
   topbar: computed('show', 'model.path', function () {
@@ -94,14 +107,14 @@ export default Ember.Controller.extend({
     onDetailChange(item) {
       this.set('popup', Utils.shortenId(item.info.id));
     },
-    onLightboxOpen(item) {
-      this.set('lightbox', Utils.shortenId(item.info.id));
+    onLightboxOpen(site, item) {
+      this.set('lightbox', site + ':' + Utils.shortenId(item.info.id));
     },
-    onLightboxClose(item) {
+    onLightboxClose(site, item) {
       this.set('lightbox', null);
     },
-    onLightboxChange(item) {
-      this.set('lightbox', Utils.shortenId(item.info.id));
+    onLightboxChange(site, item) {
+      this.set('lightbox', site + ':' + Utils.shortenId(item.info.id));
     },
   },
 });

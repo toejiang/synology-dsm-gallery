@@ -35,13 +35,13 @@
 
     {{else}}
 
-      {{#gallery-image-wrap imgId=item.info.id item=item imageClick=(action 'lightbox' item) detailClick=(action 'detail' item)}}
+      {{#gallery-image-wrap item=item detailClick=(action 'detail' item)}}
         <img
           id={{item.info.id}}
           src={{item.msrc}}
           alt={{item.title}}
           height={{item.fitsize.fitH}} width={{item.fitsize.fitW}} lineheight={{item.fitsize.fitL}}
-          {{action 'lightbox' item}}
+          {{action 'lightbox' index}}
           class='gallery-image-wrap-img'
         />
       {{/gallery-image-wrap}}
@@ -54,6 +54,7 @@
 
 {{yield (action 'lightbox') photoswipe popup}}
 
+{{!--
 {{#photo-swipe
   items=computedAlbumInfo.items
   history=false
@@ -76,6 +77,7 @@
 {{#gallery-image-info-popup popupId=(g-random-string) albumInfo=computedAlbumInfo as |popup|}}
   {{g-call-action (action 'initPopup' popup)}}
 {{/gallery-image-info-popup}}
+--}}
 
 <div class='gallery-clear' />
 

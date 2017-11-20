@@ -13,16 +13,15 @@
   {{gallery-photoswipe albumInfo=model.album
     hidden=hidePhotoSwipe
     previewHeight = ui.previewHeight
-    initWithLightboxOpen=lightbox
-    initWithDetailOpen=popup
+    index=photoswipeIndex
     showDetail=(action 'showDetail')
     onDetailOpen=(action 'onDetailOpen')
     onDetailClose=(action 'onDetailClose')
     onDetailChange=(action 'onDetailChange')
-    onLightboxOpen=(action 'onLightboxOpen')
-    onLightboxClose=(action 'onLightboxClose')
-    onLightboxChange=(action 'onLightboxChange')
+    onOpen=(action 'onLightboxOpen')
+    onClose=(action 'onLightboxClose')
+    onChange=(action 'onLightboxChange')
   }}
 {{/if}}
 
-{{gallery-image-info show=show}}
+{{gallery-image-info show=show change=(action 'onShowChange')}}

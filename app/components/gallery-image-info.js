@@ -179,5 +179,34 @@ export default Ember.Component.extend({
     toggleTagRect() {
       this.toggleProperty('showTagRect');
     },
+
+    photoswipe() {
+      var photoswipe = this.get('photoswipe');
+      if(photoswipe)
+        photoswipe.close();
+      var show = this.get('show');
+      var pswpElement = document.querySelectorAll('.pswp')[0];
+      photoswipe = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, show.items, {
+        index: show.idx,
+        history: false,
+        getThumbBoundsFn: this.actions.getThumbBoundsFn.bind(this),
+      });
+      this.set('photoswipe', photoswipe);
+      photoswipe.listen('afterChange', this.actions.onChange.bind(this));
+      photoswipe.init();
+    },
+
+    getThumbBoundsFn: function getThumbBoundsFn(index) {
+      var id = this.get('imgId'), ele = this.$('#'+id),
+        pos = ele ? ele.offset() : {left:0,top:0},
+        width = ele ? ele.width() : 0;
+      return {x:pos.left, y:pos.top, w:width};
+    },
+
+    onChange() {
+      var {photoswipe, show, change} = this.getProperties('photoswipe', 'show', 'change');
+      if(!photoswipe || !change || !show) return;
+      change(show.site, photoswipe.currItem);
+    },
   },
 });

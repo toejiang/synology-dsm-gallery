@@ -26,6 +26,7 @@ export default Ember.Controller.extend({
         nxt: Utils.shortenId(i[nxt].info.id),
         idx: idx,
         item: i[idx],
+        items: i,
       } : null;
     }
     return null;
@@ -33,6 +34,11 @@ export default Ember.Controller.extend({
 
   hidePhotoSwipe: computed('showId', function () {
     return true && this.get('show');
+  }),
+
+  photoswipeIndex: computed('lightbox', 'model.album.items', function () {
+    var lightbox = this.get('lightbox');
+    return !lightbox ? -1 : (this.get('model.album.items') || []).findIndex(e=>e.info.id.endsWith(lightbox));
   }),
 
   topbar: computed('show', 'model.path', function () {
@@ -88,14 +94,17 @@ export default Ember.Controller.extend({
     onDetailChange(item) {
       this.set('popup', Utils.shortenId(item.info.id));
     },
-    onLightboxOpen(item) {
+    onLightboxOpen(site, item) {
       this.set('lightbox', Utils.shortenId(item.info.id));
     },
-    onLightboxClose(item) {
+    onLightboxClose(site, item) {
       this.set('lightbox', null);
     },
-    onLightboxChange(item) {
+    onLightboxChange(site, item) {
       this.set('lightbox', Utils.shortenId(item.info.id));
+    },
+    onShowChange(site, item) {
+      this.set('showId', Utils.shortenId(item.info.id));
     },
   },
 });
