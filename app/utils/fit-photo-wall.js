@@ -2,15 +2,15 @@ import Ember from 'ember';
 
 // divide into lines
 function _divide_to_fit_lines(items, defSize){
-	var defWidth = defSize.width,
-		defHeight = defSize.height,
-		defMargin = defSize.margin;
+  var defWidth = defSize.width,
+    defHeight = defSize.height,
+    defMargin = defSize.margin;
   var idx = 0,
     row = [],
     currW = 0,
     lastW = 0,
     w,h,scaleH,scaleW,
-	  item;
+    item;
   while(item=items[idx++]){
     // get image width and height
     if(!item.fitsize || !item.fitsize.oriW || !item.fitsize.oriH) {
@@ -40,9 +40,9 @@ function _divide_to_fit_lines(items, defSize){
         setRowImgSize(row, lastW-defWidth, defHeight);
         // clear
         row=[{w,h,item}],currW=scaleW+defMargin;
-      };
+      }
     }else row.push({w,h,item});// need more
-  };
+  }
   // rest
   if(currW)setRowImgSize(row, 0, defHeight);
 }
@@ -60,7 +60,7 @@ function setRowImgSize(row, overflow, defHeight){
     Ember.set(ele, 'item.fitsize.fitW', scaleW);
     Ember.set(ele, 'item.fitsize.fitH', scaleH);
     Ember.set(ele, 'item.fitsize.fitL', scaleH);
-  };
+  }
 }
 
 //  argument 'items' element should has property 'fitsize:{oriW, oriH}'

@@ -102,5 +102,8 @@ export default Ember.Controller.extend({
     onLightboxChange(site, item) {
       this.set('lightbox', item.info.additional.public_share.shareid);
     },
+    onShowChange(site, item) {
+      this.set('showId', item.info.additional.public_share.shareid);
+    },
   },
 });

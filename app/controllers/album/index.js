@@ -116,5 +116,8 @@ export default Ember.Controller.extend({
     onLightboxChange(site, item) {
       this.set('lightbox', site + ':' + Utils.shortenId(item.info.id));
     },
+    onShowChange(site, item) {
+      this.set('showId', site + ':' + Utils.shortenId(item.info.id));
+    },
   },
 });
